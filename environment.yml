@@ -1,0 +1,14 @@
+name: new_ego
+channels:
+- anaconda
+- conda-forge
+dependencies:
+- matplotlib
+- networkx
+- notebook
+- numpy
+- pandas
+- scikit-learn
+- scipy
+- tqdm
+
