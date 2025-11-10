@@ -227,11 +227,11 @@ assemble_figures() {
   # fig2
   local r7="$TMP_ROOT/random_rooms7/panels"
   copy_dir_files_flat "$r7/aliasing_76" "$OUT_ROOT/fig2"
-  copy_dir_files_flat "$r7/egoSR_76" "$OUT_ROOT/fig2"
+  copy_dir_files_flat "$r7/ego_SR_76" "$OUT_ROOT/fig2"
   copy_dir_files_flat "$r7/aliasing_9" "$OUT_ROOT/fig2"
-  copy_dir_files_flat "$r7/egoSR_9" "$OUT_ROOT/fig2"
+  copy_dir_files_flat "$r7/ego_SR_9" "$OUT_ROOT/fig2"
   copy_dir_files_flat "$r7/aliasing_4" "$OUT_ROOT/fig2"
-  copy_dir_files_flat "$r7/egoSR_4" "$OUT_ROOT/fig2"
+  copy_dir_files_flat "$r7/ego_SR_4" "$OUT_ROOT/fig2"
   sanitize_names_in_dir "$OUT_ROOT/fig2"
 
   # fig3
