@@ -12,7 +12,6 @@ import os
 import pathlib
 import pickle
 import sys
-import joblib
 
 import matplotlib.cm as mcm
 import matplotlib.patches as patches
@@ -32,8 +31,6 @@ from figure_functions_ import (
     generate_allo_sr_fig,
     generate_ego_sr_fig,
     generate_aliasing_plot,
-    generate_fig1,
-    generate_fig2,
     generate_schematic,
     _load_chunked_occupancy_summary,
     _plot_chunked_occupancy,

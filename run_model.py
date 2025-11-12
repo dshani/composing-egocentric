@@ -11,13 +11,12 @@ from copy import deepcopy
 
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn import linear_model
 
 
 import gridworlds
 import gridworlds as gd
 from agent import BasisLearner
-from environment_functions import Environment, show_predictions
+from environment_functions import Environment
 from helper_functions_ import make_directories, make_logger, rgetattr
 from parameters import get_parameter_parser
 from parameters import parameters

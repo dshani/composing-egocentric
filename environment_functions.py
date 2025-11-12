@@ -9,7 +9,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from helper_functions_ import plain_world_like, check_inside_
-from plotting_functions import show_4x4
 
 
 class Environment:
@@ -912,17 +911,17 @@ class Environment:
         """Convert a positive integer num into an m-bit bit vector"""
         return np.array(self.ego_bins[num])
 
-def show_predictions(clf, theta, q):
-    """Used for value function regression."""
-    q_ = np.reshape(q, (-1,))
-    theta_ = np.reshape(theta, (-1, q_.shape[0]))
+# def show_predictions(clf, theta, q):
+#     """Used for value function regression."""
+#     q_ = np.reshape(q, (-1,))
+#     theta_ = np.reshape(theta, (-1, q_.shape[0]))
 
-    clf.fit(theta_.T, q_)
-    weight = clf.coef_
-    q_fit = clf.predict(theta_.T).reshape(q.shape)
+#     clf.fit(theta_.T, q_)
+#     weight = clf.coef_
+#     q_fit = clf.predict(theta_.T).reshape(q.shape)
 
-    show_4x4(q_fit)
-    return weight
+#     show_4x4(q_fit)
+#     return weight
 
 
 def get_successor_representation(transitions, gamma, normalize=False):

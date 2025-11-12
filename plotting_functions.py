@@ -10,7 +10,7 @@ import itertools
 import matplotlib.cm as mcm
 import matplotlib.patches as patches
 
-from structure_functions_ import add_egocentric_SR_sas_grid, add_egocentric_SR_grid
+from structure_functions_ import add_egocentric_SR_grid
 from fractions import Fraction
 
 

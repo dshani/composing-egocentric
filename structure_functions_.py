@@ -278,122 +278,122 @@ def add_allocentric_SR_grid(grid, fig, model, state, ego=True, colorbar=True, ti
             plt.colorbar(im, ax=ax)
 
 
-def add_egocentric_SR_sas_grid(grid, fig, model, ego_state, coords=[-1, 0], **kwargs):
-    from plotting_functions import show_ego_state
-    directions = ["\u2191", "\u2192", "\u2193", "\u2190"]
-    actions = ["\u2191", "\u21b1", "\u21b7", "\u21b0"]
-    inner_grid = grid.subgridspec(
-        4, 3, wspace=0.5, hspace=0.5, width_ratios=(0.2, 0.2, 1))
+# def add_egocentric_SR_sas_grid(grid, fig, model, ego_state, coords=[-1, 0], **kwargs):
+#     from plotting_functions import show_ego_state
+#     directions = ["\u2191", "\u2192", "\u2193", "\u2190"]
+#     actions = ["\u2191", "\u21b1", "\u21b7", "\u21b0"]
+#     inner_grid = grid.subgridspec(
+#         4, 3, wspace=0.5, hspace=0.5, width_ratios=(0.2, 0.2, 1))
 
-    hists = []
-    bin_edgess = []
+#     hists = []
+#     bin_edgess = []
 
-    for action in range(4):
-        hist, bin_edges = np.histogram(
-            model.ego_SR.SR_sas[ego_state][action], bins=5)
-        hists.append(hist)
-        bin_edgess.append(bin_edges)
+#     for action in range(4):
+#         hist, bin_edges = np.histogram(
+#             model.ego_SR.SR_sas[ego_state][action], bins=5)
+#         hists.append(hist)
+#         bin_edgess.append(bin_edges)
 
-    shape0 = np.max([hist.shape[0] for hist in hists])
-    shape1 = np.max([np.max(hist[(hist.shape[0] // 2):]) for hist in hists])
+#     shape0 = np.max([hist.shape[0] for hist in hists])
+#     shape1 = np.max([np.max(hist[(hist.shape[0] // 2):]) for hist in hists])
 
-    ax0 = fig.add_subplot(inner_grid[:, 0])
-    show_ego_state(ego_state, model, local=True, ax=ax0, cmap='Greens')
-    ax0.tick_params(
-        axis='both',  # changes apply to the x-axis
-        which='both',  # both major and minor ticks are affected
-        bottom=False,  # ticks along the bottom edge are off
-        top=False,  # ticks along the top edge are off
-        left=False,
-        right=False,
-        labelbottom=False,
-        labelleft=False,
-        labelcolor='g')
+#     ax0 = fig.add_subplot(inner_grid[:, 0])
+#     show_ego_state(ego_state, model, local=True, ax=ax0, cmap='Greens')
+#     ax0.tick_params(
+#         axis='both',  # changes apply to the x-axis
+#         which='both',  # both major and minor ticks are affected
+#         bottom=False,  # ticks along the bottom edge are off
+#         top=False,  # ticks along the top edge are off
+#         left=False,
+#         right=False,
+#         labelbottom=False,
+#         labelleft=False,
+#         labelcolor='g')
 
-    for action in range(4):
-        ax0 = fig.add_subplot(inner_grid[action, 1])
-        ax0.axis("off")
-        ax0.text(0.5, 0.5, actions[action], fontsize=20,
-                 ha='center', va='center', color='b')
+#     for action in range(4):
+#         ax0 = fig.add_subplot(inner_grid[action, 1])
+#         ax0.axis("off")
+#         ax0.text(0.5, 0.5, actions[action], fontsize=20,
+#                  ha='center', va='center', color='b')
 
-        hist, bin_edges = np.histogram(
-            model.ego_SR.SR_sas[ego_state][action], bins=5)
-        inner_inner_grid = inner_grid[action, 2].subgridspec(
-            shape0 - shape0 // 2, shape1, **kwargs)
+#         hist, bin_edges = np.histogram(
+#             model.ego_SR.SR_sas[ego_state][action], bins=5)
+#         inner_inner_grid = inner_grid[action, 2].subgridspec(
+#             shape0 - shape0 // 2, shape1, **kwargs)
 
-    # fig, axs = plt.subplots(
-    #     hist.shape[0] - hist.shape[0] // 2,
-    #     np.max(hist[hist.shape[0] // 2:]), figsize=(5, 5))
-    # if len(axs.shape) == 2:
-    #     for k in range(axs.shape[0]):
-    #         for j in range(axs.shape[1]):
-    #             if j != 0:
-    #                 axs[k, j].axis("off")
+#     # fig, axs = plt.subplots(
+#     #     hist.shape[0] - hist.shape[0] // 2,
+#     #     np.max(hist[hist.shape[0] // 2:]), figsize=(5, 5))
+#     # if len(axs.shape) == 2:
+#     #     for k in range(axs.shape[0]):
+#     #         for j in range(axs.shape[1]):
+#     #             if j != 0:
+#     #                 axs[k, j].axis("off")
 
-        k = 0
-        for i in range(hist.shape[0] - 1, hist.shape[0] // 2 - 1, -1):
+#         k = 0
+#         for i in range(hist.shape[0] - 1, hist.shape[0] // 2 - 1, -1):
 
-            if hist[i]:
+#             if hist[i]:
 
-                ego_states = np.where(np.logical_and(
-                    model.ego_SR.SR_sas[ego_state][action] > bin_edges[i], model.ego_SR.SR_sas[ego_state][action] <= bin_edges[i + 1]))[0]
-                if len(ego_states) > 1:
+#                 ego_states = np.where(np.logical_and(
+#                     model.ego_SR.SR_sas[ego_state][action] > bin_edges[i], model.ego_SR.SR_sas[ego_state][action] <= bin_edges[i + 1]))[0]
+#                 if len(ego_states) > 1:
 
-                    for j in range(len(ego_states)):
-                        state = ego_states[j]
-                        ax = fig.add_subplot(inner_inner_grid[k, j])
-                        #                 ax.axis("off")
-                        show_ego_state(state, model, local=True, ax=ax)
-                        ax.tick_params(
-                            axis='both',  # changes apply to the x-axis
-                            which='both',  # both major and minor ticks are affected
-                            bottom=False,  # ticks along the bottom edge are off
-                            top=False,  # ticks along the top edge are off
-                            left=False,
-                            right=False,
-                            labelbottom=False,
-                            labelleft=False)
-                        # axs[k, j].imshow(
-                        #     np.reshape(
-                        #         model.env.ego_bins[state],
-                        #         (model.env.pars.horizon + 1,
-                        #          2 * model.env.pars.horizon + 1)), vmax=vmax, vmin=vmin)
-                        if j == 0:
-                            ax.set_ylabel(
-                                str(round(bin_edges[i], 1)) + " - " + str(
-                                    round(
-                                        bin_edges[
-                                            i +
-                                            1],
-                                        1)),
-                                fontsize='xx-small', rotation=0)
-                            ax.yaxis.set_label_coords(coords[0], coords[1])
-                else:
-                    state = ego_states[0]
-                    ax = fig.add_subplot(inner_inner_grid[k, 0])
-                    #             ax.axis("off")
-                    show_ego_state(state, model, local=True, ax=ax)
-                    ax.set_ylabel(
-                        str(round(bin_edges[i], 1)) + " - " + str(
-                            round(
-                                bin_edges[
-                                    i +
-                                    1],
-                                1)),
-                        fontsize='xx-small', rotation=0)
-                    ax.yaxis.set_label_coords(coords[0], coords[1])
+#                     for j in range(len(ego_states)):
+#                         state = ego_states[j]
+#                         ax = fig.add_subplot(inner_inner_grid[k, j])
+#                         #                 ax.axis("off")
+#                         show_ego_state(state, model, local=True, ax=ax)
+#                         ax.tick_params(
+#                             axis='both',  # changes apply to the x-axis
+#                             which='both',  # both major and minor ticks are affected
+#                             bottom=False,  # ticks along the bottom edge are off
+#                             top=False,  # ticks along the top edge are off
+#                             left=False,
+#                             right=False,
+#                             labelbottom=False,
+#                             labelleft=False)
+#                         # axs[k, j].imshow(
+#                         #     np.reshape(
+#                         #         model.env.ego_bins[state],
+#                         #         (model.env.pars.horizon + 1,
+#                         #          2 * model.env.pars.horizon + 1)), vmax=vmax, vmin=vmin)
+#                         if j == 0:
+#                             ax.set_ylabel(
+#                                 str(round(bin_edges[i], 1)) + " - " + str(
+#                                     round(
+#                                         bin_edges[
+#                                             i +
+#                                             1],
+#                                         1)),
+#                                 fontsize='xx-small', rotation=0)
+#                             ax.yaxis.set_label_coords(coords[0], coords[1])
+#                 else:
+#                     state = ego_states[0]
+#                     ax = fig.add_subplot(inner_inner_grid[k, 0])
+#                     #             ax.axis("off")
+#                     show_ego_state(state, model, local=True, ax=ax)
+#                     ax.set_ylabel(
+#                         str(round(bin_edges[i], 1)) + " - " + str(
+#                             round(
+#                                 bin_edges[
+#                                     i +
+#                                     1],
+#                                 1)),
+#                         fontsize='xx-small', rotation=0)
+#                     ax.yaxis.set_label_coords(coords[0], coords[1])
 
-                ax.tick_params(
-                    axis='both',  # changes apply to the x-axis
-                    which='both',  # both major and minor ticks are affected
-                    bottom=False,  # ticks along the bottom edge are off
-                    top=False,  # ticks along the top edge are off
-                    left=False,
-                    right=False,
-                    labelbottom=False,
-                    labelleft=False)
+#                 ax.tick_params(
+#                     axis='both',  # changes apply to the x-axis
+#                     which='both',  # both major and minor ticks are affected
+#                     bottom=False,  # ticks along the bottom edge are off
+#                     top=False,  # ticks along the top edge are off
+#                     left=False,
+#                     right=False,
+#                     labelbottom=False,
+#                     labelleft=False)
 
-            k += 1
+#             k += 1
 
 
 

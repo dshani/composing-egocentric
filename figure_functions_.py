@@ -1929,135 +1929,135 @@ def generate_fig3__(model=None, struct_single_seed=None, struct_all_seeds=None, 
     return fig, {name: tuple(axes) for name, axes in panel_axes.items()}
 
 
-def generate_fig2(model=None, struct_all_seeds=None, struct_single_seed=None, sigma=0.01, env_switch_every=1000, path=None,
-                  ego_state=50, allo_state=200, fsize_label='small', save_separate=False):
-    if path:
-        if not path.exists():
-            path.mkdir(parents=True, exist_ok=True)
-    else:
-        path = pathlib.Path('.')
+# def generate_fig2(model=None, struct_all_seeds=None, struct_single_seed=None, sigma=0.01, env_switch_every=1000, path=None,
+#                   ego_state=50, allo_state=200, fsize_label='small', save_separate=False):
+#     if path:
+#         if not path.exists():
+#             path.mkdir(parents=True, exist_ok=True)
+#     else:
+#         path = pathlib.Path('.')
 
-    if path.joinpath(f'single_learning_data_{sigma}_{env_switch_every}.pkl').exists() and not struct_single_seed:
-        with open(path.joinpath(f'single_learning_data_{sigma}_{env_switch_every}.pkl'), 'rb') as f:
-            data = pickle.load(f)
-            x, y, first_path, last_path, first_ep, last_ep, world = data['x'], data['y'], data['first_path'], data[
-                'last_path'], data['first_ep'], data['last_ep'], data['world']
-    else:
-        if struct_single_seed:
-            struct_single_seed = remove_empty_dicts(struct_single_seed)
-            struct_all_seeds = remove_empty_dicts(struct_all_seeds)
-            world = struct_single_seed[list(struct_single_seed.keys())[
-                0]]['unlesioned']['worlds'][0]
-            worlds = struct_all_seeds[list(struct_all_seeds.keys())[0]
-                                    ]['unlesioned']['worlds']
+#     if path.joinpath(f'single_learning_data_{sigma}_{env_switch_every}.pkl').exists() and not struct_single_seed:
+#         with open(path.joinpath(f'single_learning_data_{sigma}_{env_switch_every}.pkl'), 'rb') as f:
+#             data = pickle.load(f)
+#             x, y, first_path, last_path, first_ep, last_ep, world = data['x'], data['y'], data['first_path'], data[
+#                 'last_path'], data['first_ep'], data['last_ep'], data['world']
+#     else:
+#         if struct_single_seed:
+#             struct_single_seed = remove_empty_dicts(struct_single_seed)
+#             struct_all_seeds = remove_empty_dicts(struct_all_seeds)
+#             world = struct_single_seed[list(struct_single_seed.keys())[
+#                 0]]['unlesioned']['worlds'][0]
+#             worlds = struct_all_seeds[list(struct_all_seeds.keys())[0]
+#                                     ]['unlesioned']['worlds']
             
 
             
-            # TODO: sort worlds bit
+#             # TODO: sort worlds bit
 
-            if struct_all_seeds:
-                y, x = get_parameter_values(
-                    'accuracies', struct_all_seeds, prefix='unlesioned')
-                first_path, first_ep = get_path(
-                    struct_all_seeds, prefix='unlesioned', episode=0, struct_all_seeds=True)
-                last_path, last_ep = get_path(struct_all_seeds, prefix='unlesioned',
-                                              episode=env_switch_every - 1, struct_all_seeds=True)
+#             if struct_all_seeds:
+#                 y, x = get_parameter_values(
+#                     'accuracies', struct_all_seeds, prefix='unlesioned')
+#                 first_path, first_ep = get_path(
+#                     struct_all_seeds, prefix='unlesioned', episode=0, struct_all_seeds=True)
+#                 last_path, last_ep = get_path(struct_all_seeds, prefix='unlesioned',
+#                                               episode=env_switch_every - 1, struct_all_seeds=True)
 
-            else:
-                y, x = get_parameter_values(
-                    'accuracies', struct_single_seed, prefix='unlesioned')
-                first_path, first_ep = get_path(
-                    struct_single_seed, prefix='unlesioned', episode=0)
-                last_path, last_ep = get_path(struct_single_seed, prefix='unlesioned',
-                                              episode=env_switch_every)
-                hole_times = get_hole_times(
-                    struct_single_seed, prefix='unlesioned', worlds=worlds, switch_every=env_switch_every)
-            data = {'x': x, 'y': y, 'first_path': first_path, 'last_path': last_path, 'first_ep': first_ep,
-                    'last_ep': last_ep, 'world': world}
-            with open(path.joinpath(f'single_learning_data_{sigma}_{env_switch_every}.pkl'), 'wb') as f:
-                pickle.dump(data, f)
-        else:
-            raise NotImplementedError
+#             else:
+#                 y, x = get_parameter_values(
+#                     'accuracies', struct_single_seed, prefix='unlesioned')
+#                 first_path, first_ep = get_path(
+#                     struct_single_seed, prefix='unlesioned', episode=0)
+#                 last_path, last_ep = get_path(struct_single_seed, prefix='unlesioned',
+#                                               episode=env_switch_every)
+#                 hole_times = get_hole_times(
+#                     struct_single_seed, prefix='unlesioned', worlds=worlds, switch_every=env_switch_every)
+#             data = {'x': x, 'y': y, 'first_path': first_path, 'last_path': last_path, 'first_ep': first_ep,
+#                     'last_ep': last_ep, 'world': world}
+#             with open(path.joinpath(f'single_learning_data_{sigma}_{env_switch_every}.pkl'), 'wb') as f:
+#                 pickle.dump(data, f)
+#         else:
+#             raise NotImplementedError
 
-    directions = ["\u2191", "\u2192", "\u2193", "\u2190"]
+#     directions = ["\u2191", "\u2192", "\u2193", "\u2190"]
 
-    # A
-    fig = plt.figure(figsize=(10, 5))
-    grids = fig.add_gridspec(nrows=5, ncols=3, hspace=0.75, wspace=0.75, height_ratios=[
-                             2, 3, 3, 3, 3], width_ratios=[1, 1, 1.5])
-    ax = fig.add_subplot(grids[0, :])
-    y = np.array(y)
-    x = np.array(x)
-    mu_y = np.mean(y, 0)
-    sigma_y = np.std(y, 0)
-    x = np.mean(x, 0)
-    mu_y = mu_y[x < env_switch_every]
-    sigma_y = sigma_y[x < env_switch_every]
-    x = x[x < env_switch_every]
-    sorted_y = [y_ for _, y_ in sorted(zip(x, mu_y))]
-    sorted_sigma_y = [y_ for _, y_ in sorted(zip(x, sigma_y))]
-    x = sorted(x)
-    y = gaussian_filter1d(sorted_y, sigma=sigma)
-    ax.plot(x, y)
-    ax.fill_between(x, y - sorted_sigma_y, y + sorted_sigma_y, alpha=0.2)
-    ax.set_ylabel('Steps', fontsize='xx-small')
-    ax.set_xlabel('Episode', fontsize='xx-small', labelpad=0, loc='right')
-    ax.set_yscale("log")
-    # fontsize
-    ax.tick_params(
-        labelsize='xx-small')
-    ax.spines[['top', 'right']].set_visible(False)
+#     # A
+#     fig = plt.figure(figsize=(10, 5))
+#     grids = fig.add_gridspec(nrows=5, ncols=3, hspace=0.75, wspace=0.75, height_ratios=[
+#                              2, 3, 3, 3, 3], width_ratios=[1, 1, 1.5])
+#     ax = fig.add_subplot(grids[0, :])
+#     y = np.array(y)
+#     x = np.array(x)
+#     mu_y = np.mean(y, 0)
+#     sigma_y = np.std(y, 0)
+#     x = np.mean(x, 0)
+#     mu_y = mu_y[x < env_switch_every]
+#     sigma_y = sigma_y[x < env_switch_every]
+#     x = x[x < env_switch_every]
+#     sorted_y = [y_ for _, y_ in sorted(zip(x, mu_y))]
+#     sorted_sigma_y = [y_ for _, y_ in sorted(zip(x, sigma_y))]
+#     x = sorted(x)
+#     y = gaussian_filter1d(sorted_y, sigma=sigma)
+#     ax.plot(x, y)
+#     ax.fill_between(x, y - sorted_sigma_y, y + sorted_sigma_y, alpha=0.2)
+#     ax.set_ylabel('Steps', fontsize='xx-small')
+#     ax.set_xlabel('Episode', fontsize='xx-small', labelpad=0, loc='right')
+#     ax.set_yscale("log")
+#     # fontsize
+#     ax.tick_params(
+#         labelsize='xx-small')
+#     ax.spines[['top', 'right']].set_visible(False)
 
-    # B
-    ax = fig.add_subplot(grids[1, 0])
-    # y = gaussian_filter1d(y, sigma=sigma)
-    plot_track(first_path, ax, world=world, color='r')
+#     # B
+#     ax = fig.add_subplot(grids[1, 0])
+#     # y = gaussian_filter1d(y, sigma=sigma)
+#     plot_track(first_path, ax, world=world, color='r')
 
-    # C
-    ax = fig.add_subplot(grids[1, 1])
-    plot_track(last_path, ax, world=world, color='r')
+#     # C
+#     ax = fig.add_subplot(grids[1, 1])
+#     plot_track(last_path, ax, world=world, color='r')
 
-    ego_srs_y, ego_srs_x = get_parameter_values(
-        'ego_SR.SR_ss', struct_single_seed, prefix='unlesioned')
-    allo_srs_y, allo_srs_x = get_parameter_values(
-        'allo_SR.SR_ss', struct_single_seed, prefix='unlesioned')
-    model0 = get_certain_SR_model(
-        ego_srs_y, ego_srs_x, allo_srs_y, allo_srs_x, model, 0)
-    model1 = get_certain_SR_model(
-        ego_srs_y, ego_srs_x, allo_srs_y, allo_srs_x, model, env_switch_every - 1)
+#     ego_srs_y, ego_srs_x = get_parameter_values(
+#         'ego_SR.SR_ss', struct_single_seed, prefix='unlesioned')
+#     allo_srs_y, allo_srs_x = get_parameter_values(
+#         'allo_SR.SR_ss', struct_single_seed, prefix='unlesioned')
+#     model0 = get_certain_SR_model(
+#         ego_srs_y, ego_srs_x, allo_srs_y, allo_srs_x, model, 0)
+#     model1 = get_certain_SR_model(
+#         ego_srs_y, ego_srs_x, allo_srs_y, allo_srs_x, model, env_switch_every - 1)
 
-    # D
-    add_allocentric_SR_grid(grids[1, 2], fig, model0, allo_state, ego=False,
-                            colorbar=True)
-    add_allocentric_SR_grid(grids[2, :-1], fig, model0, ego_state, ego=True)
+#     # D
+#     add_allocentric_SR_grid(grids[1, 2], fig, model0, allo_state, ego=False,
+#                             colorbar=True)
+#     add_allocentric_SR_grid(grids[2, :-1], fig, model0, ego_state, ego=True)
 
-    add_egocentric_SR_grid(grids[2:-1, -1], fig, model0, ego_state)
+#     add_egocentric_SR_grid(grids[2:-1, -1], fig, model0, ego_state)
 
-    if save_separate:
-        fig2, ax2 = plt.subplots(
-            1, 1, figsize=(2, 5))
+#     if save_separate:
+#         fig2, ax2 = plt.subplots(
+#             1, 1, figsize=(2, 5))
 
-        ax2.set_xticks([])
-        ax2.set_yticks([])
-        ax2.axis("off")
+#         ax2.set_xticks([])
+#         ax2.set_yticks([])
+#         ax2.axis("off")
 
-        grids2 = fig2.add_gridspec(nrows=1, ncols=1)
-        add_allocentric_SR_sas_grid(
-            grids2[0, 0], fig2, model0, allo_state, ego=False)
-        fig2.savefig(path.joinpath(f'allocentric_sas.svg'))
-        plt.close(fig2)
+#         grids2 = fig2.add_gridspec(nrows=1, ncols=1)
+#         add_allocentric_SR_sas_grid(
+#             grids2[0, 0], fig2, model0, allo_state, ego=False)
+#         fig2.savefig(path.joinpath(f'allocentric_sas.svg'))
+#         plt.close(fig2)
 
-        fig3, ax3 = plt.subplots(
-            1, 1, figsize=(10, 10))
+#         fig3, ax3 = plt.subplots(
+#             1, 1, figsize=(10, 10))
 
-        ax3.set_xticks([])
-        ax3.set_yticks([])
-        ax3.axis("off")
+#         ax3.set_xticks([])
+#         ax3.set_yticks([])
+#         ax3.axis("off")
 
-        grids3 = fig3.add_gridspec(nrows=1, ncols=1)
-        add_egocentric_SR_sas_grid(grids3[0, 0], fig3, model0, ego_state)
-        fig3.savefig(path.joinpath(f'egocentric_sas.svg'))
-        plt.close(fig3)
+#         grids3 = fig3.add_gridspec(nrows=1, ncols=1)
+#         add_egocentric_SR_sas_grid(grids3[0, 0], fig3, model0, ego_state)
+#         fig3.savefig(path.joinpath(f'egocentric_sas.svg'))
+#         plt.close(fig3)
 
     # # E: Value plots
 
@@ -2153,31 +2153,31 @@ def generate_fig2(model=None, struct_all_seeds=None, struct_single_seed=None, si
     # add_egocentric_SR_grid(grids[3, 1], fig, model1, ego_state, coords=[-0.7, 0.3])
 
     # Add panels
-    plt.text(0.05, 0.9, "A", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.15, 0.75, "B", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.41, 0.75, "C", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.75, 0.75, "D", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.1, 0.58, "E", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.65, 0.58, "F", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.1, 0.4, "G", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.1, 0.22, "H", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.75, 0.22, "I", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+    # plt.text(0.05, 0.9, "A", ha="left", va="top",
+    #          transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+    # plt.text(0.15, 0.75, "B", ha="left", va="top",
+    #          transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+    # plt.text(0.41, 0.75, "C", ha="left", va="top",
+    #          transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+    # plt.text(0.75, 0.75, "D", ha="left", va="top",
+    #          transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+    # plt.text(0.1, 0.58, "E", ha="left", va="top",
+    #          transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+    # plt.text(0.65, 0.58, "F", ha="left", va="top",
+    #          transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+    # plt.text(0.1, 0.4, "G", ha="left", va="top",
+    #          transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+    # plt.text(0.1, 0.22, "H", ha="left", va="top",
+    #          transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+    # plt.text(0.75, 0.22, "I", ha="left", va="top",
+    #          transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
 
-    # plt.text(0.65, 0.5, "G", ha="left", va="top", transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    # plt.text(0.65, 0.32, "H", ha="left", va="top", transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+    # # plt.text(0.65, 0.5, "G", ha="left", va="top", transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+    # # plt.text(0.65, 0.32, "H", ha="left", va="top", transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
 
-    print('Saving fig2')
-    plt.savefig(path / 'fig2.png', dpi=1200)
-    plt.savefig(path / 'fig2.svg', format='svg')
+    # print('Saving fig2')
+    # plt.savefig(path / 'fig2.png', dpi=1200)
+    # plt.savefig(path / 'fig2.svg', format='svg')
 
 
 def generate_task_plot(worlds, grid, fig, return_axes=False, **kwargs):
@@ -2407,104 +2407,104 @@ def generate_cosyne_fig(structure, model, path=None, ego_state=76):
     plt.close()
 
 
-def generate_fig1(structure, model, path=None, save_separate=False):
-    if path:
-        if not path.exists():
-            path.mkdir(parents=True, exist_ok=True)
-    else:
-        path = pathlib.Path('.')
+# def generate_fig1(structure, model, path=None, save_separate=False):
+#     if path:
+#         if not path.exists():
+#             path.mkdir(parents=True, exist_ok=True)
+#     else:
+#         path = pathlib.Path('.')
 
-    if path.joinpath("fig1_data.pkl").exists() and structure is None and model is None:
-        with open(path.joinpath("fig1_data.pkl"), 'rb') as f:
-            data = pickle.load(f)
-            self, worlds = data['self'], data['worlds']
-    else:
-        self = model.env
-        structure = remove_empty_dicts(structure)
-        worlds = structure[list(structure.keys())[0]]['unlesioned']['worlds']
-        with open(path.joinpath("fig1_data.pkl"), 'wb') as f:
-            pickle.dump({'self': self, 'worlds': worlds}, f)
+#     if path.joinpath("fig1_data.pkl").exists() and structure is None and model is None:
+#         with open(path.joinpath("fig1_data.pkl"), 'rb') as f:
+#             data = pickle.load(f)
+#             self, worlds = data['self'], data['worlds']
+#     else:
+#         self = model.env
+#         structure = remove_empty_dicts(structure)
+#         worlds = structure[list(structure.keys())[0]]['unlesioned']['worlds']
+#         with open(path.joinpath("fig1_data.pkl"), 'wb') as f:
+#             pickle.dump({'self': self, 'worlds': worlds}, f)
 
-    from matplotlib.gridspec import GridSpec
+#     from matplotlib.gridspec import GridSpec
 
-    fig = plt.figure(layout="constrained")
+#     fig = plt.figure(layout="constrained")
 
-    gs = GridSpec(3, 3, figure=fig)
+#     gs = GridSpec(3, 3, figure=fig)
 
-    ax1 = fig.add_subplot(gs[0:2, 0:2])
-    ax2 = fig.add_subplot(gs[0, 2])
-    ax3 = fig.add_subplot(gs[1, 2])
+#     ax1 = fig.add_subplot(gs[0:2, 0:2])
+#     ax2 = fig.add_subplot(gs[0, 2])
+#     ax3 = fig.add_subplot(gs[1, 2])
 
-    # ax4 = fig.add_subplot(gs[2, 0:3])
-    grid4 = gs[2, 0:3]
-    x = 3
-    y = 4
-    d = 2
+#     # ax4 = fig.add_subplot(gs[2, 0:3])
+#     grid4 = gs[2, 0:3]
+#     x = 3
+#     y = 4
+#     d = 2
 
-    # panel A: maze schematic
+#     # panel A: maze schematic
 
-    generate_schematic(ax1, self, pos=(x, y, d), alias=True)
+#     generate_schematic(ax1, self, pos=(x, y, d), alias=True)
 
-    if save_separate:
-        fig2, ax2 = plt.subplots()
-        generate_schematic(ax2, self, pos=(x, y, d), alias=False)
-        fig2.savefig(path.joinpath("maze_schematic.svg"), bbox_inches="tight")
-        plt.close(fig2)
+#     if save_separate:
+#         fig2, ax2 = plt.subplots()
+#         generate_schematic(ax2, self, pos=(x, y, d), alias=False)
+#         fig2.savefig(path.joinpath("maze_schematic.svg"), bbox_inches="tight")
+#         plt.close(fig2)
 
-    # panel B: allocentric state
+#     # panel B: allocentric state
 
-    generate_allocentric_plot(ax2, self, x, y)
+#     generate_allocentric_plot(ax2, self, x, y)
 
-    if save_separate:
-        fig2, ax2 = plt.subplots()
-        generate_allocentric_plot(ax2, self, x, y)
-        fig2.savefig(path.joinpath("allocentric_state.svg"),
-                     bbox_inches="tight")
-        plt.close(fig2)
+#     if save_separate:
+#         fig2, ax2 = plt.subplots()
+#         generate_allocentric_plot(ax2, self, x, y)
+#         fig2.savefig(path.joinpath("allocentric_state.svg"),
+#                      bbox_inches="tight")
+#         plt.close(fig2)
 
-    # panel C: egocentric state
+#     # panel C: egocentric state
 
-    generate_egocentric_plot(ax3, self, x, y, d)
+#     generate_egocentric_plot(ax3, self, x, y, d)
 
-    if save_separate:
-        fig2, ax2 = plt.subplots()
-        generate_egocentric_plot(ax2, self, x, y, d)
-        fig2.savefig(path.joinpath("egocentric_state.svg"),
-                     bbox_inches="tight")
-        plt.close(fig2)
+#     if save_separate:
+#         fig2, ax2 = plt.subplots()
+#         generate_egocentric_plot(ax2, self, x, y, d)
+#         fig2.savefig(path.joinpath("egocentric_state.svg"),
+#                      bbox_inches="tight")
+#         plt.close(fig2)
 
-    #
-    generate_task_plot(worlds, grid4, fig)
+#     #
+#     generate_task_plot(worlds, grid4, fig)
 
-    if save_separate:
-        fig2, ax2 = plt.subplots()
-        generate_task_plot(worlds, grid4, fig2)
-        fig2.savefig(path.joinpath("task_plot.svg"), bbox_inches="tight")
-        plt.close(fig2)
+#     if save_separate:
+#         fig2, ax2 = plt.subplots()
+#         generate_task_plot(worlds, grid4, fig2)
+#         fig2.savefig(path.joinpath("task_plot.svg"), bbox_inches="tight")
+#         plt.close(fig2)
 
-    # add some panel labels
-    plt.text(0.14, 0.95, "A", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.6, 0.95, "B", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.6, .6, "C", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.1, 0.4, "D", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     # add some panel labels
+#     plt.text(0.14, 0.95, "A", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.6, 0.95, "B", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.6, .6, "C", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.1, 0.4, "D", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
 
-    # plt.text(0.17, 0.7, "C", ha="left",va="top",transform=fig.transFigure,fontweight="bold",fontsize=fsize_label)
-    # plt.text(0.17, 0.7, "C", ha="left",va="top",transform=fig.transFigure,fontweight="bold",fontsize=fsize_label)
+#     # plt.text(0.17, 0.7, "C", ha="left",va="top",transform=fig.transFigure,fontweight="bold",fontsize=fsize_label)
+#     # plt.text(0.17, 0.7, "C", ha="left",va="top",transform=fig.transFigure,fontweight="bold",fontsize=fsize_label)
 
-    # save figure
-    print("Saving Figure 1")
-    plt.tight_layout
-    if path:
-        plt.savefig(path.joinpath("fig1.pdf"), dpi=1200, bbox_inches="tight")
-        plt.savefig(path.joinpath("fig1.svg"), format='svg')
-    else:
-        plt.savefig("fig1.pdf", bbox_inches="tight", dpi=1200)
-        plt.savefig("fig1.svg", format='svg')
-    plt.close()
+#     # save figure
+#     print("Saving Figure 1")
+#     plt.tight_layout
+#     if path:
+#         plt.savefig(path.joinpath("fig1.pdf"), dpi=1200, bbox_inches="tight")
+#         plt.savefig(path.joinpath("fig1.svg"), format='svg')
+#     else:
+#         plt.savefig("fig1.pdf", bbox_inches="tight", dpi=1200)
+#         plt.savefig("fig1.svg", format='svg')
+#     plt.close()
 
 
 def generate_value_figure(model=None, path=None):
@@ -2569,121 +2569,121 @@ def generate_value_figure(model=None, path=None):
     plt.close()
 
 
-def generate_fig2_(structure, model, path=None):
-    if path:
-        if not path.exists():
-            path.mkdir(parents=True, exist_ok=True)
-    else:
-        path = pathlib.Path('.')
+# def generate_fig2_(structure, model, path=None):
+#     if path:
+#         if not path.exists():
+#             path.mkdir(parents=True, exist_ok=True)
+#     else:
+#         path = pathlib.Path('.')
 
-    if path.joinpath("fig2_data.pkl").exists() and structure is None and model is None:
-        with (open(path.joinpath("fig2_data.pkl"), 'rb') as f):
-            data = pickle.load(f)
-            state_values, ego_state_values, allo_state_values, vmin, vmax, egomin, egomax, amin, amax, y_les, y_un, x_les, x_un = \
-                data['state_values'], data['ego_state_values'], data['allo_state_values'], data['vmin'], data['vmax'], \
-                data['egomin'], data['egomax'], data['amin'], data['amax'], data['y_les'], data['y_un'], data[
-                    'x_les'], data['x_un']
-    else:
-        state_values, ego_state_values, allo_state_values, vmin, vmax, egomin, egomax, amin, amax = get_value_functions(
-            model, split=True)
-        (y_les, y_les_sem, x_les), (y_un, y_un_sem, x_un) = get_lesion_values_(structure, sigma=1)
-        data = {'state_values': state_values, 'ego_state_values': ego_state_values,
-                'allo_state_values': allo_state_values,
-                'vmin': vmin, 'vmax': vmax, 'egomin': egomin, 'egomax': egomax, 'amin': amin, 'amax': amax,
-                'y_les': y_les, 'y_un': y_un, 'x_les': x_les, 'x_un': x_un}
-        with open(path.joinpath("fig2_data.pkl"), 'wb') as f:
-            pickle.dump(data, f)
+#     if path.joinpath("fig2_data.pkl").exists() and structure is None and model is None:
+#         with (open(path.joinpath("fig2_data.pkl"), 'rb') as f):
+#             data = pickle.load(f)
+#             state_values, ego_state_values, allo_state_values, vmin, vmax, egomin, egomax, amin, amax, y_les, y_un, x_les, x_un = \
+#                 data['state_values'], data['ego_state_values'], data['allo_state_values'], data['vmin'], data['vmax'], \
+#                 data['egomin'], data['egomax'], data['amin'], data['amax'], data['y_les'], data['y_un'], data[
+#                     'x_les'], data['x_un']
+#     else:
+#         state_values, ego_state_values, allo_state_values, vmin, vmax, egomin, egomax, amin, amax = get_value_functions(
+#             model, split=True)
+#         (y_les, y_les_sem, x_les), (y_un, y_un_sem, x_un) = get_lesion_values_(structure, sigma=1)
+#         data = {'state_values': state_values, 'ego_state_values': ego_state_values,
+#                 'allo_state_values': allo_state_values,
+#                 'vmin': vmin, 'vmax': vmax, 'egomin': egomin, 'egomax': egomax, 'amin': amin, 'amax': amax,
+#                 'y_les': y_les, 'y_un': y_un, 'x_les': x_les, 'x_un': x_un}
+#         with open(path.joinpath("fig2_data.pkl"), 'wb') as f:
+#             pickle.dump(data, f)
 
-    directions = ["\u2191", "\u2192", "\u2193", "\u2190"]
+#     directions = ["\u2191", "\u2192", "\u2193", "\u2190"]
 
-    fig = plt.figure(figsize=(24 * cm, 10 * cm))  # create figure
+#     fig = plt.figure(figsize=(24 * cm, 10 * cm))  # create figure
 
-    # ## panel A: full value function
-    grids = fig.add_gridspec(nrows=3, ncols=4, left=0.35,
-                             right=0.7, bottom=0.5, top=1.0, hspace=0.45)
+#     # ## panel A: full value function
+#     grids = fig.add_gridspec(nrows=3, ncols=4, left=0.35,
+#                              right=0.7, bottom=0.5, top=1.0, hspace=0.45)
 
-    for d in range(4):
-        ax = fig.add_subplot(grids[0, d])
-        generate_value_plot(
-            ax, state_values[:, :, d], vmin, vmax, directions[d])
+#     for d in range(4):
+#         ax = fig.add_subplot(grids[0, d])
+#         generate_value_plot(
+#             ax, state_values[:, :, d], vmin, vmax, directions[d])
 
-    # panel B: egocentric component
+#     # panel B: egocentric component
 
-    for d in range(4):
-        ax = fig.add_subplot(grids[1, d])
-        generate_value_plot(ax, ego_state_values[:, :, d], egomin, egomax)
+#     for d in range(4):
+#         ax = fig.add_subplot(grids[1, d])
+#         generate_value_plot(ax, ego_state_values[:, :, d], egomin, egomax)
 
-    # panel B: allocentric component
+#     # panel B: allocentric component
 
-    ax = fig.add_subplot(grids[2, 0])
-    generate_value_plot(ax, allo_state_values[:, :, 0], amin, amax)
+#     ax = fig.add_subplot(grids[2, 0])
+#     generate_value_plot(ax, allo_state_values[:, :, 0], amin, amax)
 
-    # panel D: lesion results
+#     # panel D: lesion results
 
-    ax = fig.add_subplot(grids[2, 1:4])
+#     ax = fig.add_subplot(grids[2, 1:4])
 
-    generate_lesion_plot_(ax, inputs = [(y_les, y_les_sem, x_les), (y_un, y_un_sem,  x_un)], labels=['Lesioned', 'Unlesioned'],env_switch_every=env_switch_every)
+#     generate_lesion_plot_(ax, inputs = [(y_les, y_les_sem, x_les), (y_un, y_un_sem,  x_un)], labels=['Lesioned', 'Unlesioned'],env_switch_every=env_switch_every)
 
-    # add some panel labels
-    plt.text(0.34, 0.99, "A", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.34, 0.82, "B", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.34, 0.65, "C", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.427, 0.65, "D", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     # add some panel labels
+#     plt.text(0.34, 0.99, "A", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.34, 0.82, "B", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.34, 0.65, "C", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.427, 0.65, "D", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
 
-    # save figure
-    print("Saving Figure 2")
-    plt.tight_layout
-    if path:
-        plt.savefig(path.joinpath("fig2.pdf"), bbox_inches="tight")
-    else:
-        plt.savefig("fig2.pdf", bbox_inches="tight")
-    plt.close()
+#     # save figure
+#     print("Saving Figure 2")
+#     plt.tight_layout
+#     if path:
+#         plt.savefig(path.joinpath("fig2.pdf"), bbox_inches="tight")
+#     else:
+#         plt.savefig("fig2.pdf", bbox_inches="tight")
+#     plt.close()
 
 
-def generate_fig3_(model=None, ego_state=0, path=None):
-    if path:
-        if not path.exists():
-            path.mkdir(parents=True, exist_ok=True)
-    else:
-        path = pathlib.Path('.')
-    if path.joinpath(f"fig3_data_{ego_state}.pkl").exists() and model is None:
-        data = pickle.load(
-            open(path.joinpath(f"fig3_data_{ego_state}.pkl"), 'rb'))
-        model = data['model']
+# def generate_fig3_(model=None, ego_state=0, path=None):
+#     if path:
+#         if not path.exists():
+#             path.mkdir(parents=True, exist_ok=True)
+#     else:
+#         path = pathlib.Path('.')
+#     if path.joinpath(f"fig3_data_{ego_state}.pkl").exists() and model is None:
+#         data = pickle.load(
+#             open(path.joinpath(f"fig3_data_{ego_state}.pkl"), 'rb'))
+#         model = data['model']
 
-    else:
-        if model:
-            data = {'model': model}
-            with open(path.joinpath(f"fig3_data_{ego_state}.pkl"), 'wb') as f:
-                pickle.dump(data, f)
-        else:
-            print("No model provided")
-            return
+#     else:
+#         if model:
+#             data = {'model': model}
+#             with open(path.joinpath(f"fig3_data_{ego_state}.pkl"), 'wb') as f:
+#                 pickle.dump(data, f)
+#         else:
+#             print("No model provided")
+#             return
         
-    directions = ["\u2191", "\u2192", "\u2193", "\u2190"]
+#     directions = ["\u2191", "\u2192", "\u2193", "\u2190"]
 
-    fig = plt.figure(figsize=(24 * cm, 10 * cm))  # create figure
-    add_SR_grid(fig, model, ego_state, directions, left=0.35, right=0.63,
-                bottom=0.5, top=1.0, hspace=0.1)
+#     fig = plt.figure(figsize=(24 * cm, 10 * cm))  # create figure
+#     add_SR_grid(fig, model, ego_state, directions, left=0.35, right=0.63,
+#                 bottom=0.5, top=1.0, hspace=0.1)
 
-    # add some panel labels
-    plt.text(0.33, 0.98, "A", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.33, 0.73, "B", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     # add some panel labels
+#     plt.text(0.33, 0.98, "A", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.33, 0.73, "B", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
 
-    # save figure
-    print("Saving Figure 3")
-    plt.tight_layout
-    if path:
-        plt.savefig(path.joinpath("fig3.pdf"), bbox_inches="tight")
-    else:
-        plt.savefig("fig3.pdf", bbox_inches="tight")
-    plt.close()
+#     # save figure
+#     print("Saving Figure 3")
+#     plt.tight_layout
+#     if path:
+#         plt.savefig(path.joinpath("fig3.pdf"), bbox_inches="tight")
+#     else:
+#         plt.savefig("fig3.pdf", bbox_inches="tight")
+#     plt.close()
 
 
 def generate_ego_sr_fig(model=None, struct_single_seed=None, struct_all_seeds=None, path=None, states=None,
