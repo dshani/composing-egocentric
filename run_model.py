@@ -21,7 +21,6 @@ from helper_functions_ import make_directories, make_logger, rgetattr
 from parameters import get_parameter_parser
 from parameters import parameters
 
-from plotting_functions import knierim_plot
 from structure_functions_ import get_value_functions
 
 

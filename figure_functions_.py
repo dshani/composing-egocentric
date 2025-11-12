@@ -88,121 +88,121 @@ def generate_schematic(ax, env, pos=None, alias=True):
     ax.set_yticks([])
 
 
-def generate_allocentric_plot(ax, env, x, y, relative_sizes = [1, 1, 1, 1]):
-    square = np.zeros_like(env.world)
-    # add cross at position (x,y)
+# def generate_allocentric_plot(ax, env, x, y, relative_sizes = [1, 1, 1, 1]):
+#     square = np.zeros_like(env.world)
+#     # add cross at position (x,y)
 
-    square[y, x] = 1
+#     square[y, x] = 1
 
-    # use axes coordinates to place the center of the cross at (x,y)
+#     # use axes coordinates to place the center of the cross at (x,y)
 
-    ax.add_patch(
-        patches.Circle(
-            (x, y), 0.5, edgecolor='k', facecolor='k', fill=True))
+#     ax.add_patch(
+#         patches.Circle(
+#             (x, y), 0.5, edgecolor='k', facecolor='k', fill=True))
 
-    ax.imshow(square, cmap='Greys')
-    ax.set_xticks([])
-    ax.set_yticks([])
-    # add dotted arrows in directions North, East, South, West from
-    # position (x,y) or length 2
+#     ax.imshow(square, cmap='Greys')
+#     ax.set_xticks([])
+#     ax.set_yticks([])
+#     # add dotted arrows in directions North, East, South, West from
+#     # position (x,y) or length 2
     
-    add_allo_arrows(x, y, ax, relative_sizes)
+#     add_allo_arrows(x, y, ax, relative_sizes)
 
-    ax.set_title('$s^A$')
-    ax.set_ylabel('$a^A$', color='b')
+#     ax.set_title('$s^A$')
+#     ax.set_ylabel('$a^A$', color='b')
     
-def add_allo_arrows(x, y, ax, relative_sizes = [1, 1, 1, 1]):
+# def add_allo_arrows(x, y, ax, relative_sizes = [1, 1, 1, 1]):
     
-    ax.arrow(
-        x, y + 0.5, 0, 1., color='b', linewidth=1*relative_sizes[2],
-        head_width=0.5*relative_sizes[2], head_length=0.5*relative_sizes[2])
-    # label arrow
-    ax.text(x, y + 2.9, 'S', color='b', fontsize=4*relative_sizes[2], ha='center')
-    ax.arrow(
-        x + 0.5, y, 1., 0, color='b', linewidth=1*relative_sizes[1],
-        head_width=0.5*relative_sizes[1], head_length=0.5*relative_sizes[1])
-    ax.text(x + 2.7, y + 0.2, 'E', color='b', fontsize=4*relative_sizes[1], ha='center')
-    ax.arrow(
-        x, y - 0.5, 0, -1., color='b', linewidth=1*relative_sizes[0],
-        head_width=0.5*relative_sizes[0], head_length=0.5*relative_sizes[0])
-    ax.text(x, y - 2.5, 'N', color='b', fontsize=4*relative_sizes[0], ha='center')
-    ax.arrow(
-        x - 0.5, y, -1., 0, color='b', linewidth=1*relative_sizes[3],
-        head_width=0.5*relative_sizes[3], head_length=0.5*relative_sizes[3])
-    ax.text(x - 2.7, y + 0.2, 'W', color='b', fontsize=4*relative_sizes[3], ha='center')
+    # ax.arrow(
+    #     x, y + 0.5, 0, 1., color='b', linewidth=1*relative_sizes[2],
+    #     head_width=0.5*relative_sizes[2], head_length=0.5*relative_sizes[2])
+    # # label arrow
+    # ax.text(x, y + 2.9, 'S', color='b', fontsize=4*relative_sizes[2], ha='center')
+    # ax.arrow(
+    #     x + 0.5, y, 1., 0, color='b', linewidth=1*relative_sizes[1],
+    #     head_width=0.5*relative_sizes[1], head_length=0.5*relative_sizes[1])
+    # ax.text(x + 2.7, y + 0.2, 'E', color='b', fontsize=4*relative_sizes[1], ha='center')
+    # ax.arrow(
+    #     x, y - 0.5, 0, -1., color='b', linewidth=1*relative_sizes[0],
+    #     head_width=0.5*relative_sizes[0], head_length=0.5*relative_sizes[0])
+    # ax.text(x, y - 2.5, 'N', color='b', fontsize=4*relative_sizes[0], ha='center')
+    # ax.arrow(
+    #     x - 0.5, y, -1., 0, color='b', linewidth=1*relative_sizes[3],
+    #     head_width=0.5*relative_sizes[3], head_length=0.5*relative_sizes[3])
+    # ax.text(x - 2.7, y + 0.2, 'W', color='b', fontsize=4*relative_sizes[3], ha='center')
     
 
 
-def generate_egocentric_plot(ax, env, x, y, d, relative_sizes = [1, 1, 1, 1]):
+# def generate_egocentric_plot(ax, env, x, y, d, relative_sizes = [1, 1, 1, 1]):
     
-    env.get_egocentric_view(env.world, (y, x), d, display=True, ax=ax)
-    ax.set_ylabel('$a^E$', color='b')
-    # add up arrow and curly clockwise and anticlockwise arrows
+    # env.get_egocentric_view(env.world, (y, x), d, display=True, ax=ax)
+    # ax.set_ylabel('$a^E$', color='b')
+    # # add up arrow and curly clockwise and anticlockwise arrows
     
-    y_shift = -0.25
-    x_shift = 0
+    # y_shift = -0.25
+    # x_shift = 0
     
-    c_y = env.pars.horizon + y_shift
-    c_x = env.pars.horizon + x_shift
+    # c_y = env.pars.horizon + y_shift
+    # c_x = env.pars.horizon + x_shift
     
     
-    endpoints = [(c_x, c_y-1),
-                 (c_x+0.5, c_y),
-                 (c_x, c_y+0.4),
-                 (c_x-0.5, c_y),
-                 ]
+    # endpoints = [(c_x, c_y-1),
+    #              (c_x+0.5, c_y),
+    #              (c_x, c_y+0.4),
+    #              (c_x-0.5, c_y),
+    #              ]
     
-    connection_styles = ['arc3,rad=0', 'arc3,rad=-1', 'arc3,rad=0', 'arc3,rad=1']
+    # connection_styles = ['arc3,rad=0', 'arc3,rad=-1', 'arc3,rad=0', 'arc3,rad=1']
     
-    text_positions = [(c_x, c_y - 1),
-                      (c_x + 0.65, c_y),
-                      (c_x, c_y + 0.55),
-                      (c_x - 0.65, c_y),
-                      ]
+    # text_positions = [(c_x, c_y - 1),
+    #                   (c_x + 0.65, c_y),
+    #                   (c_x, c_y + 0.55),
+    #                   (c_x - 0.65, c_y),
+    #                   ]
     
-    text_titles = ['F', 'R', 'B', 'L']
+    # text_titles = ['F', 'R', 'B', 'L']
     
-    for i, (x_, y_) in enumerate(endpoints):
-        ax.add_patch(
-            patches.FancyArrowPatch(
-                (c_x, c_y), (x_, y_),
-                arrowstyle='Fancy, '
-                           f'tail_width={0.1*relative_sizes[i]}, '
-                           f'head_width={5*relative_sizes[i]}, head_length={8*relative_sizes[i]}',
-                color='b',
-                connectionstyle=connection_styles[i],
-                lw=1*relative_sizes[i]))
+    # for i, (x_, y_) in enumerate(endpoints):
+    #     ax.add_patch(
+    #         patches.FancyArrowPatch(
+    #             (c_x, c_y), (x_, y_),
+    #             arrowstyle='Fancy, '
+    #                        f'tail_width={0.1*relative_sizes[i]}, '
+    #                        f'head_width={5*relative_sizes[i]}, head_length={8*relative_sizes[i]}',
+    #             color='b',
+    #             connectionstyle=connection_styles[i],
+    #             lw=1*relative_sizes[i]))
         
-        ax.text(text_positions[i][0], text_positions[i][1], text_titles[i], color='b', fontsize=10*relative_sizes[i], ha='center')
+    #     ax.text(text_positions[i][0], text_positions[i][1], text_titles[i], color='b', fontsize=10*relative_sizes[i], ha='center')
 
-    ax.set_title('$s^E$')
+    # ax.set_title('$s^E$')
 
 
-def generate_value_plot(ax, state_values, vmin, vmax, direction=None, colorbar=False, **kwargs):
-    from mpl_toolkits.axes_grid1 import make_axes_locatable
-    if direction is not None:
-        ax.title.set_text(f"{direction}")
-    im = ax.imshow(state_values[:, :], vmin=vmin, vmax=vmax, cmap='plasma')
-    ax.tick_params(
-        axis='both',  # changes apply to the x-axis
-        which='both',  # both major and minor ticks are affected
-        bottom=False,  # ticks along the bottom edge are off
-        top=False,  # ticks along the top edge are off
-        left=False,
-        right=False,
-        labelbottom=False,
-        labelleft=False)
-    fig = ax.get_figure()
-    cax = None
-    if colorbar:
-        divider = make_axes_locatable(ax)
-        cax = divider.append_axes('right', size='5%', pad=0.05)
+# def generate_value_plot(ax, state_values, vmin, vmax, direction=None, colorbar=False, **kwargs):
+#     from mpl_toolkits.axes_grid1 import make_axes_locatable
+#     if direction is not None:
+#         ax.title.set_text(f"{direction}")
+#     im = ax.imshow(state_values[:, :], vmin=vmin, vmax=vmax, cmap='plasma')
+#     ax.tick_params(
+#         axis='both',  # changes apply to the x-axis
+#         which='both',  # both major and minor ticks are affected
+#         bottom=False,  # ticks along the bottom edge are off
+#         top=False,  # ticks along the top edge are off
+#         left=False,
+#         right=False,
+#         labelbottom=False,
+#         labelleft=False)
+#     fig = ax.get_figure()
+#     cax = None
+#     if colorbar:
+#         divider = make_axes_locatable(ax)
+#         cax = divider.append_axes('right', size='5%', pad=0.05)
 
-        # colorbar
-        fig.colorbar(im, cax=cax, orientation='vertical')
-        # change fontsize of colorbar
-        cax.tick_params(**kwargs)
-    return ax, cax
+#         # colorbar
+#         fig.colorbar(im, cax=cax, orientation='vertical')
+#         # change fontsize of colorbar
+#         cax.tick_params(**kwargs)
+#     return ax, cax
         
 def generate_lesion_plot_(ax, inputs, labels, env_switch_every=1000):
 
@@ -504,261 +504,261 @@ def _plot_chunked_occupancy(ax, chunk_data, chunk_size, env_switch_every):
     return True
 
 
-def generate_allo_SR_plot(ax, array, arrmin, arrmax, direction):
-    im = ax.imshow(
-        array[:, :],
-        vmin=arrmin, vmax=arrmax, cmap='plasma')
-    ax.title.set_text(f"{direction}")
-    ax.set_xticks([])
-    ax.set_yticks([])
-    return im
+# def generate_allo_SR_plot(ax, array, arrmin, arrmax, direction):
+#     im = ax.imshow(
+#         array[:, :],
+#         vmin=arrmin, vmax=arrmax, cmap='plasma')
+#     ax.title.set_text(f"{direction}")
+#     ax.set_xticks([])
+#     ax.set_yticks([])
+#     return im
 
 
-def generate_action_value_fig(model=None, struct_single_seed=None, struct_all_seeds=None, sigma=0.1, path=None, fsize_label=12,
-                              env_switch_every=1000, delay=1):
+# def generate_action_value_fig(model=None, struct_single_seed=None, struct_all_seeds=None, sigma=0.1, path=None, fsize_label=12,
+#                               env_switch_every=1000, delay=1):
 
-    directions = ["\u2191", "\u2192", "\u2193", "\u2190"]
-    if path:
-        if not path.exists():
-            path.mkdir(parents=True, exist_ok=True)
-    else:
-        path = pathlib.Path('.')
+#     directions = ["\u2191", "\u2192", "\u2193", "\u2190"]
+#     if path:
+#         if not path.exists():
+#             path.mkdir(parents=True, exist_ok=True)
+#     else:
+#         path = pathlib.Path('.')
 
-    fig = plt.figure(figsize=(40, 20))
-    grids = fig.add_gridspec(nrows=4, ncols=4, wspace=0.5,
-                             hspace=0.5)
-    if struct_single_seed is not None:
-        struct_single_seed = remove_empty_dicts(struct_single_seed)
-    struct_all_seeds = remove_empty_dicts(struct_all_seeds)
-    worlds = struct_all_seeds[list(struct_all_seeds.keys())[
-        0]]['unlesioned']['worlds']
+#     fig = plt.figure(figsize=(40, 20))
+#     grids = fig.add_gridspec(nrows=4, ncols=4, wspace=0.5,
+#                              hspace=0.5)
+#     if struct_single_seed is not None:
+#         struct_single_seed = remove_empty_dicts(struct_single_seed)
+#     struct_all_seeds = remove_empty_dicts(struct_all_seeds)
+#     worlds = struct_all_seeds[list(struct_all_seeds.keys())[
+#         0]]['unlesioned']['worlds']
 
-    inner_grid = grids[0, :-1].subgridspec(
-        5, 6, width_ratios=(1, 1, 1, 1, 1, 0.03), wspace=0.01, hspace=0.01)
+#     inner_grid = grids[0, :-1].subgridspec(
+#         5, 6, width_ratios=(1, 1, 1, 1, 1, 0.03), wspace=0.01, hspace=0.01)
 
-    inner_grid1 = grids[1, :-1].subgridspec(
-        5, 6, width_ratios=(1, 1, 1, 1, 1, 0.03), wspace=0.01, hspace=0.01)
-    inner_grid2 = grids[2, :-1].subgridspec(
-        5, 6, width_ratios=(1, 1, 1, 1, 1, 0.03), wspace=0.01, hspace=0.01)
+#     inner_grid1 = grids[1, :-1].subgridspec(
+#         5, 6, width_ratios=(1, 1, 1, 1, 1, 0.03), wspace=0.01, hspace=0.01)
+#     inner_grid2 = grids[2, :-1].subgridspec(
+#         5, 6, width_ratios=(1, 1, 1, 1, 1, 0.03), wspace=0.01, hspace=0.01)
 
-    model1 = deepcopy(model)
+#     model1 = deepcopy(model)
 
-    world = struct_single_seed[list(struct_single_seed.keys())[
-        0]]['unlesioned']['worlds'][0]
-    model1.switch_world(world)
-    model_unlesioned = deepcopy(model1)
+#     world = struct_single_seed[list(struct_single_seed.keys())[
+#         0]]['unlesioned']['worlds'][0]
+#     model1.switch_world(world)
+#     model_unlesioned = deepcopy(model1)
 
-    model_lesioned = deepcopy(model1)
+#     model_lesioned = deepcopy(model1)
 
-    lesioned_allo_srs_y, lesioned_allo_srs_x = get_parameter_values('allo_SR.SR_ss', struct_single_seed,
-                                                                    prefix='lesionLEC')
-    unlesioned_allo_srs_y, unlesioned_allo_srs_x = get_parameter_values('allo_SR.SR_ss', struct_single_seed,
-                                                                        prefix='unlesioned')
+#     lesioned_allo_srs_y, lesioned_allo_srs_x = get_parameter_values('allo_SR.SR_ss', struct_single_seed,
+#                                                                     prefix='lesionLEC')
+#     unlesioned_allo_srs_y, unlesioned_allo_srs_x = get_parameter_values('allo_SR.SR_ss', struct_single_seed,
+#                                                                         prefix='unlesioned')
 
-    lesioned_ego_srs_y, lesioned_ego_srs_x = get_parameter_values(
-        'ego_SR.SR_ss', struct_single_seed, prefix='lesionLEC')
+#     lesioned_ego_srs_y, lesioned_ego_srs_x = get_parameter_values(
+#         'ego_SR.SR_ss', struct_single_seed, prefix='lesionLEC')
 
-    unlesioned_ego_srs_y, unlesioned_ego_srs_x = get_parameter_values('ego_SR.SR_ss', struct_single_seed,
-                                                                      prefix='unlesioned')
+#     unlesioned_ego_srs_y, unlesioned_ego_srs_x = get_parameter_values('ego_SR.SR_ss', struct_single_seed,
+#                                                                       prefix='unlesioned')
 
-    lesioned_weights_y, lesioned_weights_x = get_parameter_values(
-        'weight', struct_single_seed, prefix='lesionLEC')
-    unlesioned_weights_y, unlesioned_weights_x = get_parameter_values(
-        'weight', struct_single_seed, prefix='unlesioned')
+#     lesioned_weights_y, lesioned_weights_x = get_parameter_values(
+#         'weight', struct_single_seed, prefix='lesionLEC')
+#     unlesioned_weights_y, unlesioned_weights_x = get_parameter_values(
+#         'weight', struct_single_seed, prefix='unlesioned')
 
-    import bisect
-    index = bisect.bisect_left(unlesioned_allo_srs_x[0], env_switch_every - 1)
+#     import bisect
+#     index = bisect.bisect_left(unlesioned_allo_srs_x[0], env_switch_every - 1)
 
-    model_unlesioned.ego_SR.SR_ss = unlesioned_ego_srs_y[0][index]
-    model_unlesioned.allo_SR.SR_ss = unlesioned_allo_srs_y[0][index]
-    model_unlesioned.weight = unlesioned_weights_y[0][index]
+#     model_unlesioned.ego_SR.SR_ss = unlesioned_ego_srs_y[0][index]
+#     model_unlesioned.allo_SR.SR_ss = unlesioned_allo_srs_y[0][index]
+#     model_unlesioned.weight = unlesioned_weights_y[0][index]
 
-    model_lesioned.ego_SR.SR_ss = lesioned_ego_srs_y[0][index]
-    model_lesioned.allo_SR.SR_ss = lesioned_allo_srs_y[0][index]
-    model_lesioned.weight = lesioned_weights_y[0][index]
-    unlesioned_state_values, ego_unlesioned_state_values, allo_unlesioned_state_values, vmin, vmax, egomin, egomax, amin, amax = get_value_functions(
-        model_unlesioned,
-        split=True, action="all")
+#     model_lesioned.ego_SR.SR_ss = lesioned_ego_srs_y[0][index]
+#     model_lesioned.allo_SR.SR_ss = lesioned_allo_srs_y[0][index]
+#     model_lesioned.weight = lesioned_weights_y[0][index]
+#     unlesioned_state_values, ego_unlesioned_state_values, allo_unlesioned_state_values, vmin, vmax, egomin, egomax, amin, amax = get_value_functions(
+#         model_unlesioned,
+#         split=True, action="all")
     
-    plot_xyda = [[np.zeros((model.env.size, model.env.size)) for _ in range(4)] for _ in range(4)]
+#     plot_xyda = [[np.zeros((model.env.size, model.env.size)) for _ in range(4)] for _ in range(4)]
     
-    for d in range(4):
-        mu_a_unles_d = np.mean(unlesioned_state_values, axis=3)
-        for a in range(4):
-            plot_xyda[d][a] = unlesioned_state_values[:, :, d, a] - mu_a_unles_d[:, :, d]
+#     for d in range(4):
+#         mu_a_unles_d = np.mean(unlesioned_state_values, axis=3)
+#         for a in range(4):
+#             plot_xyda[d][a] = unlesioned_state_values[:, :, d, a] - mu_a_unles_d[:, :, d]
             
-    grids = fig.add_gridspec(nrows=4, ncols=4, wspace=0.5,
-                             hspace=0.5)
+#     grids = fig.add_gridspec(nrows=4, ncols=4, wspace=0.5,
+#                              hspace=0.5)
     
-    for d in range(4):
-        for a in range(4):
-            ax = fig.add_subplot(grids[d, a])
-            vmin, vmax = np.min(plot_xyda[d][:]), np.max(plot_xyda[d][:])
-            im = ax.imshow(
-                plot_xyda[d][a],
-                vmin=vmin, vmax=vmax, cmap='bwr')
-            ax.title.set_text(f"{directions[d]} {directions[a]}")
-            ax.set_xticks([])
-            ax.set_yticks([])
-            plt.colorbar(im, ax=ax)
-            
-            
-    plt.savefig(path.joinpath(f"action_value_functions.svg"))
-    plt.close(fig)
-    
-    fig = plt.figure(figsize=(40, 20))
-    grids = fig.add_gridspec(nrows=4, ncols=4, wspace=0.5,
-                             hspace=0.5)
-    
-    plot_xyda = [[np.zeros((model.env.size, model.env.size)) for _ in range(4)] for _ in range(4)]
-    
-    for d in range(4):
-        mu_a_unles_d = np.mean(ego_unlesioned_state_values, axis=3)
-        for a in range(4):
-            plot_xyda[d][a] = ego_unlesioned_state_values[:, :, d, a] - mu_a_unles_d[:, :, d]
-            
-
-    
-    for d in range(4):
-        for a in range(4):
-            ax = fig.add_subplot(grids[d, a])
-            vmin, vmax = np.min(plot_xyda[d][:]), np.max(plot_xyda[d][:])
-            im = ax.imshow(
-                plot_xyda[d][a],
-                vmin=vmin, vmax=vmax, cmap='bwr')
-            ax.title.set_text(f"{directions[d]} {directions[a]}")
-            ax.set_xticks([])
-            ax.set_yticks([])
-            plt.colorbar(im, ax=ax)
+#     for d in range(4):
+#         for a in range(4):
+#             ax = fig.add_subplot(grids[d, a])
+#             vmin, vmax = np.min(plot_xyda[d][:]), np.max(plot_xyda[d][:])
+#             im = ax.imshow(
+#                 plot_xyda[d][a],
+#                 vmin=vmin, vmax=vmax, cmap='bwr')
+#             ax.title.set_text(f"{directions[d]} {directions[a]}")
+#             ax.set_xticks([])
+#             ax.set_yticks([])
+#             plt.colorbar(im, ax=ax)
             
             
-    plt.savefig(path.joinpath(f"action_value_functions_ego.svg"))
-    plt.close(fig)
+#     plt.savefig(path.joinpath(f"action_value_functions.svg"))
+#     plt.close(fig)
     
-    fig = plt.figure(figsize=(40, 20))
-    grids = fig.add_gridspec(nrows=4, ncols=4, wspace=0.5,
-                             hspace=0.5)
+#     fig = plt.figure(figsize=(40, 20))
+#     grids = fig.add_gridspec(nrows=4, ncols=4, wspace=0.5,
+#                              hspace=0.5)
     
-    plot_xyda = [[np.zeros((model.env.size, model.env.size)) for _ in range(4)] for _ in range(4)]
+#     plot_xyda = [[np.zeros((model.env.size, model.env.size)) for _ in range(4)] for _ in range(4)]
     
-    for d in range(4):
-        mu_a_unles_d = np.mean(allo_unlesioned_state_values, axis=3)
-        for a in range(4):
-            plot_xyda[d][a] = allo_unlesioned_state_values[:, :, d, a] - mu_a_unles_d[:, :, d]
+#     for d in range(4):
+#         mu_a_unles_d = np.mean(ego_unlesioned_state_values, axis=3)
+#         for a in range(4):
+#             plot_xyda[d][a] = ego_unlesioned_state_values[:, :, d, a] - mu_a_unles_d[:, :, d]
             
-    
-    for d in range(4):
-        for a in range(4):
-            ax = fig.add_subplot(grids[d, a])
-            vmin, vmax = np.min(plot_xyda[d][:]), np.max(plot_xyda[d][:])
-            im = ax.imshow(
-                plot_xyda[d][a],
-                vmin=vmin, vmax=vmax, cmap='bwr')
-            ax.title.set_text(f"{directions[d]} {directions[a]}")
-            ax.set_xticks([])
-            ax.set_yticks([])
-            plt.colorbar(im, ax=ax)
-            
-            
-    plt.savefig(path.joinpath(f"action_value_functions_allo.svg"))
-    plt.close(fig)
-    
-    fig = plt.figure(figsize=(40, 20))
-    grids = fig.add_gridspec(nrows=4, ncols=4, wspace=0.5,
-                             hspace=0.5)
-    
-    
-    model2 = deepcopy(model)
 
-    world = struct_single_seed[list(struct_single_seed.keys())[
-        0]]['unlesioned']['worlds'][1]
-    model2.switch_world(world)
-    model_unlesioned = deepcopy(model2)
-    model_lesioned = deepcopy(model2)
-
-    lesioned_allo_srs_y, lesioned_allo_srs_x = get_parameter_values('allo_SR.SR_ss', struct_single_seed,
-                                                                    prefix='lesionLEC')
-    unlesioned_allo_srs_y, unlesioned_allo_srs_x = get_parameter_values('allo_SR.SR_ss', struct_single_seed,
-                                                                        prefix='unlesioned')
-    lesioned_ego_srs_y, lesioned_ego_srs_x = get_parameter_values(
-        'ego_SR.SR_ss', struct_single_seed, prefix='lesionLEC')
-    unlesioned_ego_srs_y, unlesioned_ego_srs_x = get_parameter_values('ego_SR.SR_ss', struct_single_seed,
-                                                                      prefix='unlesioned')
-
-    lesioned_weights_y, lesioned_weights_x = get_parameter_values(
-        'weight', struct_single_seed, prefix='lesionLEC')
-    unlesioned_weights_y, unlesioned_weights_x = get_parameter_values(
-        'weight', struct_single_seed, prefix='unlesioned')
-
-    import bisect
-    index = bisect.bisect_left(
-        unlesioned_allo_srs_x[0], env_switch_every + delay)
-
-    model_unlesioned.ego_SR.SR_ss = unlesioned_ego_srs_y[0][index]
-    model_unlesioned.allo_SR.SR_ss = unlesioned_allo_srs_y[0][index]
-    model_unlesioned.weight = unlesioned_weights_y[0][index]
-
-    model_lesioned.ego_SR.SR_ss = lesioned_ego_srs_y[0][index]
-    model_lesioned.allo_SR.SR_ss = lesioned_allo_srs_y[0][index]
-    model_lesioned.weight = lesioned_weights_y[0][index]
-    unlesioned_state_values, vmin, vmax = get_value_functions(model_unlesioned,
-                                                              split=False, action="all")
-    lesioned_state_values, lmin, lmax = get_value_functions(
-        model_lesioned, split=False, action="all")
     
-    
-    plot_xyda = [[np.zeros((model.env.size, model.env.size)) for _ in range(4)] for _ in range(4)]
-    
-    for d in range(4):
-        mu_a_unles_d = np.mean(unlesioned_state_values, axis=3)
-        for a in range(4):
-            plot_xyda[d][a] = unlesioned_state_values[:, :, d, a] - mu_a_unles_d[:, :, d]
-            
-    grids = fig.add_gridspec(nrows=4, ncols=4, wspace=0.5,
-                             hspace=0.5)
-    
-    for d in range(4):
-        for a in range(4):
-            ax = fig.add_subplot(grids[d, a])
-            vmin, vmax = np.min(plot_xyda[d][:]), np.max(plot_xyda[d][:])
-            im = ax.imshow(
-                plot_xyda[d][a],
-                vmin=vmin, vmax=vmax, cmap='bwr')
-            ax.title.set_text(f"{directions[d]} {directions[a]}")
-            ax.set_xticks([])
-            ax.set_yticks([])
-            plt.colorbar(im, ax=ax)
+#     for d in range(4):
+#         for a in range(4):
+#             ax = fig.add_subplot(grids[d, a])
+#             vmin, vmax = np.min(plot_xyda[d][:]), np.max(plot_xyda[d][:])
+#             im = ax.imshow(
+#                 plot_xyda[d][a],
+#                 vmin=vmin, vmax=vmax, cmap='bwr')
+#             ax.title.set_text(f"{directions[d]} {directions[a]}")
+#             ax.set_xticks([])
+#             ax.set_yticks([])
+#             plt.colorbar(im, ax=ax)
             
             
-    plt.savefig(path.joinpath(f"action_value_functions_switch_{delay}.svg"))
-    plt.close(fig)
+#     plt.savefig(path.joinpath(f"action_value_functions_ego.svg"))
+#     plt.close(fig)
     
-    fig = plt.figure(figsize=(40, 20))
-    grids = fig.add_gridspec(nrows=4, ncols=4, wspace=0.5,
-                             hspace=0.5)
+#     fig = plt.figure(figsize=(40, 20))
+#     grids = fig.add_gridspec(nrows=4, ncols=4, wspace=0.5,
+#                              hspace=0.5)
     
-    plot_xyda = [[np.zeros((model.env.size, model.env.size)) for _ in range(4)] for _ in range(4)]
+#     plot_xyda = [[np.zeros((model.env.size, model.env.size)) for _ in range(4)] for _ in range(4)]
     
-    for d in range(4):
-        mu_a_unles_d = np.mean(lesioned_state_values, axis=3)
-        for a in range(4):
-            plot_xyda[d][a] = lesioned_state_values[:, :, d, a] - mu_a_unles_d[:, :, d]
+#     for d in range(4):
+#         mu_a_unles_d = np.mean(allo_unlesioned_state_values, axis=3)
+#         for a in range(4):
+#             plot_xyda[d][a] = allo_unlesioned_state_values[:, :, d, a] - mu_a_unles_d[:, :, d]
+            
+    
+#     for d in range(4):
+#         for a in range(4):
+#             ax = fig.add_subplot(grids[d, a])
+#             vmin, vmax = np.min(plot_xyda[d][:]), np.max(plot_xyda[d][:])
+#             im = ax.imshow(
+#                 plot_xyda[d][a],
+#                 vmin=vmin, vmax=vmax, cmap='bwr')
+#             ax.title.set_text(f"{directions[d]} {directions[a]}")
+#             ax.set_xticks([])
+#             ax.set_yticks([])
+#             plt.colorbar(im, ax=ax)
+            
+            
+#     plt.savefig(path.joinpath(f"action_value_functions_allo.svg"))
+#     plt.close(fig)
+    
+#     fig = plt.figure(figsize=(40, 20))
+#     grids = fig.add_gridspec(nrows=4, ncols=4, wspace=0.5,
+#                              hspace=0.5)
+    
+    
+#     model2 = deepcopy(model)
+
+#     world = struct_single_seed[list(struct_single_seed.keys())[
+#         0]]['unlesioned']['worlds'][1]
+#     model2.switch_world(world)
+#     model_unlesioned = deepcopy(model2)
+#     model_lesioned = deepcopy(model2)
+
+#     lesioned_allo_srs_y, lesioned_allo_srs_x = get_parameter_values('allo_SR.SR_ss', struct_single_seed,
+#                                                                     prefix='lesionLEC')
+#     unlesioned_allo_srs_y, unlesioned_allo_srs_x = get_parameter_values('allo_SR.SR_ss', struct_single_seed,
+#                                                                         prefix='unlesioned')
+#     lesioned_ego_srs_y, lesioned_ego_srs_x = get_parameter_values(
+#         'ego_SR.SR_ss', struct_single_seed, prefix='lesionLEC')
+#     unlesioned_ego_srs_y, unlesioned_ego_srs_x = get_parameter_values('ego_SR.SR_ss', struct_single_seed,
+#                                                                       prefix='unlesioned')
+
+#     lesioned_weights_y, lesioned_weights_x = get_parameter_values(
+#         'weight', struct_single_seed, prefix='lesionLEC')
+#     unlesioned_weights_y, unlesioned_weights_x = get_parameter_values(
+#         'weight', struct_single_seed, prefix='unlesioned')
+
+#     import bisect
+#     index = bisect.bisect_left(
+#         unlesioned_allo_srs_x[0], env_switch_every + delay)
+
+#     model_unlesioned.ego_SR.SR_ss = unlesioned_ego_srs_y[0][index]
+#     model_unlesioned.allo_SR.SR_ss = unlesioned_allo_srs_y[0][index]
+#     model_unlesioned.weight = unlesioned_weights_y[0][index]
+
+#     model_lesioned.ego_SR.SR_ss = lesioned_ego_srs_y[0][index]
+#     model_lesioned.allo_SR.SR_ss = lesioned_allo_srs_y[0][index]
+#     model_lesioned.weight = lesioned_weights_y[0][index]
+#     unlesioned_state_values, vmin, vmax = get_value_functions(model_unlesioned,
+#                                                               split=False, action="all")
+#     lesioned_state_values, lmin, lmax = get_value_functions(
+#         model_lesioned, split=False, action="all")
+    
+    
+#     plot_xyda = [[np.zeros((model.env.size, model.env.size)) for _ in range(4)] for _ in range(4)]
+    
+#     for d in range(4):
+#         mu_a_unles_d = np.mean(unlesioned_state_values, axis=3)
+#         for a in range(4):
+#             plot_xyda[d][a] = unlesioned_state_values[:, :, d, a] - mu_a_unles_d[:, :, d]
+            
+#     grids = fig.add_gridspec(nrows=4, ncols=4, wspace=0.5,
+#                              hspace=0.5)
+    
+#     for d in range(4):
+#         for a in range(4):
+#             ax = fig.add_subplot(grids[d, a])
+#             vmin, vmax = np.min(plot_xyda[d][:]), np.max(plot_xyda[d][:])
+#             im = ax.imshow(
+#                 plot_xyda[d][a],
+#                 vmin=vmin, vmax=vmax, cmap='bwr')
+#             ax.title.set_text(f"{directions[d]} {directions[a]}")
+#             ax.set_xticks([])
+#             ax.set_yticks([])
+#             plt.colorbar(im, ax=ax)
+            
+            
+#     plt.savefig(path.joinpath(f"action_value_functions_switch_{delay}.svg"))
+#     plt.close(fig)
+    
+#     fig = plt.figure(figsize=(40, 20))
+#     grids = fig.add_gridspec(nrows=4, ncols=4, wspace=0.5,
+#                              hspace=0.5)
+    
+#     plot_xyda = [[np.zeros((model.env.size, model.env.size)) for _ in range(4)] for _ in range(4)]
+    
+#     for d in range(4):
+#         mu_a_unles_d = np.mean(lesioned_state_values, axis=3)
+#         for a in range(4):
+#             plot_xyda[d][a] = lesioned_state_values[:, :, d, a] - mu_a_unles_d[:, :, d]
                 
-    for d in range(4):
-        for a in range(4):
-            ax = fig.add_subplot(grids[d, a])
-            vmin, vmax = np.min(plot_xyda[d][:]), np.max(plot_xyda[d][:])
-            im = ax.imshow(
-                plot_xyda[d][a],
-                vmin=vmin, vmax=vmax, cmap='bwr')
-            ax.title.set_text(f"{directions[d]} {directions[a]}")
-            ax.set_xticks([])
-            ax.set_yticks([])
-            plt.colorbar(im, ax=ax)
+#     for d in range(4):
+#         for a in range(4):
+#             ax = fig.add_subplot(grids[d, a])
+#             vmin, vmax = np.min(plot_xyda[d][:]), np.max(plot_xyda[d][:])
+#             im = ax.imshow(
+#                 plot_xyda[d][a],
+#                 vmin=vmin, vmax=vmax, cmap='bwr')
+#             ax.title.set_text(f"{directions[d]} {directions[a]}")
+#             ax.set_xticks([])
+#             ax.set_yticks([])
+#             plt.colorbar(im, ax=ax)
             
             
-    plt.savefig(path.joinpath(f"lesion_switch_{delay}.svg"))
-    plt.close(fig)
+#     plt.savefig(path.joinpath(f"lesion_switch_{delay}.svg"))
+#     plt.close(fig)
     
 def colorbar(mappable):
     from mpl_toolkits.axes_grid1 import make_axes_locatable
@@ -853,29 +853,29 @@ def _select_snapshot(series, target_time):
     return np.array(chosen, copy=True)
 
 
-def _initialise_model_for_world(model_template, worlds, target_index):
-    model_copy = deepcopy(model_template)
-    worlds_list = list(worlds)
-    if not worlds_list:
-        raise ValueError("No worlds available for seed")
+# def _initialise_model_for_world(model_template, worlds, target_index):
+#     model_copy = deepcopy(model_template)
+#     worlds_list = list(worlds)
+#     if not worlds_list:
+#         raise ValueError("No worlds available for seed")
 
-    resolved_index = max(0, min(target_index, len(worlds_list) - 1))
-    for world in worlds_list:
-        model_copy.switch_world(world)
-    model_copy.switch_world(worlds_list[resolved_index])
-    return model_copy, resolved_index, worlds_list
+#     resolved_index = max(0, min(target_index, len(worlds_list) - 1))
+#     for world in worlds_list:
+#         model_copy.switch_world(world)
+#     model_copy.switch_world(worlds_list[resolved_index])
+#     return model_copy, resolved_index, worlds_list
 
 
-def _apply_snapshot_to_model(model, series_map, target_time):
-    ego_snapshot = _select_snapshot(series_map['ego_SR.SR_ss'], target_time)
-    allo_snapshot = _select_snapshot(series_map['allo_SR.SR_ss'], target_time)
-    weight_snapshot = _select_snapshot(series_map['weight'], target_time)
+# def _apply_snapshot_to_model(model, series_map, target_time):
+#     ego_snapshot = _select_snapshot(series_map['ego_SR.SR_ss'], target_time)
+#     allo_snapshot = _select_snapshot(series_map['allo_SR.SR_ss'], target_time)
+#     weight_snapshot = _select_snapshot(series_map['weight'], target_time)
 
-    model.ego_SR.SR_ss = ego_snapshot
-    model.ego_SR.SR_sas = model.ego_SR.SR_ss[:, np.newaxis, :].repeat(4, axis=1)
-    model.allo_SR.SR_ss = allo_snapshot
-    model.allo_SR.SR_sas = model.allo_SR.SR_ss[:, np.newaxis, :].repeat(4, axis=1)
-    model.weight = weight_snapshot
+#     model.ego_SR.SR_ss = ego_snapshot
+#     model.ego_SR.SR_sas = model.ego_SR.SR_ss[:, np.newaxis, :].repeat(4, axis=1)
+#     model.allo_SR.SR_ss = allo_snapshot
+#     model.allo_SR.SR_sas = model.allo_SR.SR_ss[:, np.newaxis, :].repeat(4, axis=1)
+#     model.weight = weight_snapshot
 
 
 def _directional_mean_value_function(model):
@@ -1778,155 +1778,155 @@ def generate_generalisation_plot(model=None, struct_single_seed=None, struct_all
     return fig, {name: tuple(axes) for name, axes in panel_axes.items()}
 
 
-def generate_fig3__(model=None, struct_single_seed=None, struct_all_seeds=None, sigma=1, path=None, fsize_label=12,
-                    env_switch_every=1000, delay=1, save_combined=True):
-    """Generate the combined lesion/value figure used for Figure 3."""
-    directions = ["\u2191", "\u2192", "\u2193", "\u2190"]
-    if path:
-        if not path.exists():
-            path.mkdir(parents=True, exist_ok=True)
-    else:
-        path = pathlib.Path('.')
+# def generate_fig3__(model=None, struct_single_seed=None, struct_all_seeds=None, sigma=1, path=None, fsize_label=12,
+#                     env_switch_every=1000, delay=1, save_combined=True):
+#     """Generate the combined lesion/value figure used for Figure 3."""
+#     directions = ["\u2191", "\u2192", "\u2193", "\u2190"]
+#     if path:
+#         if not path.exists():
+#             path.mkdir(parents=True, exist_ok=True)
+#     else:
+#         path = pathlib.Path('.')
 
-    fig = plt.figure(figsize=(10, 5))
-    grids = fig.add_gridspec(nrows=3, ncols=6, wspace=0.5, hspace=0.5, height_ratios=[0.7, 1, 1],
-                             width_ratios=[1, 1, 1, 1, 1, 1])
-    panel_axes = {}
+#     fig = plt.figure(figsize=(10, 5))
+#     grids = fig.add_gridspec(nrows=3, ncols=6, wspace=0.5, hspace=0.5, height_ratios=[0.7, 1, 1],
+#                              width_ratios=[1, 1, 1, 1, 1, 1])
+#     panel_axes = {}
 
-    def register_panel(name, ax):
-        panel_axes.setdefault(name, []).append(ax)
+#     def register_panel(name, ax):
+#         panel_axes.setdefault(name, []).append(ax)
 
-    struct_single_seed = remove_empty_dicts(struct_single_seed)
-    struct_all_seeds = remove_empty_dicts(struct_all_seeds)
+#     struct_single_seed = remove_empty_dicts(struct_single_seed)
+#     struct_all_seeds = remove_empty_dicts(struct_all_seeds)
 
-    worlds = struct_all_seeds[list(struct_all_seeds.keys())[
-        0]]['unlesioned']['worlds']
+#     worlds = struct_all_seeds[list(struct_all_seeds.keys())[
+#         0]]['unlesioned']['worlds']
 
-    # A: Task schematic
-    task_axes = generate_task_plot(worlds, grids[0, :5], fig, return_axes=True)
-    for idx, task_ax in enumerate(task_axes):
-        register_panel(f'task_world_{idx}', task_ax)
-    # B: Lesion Plot
-    ax = fig.add_subplot(grids[1, :5])
-    generate_lesion_plot_(ax, inputs = get_lesion_values(struct_all_seeds, sigma=sigma), labels=['allocentric', 'allocentric + egocentric'],env_switch_every=env_switch_every)
-    register_panel('lesion_learning', ax)
+#     # A: Task schematic
+#     task_axes = generate_task_plot(worlds, grids[0, :5], fig, return_axes=True)
+#     for idx, task_ax in enumerate(task_axes):
+#         register_panel(f'task_world_{idx}', task_ax)
+#     # B: Lesion Plot
+#     ax = fig.add_subplot(grids[1, :5])
+#     generate_lesion_plot_(ax, inputs = get_lesion_values(struct_all_seeds, sigma=sigma), labels=['allocentric', 'allocentric + egocentric'],env_switch_every=env_switch_every)
+#     register_panel('lesion_learning', ax)
 
-    model2 = deepcopy(model)
+#     model2 = deepcopy(model)
 
-    world = struct_single_seed[list(struct_single_seed.keys())[
-        0]]['unlesioned']['worlds'][1]
-    model2.switch_world(world)
-    model_unlesioned = deepcopy(model2)
-    model_lesioned = deepcopy(model2)
+#     world = struct_single_seed[list(struct_single_seed.keys())[
+#         0]]['unlesioned']['worlds'][1]
+#     model2.switch_world(world)
+#     model_unlesioned = deepcopy(model2)
+#     model_lesioned = deepcopy(model2)
 
-    lesioned_allo_srs_y, lesioned_allo_srs_x = get_parameter_values('allo_SR.SR_ss', struct_single_seed,
-                                                                    prefix='lesionLEC')
-    unlesioned_allo_srs_y, unlesioned_allo_srs_x = get_parameter_values('allo_SR.SR_ss', struct_single_seed,
-                                                                        prefix='unlesioned')
-    lesioned_ego_srs_y, lesioned_ego_srs_x = get_parameter_values(
-        'ego_SR.SR_ss', struct_single_seed, prefix='lesionLEC')
-    unlesioned_ego_srs_y, unlesioned_ego_srs_x = get_parameter_values('ego_SR.SR_ss', struct_single_seed,
-                                                                      prefix='unlesioned')
+#     lesioned_allo_srs_y, lesioned_allo_srs_x = get_parameter_values('allo_SR.SR_ss', struct_single_seed,
+#                                                                     prefix='lesionLEC')
+#     unlesioned_allo_srs_y, unlesioned_allo_srs_x = get_parameter_values('allo_SR.SR_ss', struct_single_seed,
+#                                                                         prefix='unlesioned')
+#     lesioned_ego_srs_y, lesioned_ego_srs_x = get_parameter_values(
+#         'ego_SR.SR_ss', struct_single_seed, prefix='lesionLEC')
+#     unlesioned_ego_srs_y, unlesioned_ego_srs_x = get_parameter_values('ego_SR.SR_ss', struct_single_seed,
+#                                                                       prefix='unlesioned')
 
-    lesioned_weights_y, lesioned_weights_x = get_parameter_values(
-        'weight', struct_single_seed, prefix='lesionLEC')
-    unlesioned_weights_y, unlesioned_weights_x = get_parameter_values(
-        'weight', struct_single_seed, prefix='unlesioned')
+#     lesioned_weights_y, lesioned_weights_x = get_parameter_values(
+#         'weight', struct_single_seed, prefix='lesionLEC')
+#     unlesioned_weights_y, unlesioned_weights_x = get_parameter_values(
+#         'weight', struct_single_seed, prefix='unlesioned')
 
-    import bisect
-    index = bisect.bisect_left(
-        unlesioned_allo_srs_x[0], env_switch_every + delay)
+#     import bisect
+#     index = bisect.bisect_left(
+#         unlesioned_allo_srs_x[0], env_switch_every + delay)
 
-    model_unlesioned.ego_SR.SR_ss = unlesioned_ego_srs_y[0][index]
-    model_unlesioned.allo_SR.SR_ss = unlesioned_allo_srs_y[0][index]
-    model_unlesioned.weight = unlesioned_weights_y[0][index]
+#     model_unlesioned.ego_SR.SR_ss = unlesioned_ego_srs_y[0][index]
+#     model_unlesioned.allo_SR.SR_ss = unlesioned_allo_srs_y[0][index]
+#     model_unlesioned.weight = unlesioned_weights_y[0][index]
 
-    model_lesioned.ego_SR.SR_ss = lesioned_ego_srs_y[0][index]
-    model_lesioned.allo_SR.SR_ss = lesioned_allo_srs_y[0][index]
-    model_lesioned.weight = lesioned_weights_y[0][index]
-    unlesioned_state_values, vmin, vmax = get_value_functions(model_unlesioned,
-                                                              split=False)
-    lesioned_state_values, lmin, lmax = get_value_functions(
-        model_lesioned, split=False)
-    for d in range(4):
-        ax = fig.add_subplot(grids[2, d])
-        _, cax = generate_value_plot(ax, unlesioned_state_values[:, :, d], vmin, vmax, direction=directions[d],
-                                     colorbar=True, labelsize='xx-small')
-        register_panel(f'unlesioned_value_{directions[d]}', ax)
-        if cax is not None:
-            register_panel(f'unlesioned_value_{directions[d]}', cax)
+#     model_lesioned.ego_SR.SR_ss = lesioned_ego_srs_y[0][index]
+#     model_lesioned.allo_SR.SR_ss = lesioned_allo_srs_y[0][index]
+#     model_lesioned.weight = lesioned_weights_y[0][index]
+#     unlesioned_state_values, vmin, vmax = get_value_functions(model_unlesioned,
+#                                                               split=False)
+#     lesioned_state_values, lmin, lmax = get_value_functions(
+#         model_lesioned, split=False)
+#     for d in range(4):
+#         ax = fig.add_subplot(grids[2, d])
+#         _, cax = generate_value_plot(ax, unlesioned_state_values[:, :, d], vmin, vmax, direction=directions[d],
+#                                      colorbar=True, labelsize='xx-small')
+#         register_panel(f'unlesioned_value_{directions[d]}', ax)
+#         if cax is not None:
+#             register_panel(f'unlesioned_value_{directions[d]}', cax)
 
-    ax = fig.add_subplot(grids[2, 4])
-    _, cax = generate_value_plot(ax, lesioned_state_values[:, :, 0], lmin, lmax, direction='all', colorbar=True,
-                                 labelsize='xx-small')
-    register_panel('lesioned_value_all', ax)
-    if cax is not None:
-        register_panel('lesioned_value_all', cax)
+#     ax = fig.add_subplot(grids[2, 4])
+#     _, cax = generate_value_plot(ax, lesioned_state_values[:, :, 0], lmin, lmax, direction='all', colorbar=True,
+#                                  labelsize='xx-small')
+#     register_panel('lesioned_value_all', ax)
+#     if cax is not None:
+#         register_panel('lesioned_value_all', cax)
 
-    # E path comparison after switch:
+#     # E path comparison after switch:
 
-    inner_grid = grids[:, 5].subgridspec(2, 1, height_ratios=[1, 1])
+#     inner_grid = grids[:, 5].subgridspec(2, 1, height_ratios=[1, 1])
 
-    path_unlesioned, un_ep = get_path(struct_all_seeds, prefix='unlesioned',
-                                      episode=env_switch_every + delay, path_start=path_start)
-    path_lesioned, les_ep = get_path(struct_all_seeds, prefix='lesionLEC',
-                                     episode=env_switch_every + delay, path_start=path_start)
-    heatmap_data_unlesioned = get_heatmap_data(path_unlesioned, world=world)
-    heatmap_data_lesioned = get_heatmap_data(path_lesioned, world=world)
-    # larger_verts_unles = get_path_verts_multiple(struct_single_seed, prefix='unlesioned',
-    #                                              ep_start=env_switch_every + delay,
-    #                                              ep_end=env_switch_every + delay + heatmap_path_num,
-    #                                              world=world,
-    #                                              path_start=path_start)
-    #
-    # larger_verts_les = get_path_verts_multiple(struct_single_seed, prefix='lesionLEC',
-    #                                            ep_start=env_switch_every + delay,
-    #                                            ep_end=env_switch_every + delay + heatmap_path_num, world=world,
-    #                                            path_start=path_start)
-    #
-    # larger_heatmap_les_data = get_heatmap_data(larger_verts_les, world)
-    # larger_heatmap_unlesioned_data = get_heatmap_data(larger_verts_unles, world)
+#     path_unlesioned, un_ep = get_path(struct_all_seeds, prefix='unlesioned',
+#                                       episode=env_switch_every + delay, path_start=path_start)
+#     path_lesioned, les_ep = get_path(struct_all_seeds, prefix='lesionLEC',
+#                                      episode=env_switch_every + delay, path_start=path_start)
+#     heatmap_data_unlesioned = get_heatmap_data(path_unlesioned, world=world)
+#     heatmap_data_lesioned = get_heatmap_data(path_lesioned, world=world)
+#     # larger_verts_unles = get_path_verts_multiple(struct_single_seed, prefix='unlesioned',
+#     #                                              ep_start=env_switch_every + delay,
+#     #                                              ep_end=env_switch_every + delay + heatmap_path_num,
+#     #                                              world=world,
+#     #                                              path_start=path_start)
+#     #
+#     # larger_verts_les = get_path_verts_multiple(struct_single_seed, prefix='lesionLEC',
+#     #                                            ep_start=env_switch_every + delay,
+#     #                                            ep_end=env_switch_every + delay + heatmap_path_num, world=world,
+#     #                                            path_start=path_start)
+#     #
+#     # larger_heatmap_les_data = get_heatmap_data(larger_verts_les, world)
+#     # larger_heatmap_unlesioned_data = get_heatmap_data(larger_verts_unles, world)
 
-    vmin = np.min([np.min(heatmap_data_unlesioned),
-                  np.min(heatmap_data_lesioned)])
-    vmax = np.max([np.max(heatmap_data_unlesioned),
-                  np.max(heatmap_data_lesioned)])
-    lims = [vmin, vmax]
+#     vmin = np.min([np.min(heatmap_data_unlesioned),
+#                   np.min(heatmap_data_lesioned)])
+#     vmax = np.max([np.max(heatmap_data_unlesioned),
+#                   np.max(heatmap_data_lesioned)])
+#     lims = [vmin, vmax]
 
-    ax = fig.add_subplot(inner_grid[0, 0])
+#     ax = fig.add_subplot(inner_grid[0, 0])
 
-    plot_track(path_unlesioned, ax, world=world, color='r', label=f"Allo+Ego, Episode: {un_ep} ", lims=lims,
-               fontsize='xx-small')
-    register_panel('path_unlesioned', ax)
+#     plot_track(path_unlesioned, ax, world=world, color='r', label=f"Allo+Ego, Episode: {un_ep} ", lims=lims,
+#                fontsize='xx-small')
+#     register_panel('path_unlesioned', ax)
 
-    ax = fig.add_subplot(inner_grid[1, 0])
-    plot_track(path_lesioned, ax, world=world, color='r', label=f'Allo, Episode: {les_ep}', lims=lims,
-               fontsize='xx-small')
-    register_panel('path_lesioned', ax)
+#     ax = fig.add_subplot(inner_grid[1, 0])
+#     plot_track(path_lesioned, ax, world=world, color='r', label=f'Allo, Episode: {les_ep}', lims=lims,
+#                fontsize='xx-small')
+#     register_panel('path_lesioned', ax)
 
-    plt.text(0.05, 0.9, "A", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.05, 0.7, "B", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.1, 0.32, "C", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.65, 0.32, "D", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.79, 0.81, "E", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.79, 0.4, "F", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.05, 0.9, "A", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.05, 0.7, "B", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.1, 0.32, "C", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.65, 0.32, "D", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.79, 0.81, "E", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.79, 0.4, "F", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
 
-    if save_combined:
-        print("Saving fig 3")
-        fig.savefig(path.joinpath(
-            f'fig3_{sigma}_{env_switch_every}_{delay}.png'), dpi=1200)
-        fig.savefig(path.joinpath(
-            f'fig3_{sigma}_{env_switch_every}_{delay}.svg'), format='svg')
-        plt.close(fig)
-        return None
+#     if save_combined:
+#         print("Saving fig 3")
+#         fig.savefig(path.joinpath(
+#             f'fig3_{sigma}_{env_switch_every}_{delay}.png'), dpi=1200)
+#         fig.savefig(path.joinpath(
+#             f'fig3_{sigma}_{env_switch_every}_{delay}.svg'), format='svg')
+#         plt.close(fig)
+#         return None
 
-    return fig, {name: tuple(axes) for name, axes in panel_axes.items()}
+#     return fig, {name: tuple(axes) for name, axes in panel_axes.items()}
 
 
 # def generate_fig2(model=None, struct_all_seeds=None, struct_single_seed=None, sigma=0.01, env_switch_every=1000, path=None,
@@ -2303,108 +2303,108 @@ def save_panel_crops(fig, axes_map, output_dir, stem, formats=("png", "svg"), pa
             fig.savefig(output_path / f"{stem}_{panel}.{fmt}", bbox_inches=bbox_inches)
 
 
-def generate_cosyne_fig(structure, model, path=None, ego_state=76):
-    print("Generating Cosyne Figure")
+# def generate_cosyne_fig(structure, model, path=None, ego_state=76):
+#     print("Generating Cosyne Figure")
 
-    if path:
-        if not path.exists():
-            path.mkdir(parents=True, exist_ok=True)
+#     if path:
+#         if not path.exists():
+#             path.mkdir(parents=True, exist_ok=True)
 
-    directions = ["\u2191", "\u2192", "\u2193", "\u2190"]
+#     directions = ["\u2191", "\u2192", "\u2193", "\u2190"]
 
-    self = model.env
+#     self = model.env
 
-    fig = plt.figure(figsize=(24 * cm, 10 * cm))  # create figure
+#     fig = plt.figure(figsize=(24 * cm, 10 * cm))  # create figure
 
-    x = 3
-    y = 4
-    d = 2
-    grids = fig.add_gridspec(nrows=2, ncols=1, left=0,
-                             right=0.15, bottom=0, top=1.0, hspace=-0.05)
+#     x = 3
+#     y = 4
+#     d = 2
+#     grids = fig.add_gridspec(nrows=2, ncols=1, left=0,
+#                              right=0.15, bottom=0, top=1.0, hspace=-0.05)
 
-    # panel A: maze schematic
+#     # panel A: maze schematic
 
-    ax = fig.add_subplot(grids[0, 0])
+#     ax = fig.add_subplot(grids[0, 0])
 
-    generate_schematic(ax, self, pos=(x, y, d))
+#     generate_schematic(ax, self, pos=(x, y, d))
 
-    # panel B: allocentric state
+#     # panel B: allocentric state
 
-    grids = fig.add_gridspec(nrows=2, ncols=1, left=0.2,
-                             right=0.3, bottom=0.5, top=0.9, hspace=0.20)
-    ax = fig.add_subplot(grids[0, 0])
+#     grids = fig.add_gridspec(nrows=2, ncols=1, left=0.2,
+#                              right=0.3, bottom=0.5, top=0.9, hspace=0.20)
+#     ax = fig.add_subplot(grids[0, 0])
 
-    generate_allocentric_plot(ax, self, x, y)
+#     generate_allocentric_plot(ax, self, x, y)
 
-    # panel C: egocentric state
-    ax = fig.add_subplot(grids[1, 0])
-    generate_egocentric_plot(ax, self, x, y, d)
+#     # panel C: egocentric state
+#     ax = fig.add_subplot(grids[1, 0])
+#     generate_egocentric_plot(ax, self, x, y, d)
 
-    # ## panel D: full value function
-    grids = fig.add_gridspec(nrows=3, ncols=4, left=0.35,
-                             right=0.7, bottom=0.5, top=1.0, hspace=0.45)
+#     # ## panel D: full value function
+#     grids = fig.add_gridspec(nrows=3, ncols=4, left=0.35,
+#                              right=0.7, bottom=0.5, top=1.0, hspace=0.45)
 
-    state_values, ego_state_values, allo_state_values, vmin, vmax, egomin, egomax, amin, amax = get_value_functions(
-        model, split=True)
+#     state_values, ego_state_values, allo_state_values, vmin, vmax, egomin, egomax, amin, amax = get_value_functions(
+#         model, split=True)
 
-    for d in range(4):
-        ax = fig.add_subplot(grids[0, d])
-        generate_value_plot(
-            ax, state_values[:, :, d], vmin, vmax, directions[d])
+#     for d in range(4):
+#         ax = fig.add_subplot(grids[0, d])
+#         generate_value_plot(
+#             ax, state_values[:, :, d], vmin, vmax, directions[d])
 
-    # panel E: egocentric component
+#     # panel E: egocentric component
 
-    for d in range(4):
-        ax = fig.add_subplot(grids[1, d])
-        generate_value_plot(ax, ego_state_values[:, :, d], egomin, egomax)
+#     for d in range(4):
+#         ax = fig.add_subplot(grids[1, d])
+#         generate_value_plot(ax, ego_state_values[:, :, d], egomin, egomax)
 
-    # panel F: allocentric component
+#     # panel F: allocentric component
 
-    ax = fig.add_subplot(grids[2, 0])
-    generate_value_plot(ax, allo_state_values[:, :, 0], amin, amax)
+#     ax = fig.add_subplot(grids[2, 0])
+#     generate_value_plot(ax, allo_state_values[:, :, 0], amin, amax)
 
-    # panel G: lesion results
+#     # panel G: lesion results
 
-    ax = fig.add_subplot(grids[2, 1:4])
+#     ax = fig.add_subplot(grids[2, 1:4])
 
-    (y_les, y_les_sem, x_les), (y_un, y_un_sem, x_un) = get_lesion_values_(structure, sigma=1)
+#     (y_les, y_les_sem, x_les), (y_un, y_un_sem, x_un) = get_lesion_values_(structure, sigma=1)
 
-    generate_lesion_plot_(ax, y_les, y_les_sem, y_un, y_un_sem, x_les, x_un,
-                     env_switch_every=env_switch_every)
+#     generate_lesion_plot_(ax, y_les, y_les_sem, y_un, y_un_sem, x_les, x_un,
+#                      env_switch_every=env_switch_every)
 
-    add_SR_grid(fig, model, ego_state, directions, left=0.72, right=1.0,
-                bottom=0.5, top=1.0, hspace=0.1)
+#     add_SR_grid(fig, model, ego_state, directions, left=0.72, right=1.0,
+#                 bottom=0.5, top=1.0, hspace=0.1)
 
-    # add some panel labels
-    plt.text(-0.04, 0.99, "A", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.18, 0.99, "B", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.18, 0.7, "C", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.34, 0.99, "D", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.34, 0.82, "E", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.34, 0.65, "F", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.427, 0.65, "G", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.705, 0.98, "H", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
-    plt.text(0.705, 0.73, "I", ha="left", va="top",
-             transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     # add some panel labels
+#     plt.text(-0.04, 0.99, "A", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.18, 0.99, "B", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.18, 0.7, "C", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.34, 0.99, "D", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.34, 0.82, "E", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.34, 0.65, "F", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.427, 0.65, "G", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.705, 0.98, "H", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
+#     plt.text(0.705, 0.73, "I", ha="left", va="top",
+#              transform=fig.transFigure, fontweight="bold", fontsize=fsize_label)
 
-    # plt.text(0.17, 0.7, "C", ha="left",va="top",transform=fig.transFigure,fontweight="bold",fontsize=fsize_label)
-    # plt.text(0.17, 0.7, "C", ha="left",va="top",transform=fig.transFigure,fontweight="bold",fontsize=fsize_label)
+#     # plt.text(0.17, 0.7, "C", ha="left",va="top",transform=fig.transFigure,fontweight="bold",fontsize=fsize_label)
+#     # plt.text(0.17, 0.7, "C", ha="left",va="top",transform=fig.transFigure,fontweight="bold",fontsize=fsize_label)
 
-    # save figure
-    plt.tight_layout
-    if path:
-        plt.savefig(path.joinpath("cosyne_fig.pdf"), bbox_inches="tight")
-    else:
-        plt.savefig("cosyne_fig.pdf", bbox_inches="tight")
-    plt.close()
+#     # save figure
+#     plt.tight_layout
+#     if path:
+#         plt.savefig(path.joinpath("cosyne_fig.pdf"), bbox_inches="tight")
+#     else:
+#         plt.savefig("cosyne_fig.pdf", bbox_inches="tight")
+#     plt.close()
 
 
 # def generate_fig1(structure, model, path=None, save_separate=False):
@@ -2507,66 +2507,66 @@ def generate_cosyne_fig(structure, model, path=None, ego_state=76):
 #     plt.close()
 
 
-def generate_value_figure(model=None, path=None):
-    if path:
-        if not path.exists():
-            path.mkdir(parents=True, exist_ok=True)
-    else:
-        path = pathlib.Path('.')
+# def generate_value_figure(model=None, path=None):
+#     if path:
+#         if not path.exists():
+#             path.mkdir(parents=True, exist_ok=True)
+#     else:
+#         path = pathlib.Path('.')
 
-    if path.joinpath("value.pkl").exists() and not model:
-        with open(path.joinpath("value.pkl"), 'rb') as f:
-            data = pickle.load(f)
-            model, state_values, ego_state_values, allo_state_values, vmin, vmax, egomin, egomax, amin, amax = data[
-                'model'], \
-                data['state_values'], data['ego_state_values'], data['allo_state_values'], data['vmin'], data['vmax'], \
-                data['egomin'], data['egomax'], data['amin'], data['amax']
-    else:
-        if model:
-            state_values, ego_state_values, allo_state_values, vmin, vmax, egomin, egomax, amin, amax = get_value_functions(
-                model, split=True)
-            data = {'model': model, 'state_values': state_values, 'ego_state_values': ego_state_values,
-                    'allo_state_values': allo_state_values,
-                    'vmin': vmin, 'vmax': vmax, 'egomin': egomin, 'egomax': egomax, 'amin': amin, 'amax': amax}
-            with open(path.joinpath("value.pkl"), 'wb') as f:
-                pickle.dump(data, f)
-        else:
-            raise NotImplementedError
+#     if path.joinpath("value.pkl").exists() and not model:
+#         with open(path.joinpath("value.pkl"), 'rb') as f:
+#             data = pickle.load(f)
+#             model, state_values, ego_state_values, allo_state_values, vmin, vmax, egomin, egomax, amin, amax = data[
+#                 'model'], \
+#                 data['state_values'], data['ego_state_values'], data['allo_state_values'], data['vmin'], data['vmax'], \
+#                 data['egomin'], data['egomax'], data['amin'], data['amax']
+#     else:
+#         if model:
+#             state_values, ego_state_values, allo_state_values, vmin, vmax, egomin, egomax, amin, amax = get_value_functions(
+#                 model, split=True)
+#             data = {'model': model, 'state_values': state_values, 'ego_state_values': ego_state_values,
+#                     'allo_state_values': allo_state_values,
+#                     'vmin': vmin, 'vmax': vmax, 'egomin': egomin, 'egomax': egomax, 'amin': amin, 'amax': amax}
+#             with open(path.joinpath("value.pkl"), 'wb') as f:
+#                 pickle.dump(data, f)
+#         else:
+#             raise NotImplementedError
 
-    directions = ["\u2191", "\u2192", "\u2193", "\u2190"]
+#     directions = ["\u2191", "\u2192", "\u2193", "\u2190"]
 
-    fig = plt.figure(figsize=(24 * cm, 10 * cm))  # create figure
+#     fig = plt.figure(figsize=(24 * cm, 10 * cm))  # create figure
 
-    # ## panel A: full value function
-    grids = fig.add_gridspec(nrows=3, ncols=4, left=0.35,
-                             right=0.7, bottom=0.5, top=1.0, hspace=0.45)
+#     # ## panel A: full value function
+#     grids = fig.add_gridspec(nrows=3, ncols=4, left=0.35,
+#                              right=0.7, bottom=0.5, top=1.0, hspace=0.45)
 
-    for d in range(4):
-        ax = fig.add_subplot(grids[0, d])
-        generate_value_plot(
-            ax, state_values[:, :, d], vmin, vmax, directions[d], colorbar=True if d == 3 else False)
+#     for d in range(4):
+#         ax = fig.add_subplot(grids[0, d])
+#         generate_value_plot(
+#             ax, state_values[:, :, d], vmin, vmax, directions[d], colorbar=True if d == 3 else False)
 
-    # panel B: egocentric component
+#     # panel B: egocentric component
 
-    for d in range(4):
-        ax = fig.add_subplot(grids[1, d])
-        generate_value_plot(
-            ax, ego_state_values[:, :, d], egomin, egomax, colorbar=True if d == 3 else False)
+#     for d in range(4):
+#         ax = fig.add_subplot(grids[1, d])
+#         generate_value_plot(
+#             ax, ego_state_values[:, :, d], egomin, egomax, colorbar=True if d == 3 else False)
 
-    # panel B: allocentric component
+#     # panel B: allocentric component
 
-    ax = fig.add_subplot(grids[2, 0])
-    generate_value_plot(
-        ax, allo_state_values[:, :, 0], amin, amax, colorbar=True)
+#     ax = fig.add_subplot(grids[2, 0])
+#     generate_value_plot(
+#         ax, allo_state_values[:, :, 0], amin, amax, colorbar=True)
 
-    # save figure
-    print("Saving Value Figure")
-    plt.tight_layout
-    if path:
-        plt.savefig(path.joinpath("value.pdf"), bbox_inches="tight")
-    else:
-        plt.savefig("value.pdf", bbox_inches="tight")
-    plt.close()
+#     # save figure
+#     print("Saving Value Figure")
+#     plt.tight_layout
+#     if path:
+#         plt.savefig(path.joinpath("value.pdf"), bbox_inches="tight")
+#     else:
+#         plt.savefig("value.pdf", bbox_inches="tight")
+#     plt.close()
 
 
 # def generate_fig2_(structure, model, path=None):
@@ -2845,220 +2845,220 @@ def generate_aliasing_plot(env, ego, path=None, world=None, save_combined=True):
     
     
 
-def visualise_Q_values(path, model, ego_state, allo_state, directions, actions):
+# def visualise_Q_values(path, model, ego_state, allo_state, directions, actions):
 
-    weight = model.weight
-    size = model.env.size
-    ego_weight = weight.copy()
-    allo_weight = weight.copy()
-    ego_weight[1:model.allo_dim +
-               1] = np.zeros_like(ego_weight[1:model.allo_dim+1])
-    allo_weight[model.allo_dim +
-                1:] = np.zeros_like(allo_weight[model.allo_dim+1:])
+#     weight = model.weight
+#     size = model.env.size
+#     ego_weight = weight.copy()
+#     allo_weight = weight.copy()
+#     ego_weight[1:model.allo_dim +
+#                1] = np.zeros_like(ego_weight[1:model.allo_dim+1])
+#     allo_weight[model.allo_dim +
+#                 1:] = np.zeros_like(allo_weight[model.allo_dim+1:])
 
-    allo_values = model.q_w(allo_weight, allo_state,
-                            ego_state, direction=2, action="all")
+#     allo_values = model.q_w(allo_weight, allo_state,
+#                             ego_state, direction=2, action="all")
 
-    ego_values = model.q_w(ego_weight, allo_state,
-                           ego_state, direction=2, action="all")
+#     ego_values = model.q_w(ego_weight, allo_state,
+#                            ego_state, direction=2, action="all")
 
-    action_values = model.q_w(
-        weight, allo_state, ego_state, direction=2, action="all")
+#     action_values = model.q_w(
+#         weight, allo_state, ego_state, direction=2, action="all")
 
-    fig_, ax_ = plt.subplots(1, 2, figsize=(10, 5))
-    barchart1 = ax_[0].bar(np.arange(4), allo_values, bottom=0, color='orange')
-    barchart2 = ax_[1].bar(np.arange(4), action_values,
-                           bottom=0, color='orange')
+#     fig_, ax_ = plt.subplots(1, 2, figsize=(10, 5))
+#     barchart1 = ax_[0].bar(np.arange(4), allo_values, bottom=0, color='orange')
+#     barchart2 = ax_[1].bar(np.arange(4), action_values,
+#                            bottom=0, color='orange')
 
-    ax_[0].set_title("Egocentric Allo Q-values")
-    ax_[1].set_title("Action Values")
-    ax_[0].set_xticks(np.arange(4))
-    ax_[0].set_xticklabels(actions, color='b')
+#     ax_[0].set_title("Egocentric Allo Q-values")
+#     ax_[1].set_title("Action Values")
+#     ax_[0].set_xticks(np.arange(4))
+#     ax_[0].set_xticklabels(actions, color='b')
 
-    ax_[1].set_xticks(np.arange(4))
-    ax_[1].set_xticklabels(actions, color='b')
-    plt.savefig(path.joinpath("Q_values.svg"))
-    plt.close(fig_)
+#     ax_[1].set_xticks(np.arange(4))
+#     ax_[1].set_xticklabels(actions, color='b')
+#     plt.savefig(path.joinpath("Q_values.svg"))
+#     plt.close(fig_)
     
 
-def visualise_Q_values_new(path, model, ego_state, allo_state, directions, actions):
+# def visualise_Q_values_new(path, model, ego_state, allo_state, directions, actions):
 
-    weight = model.weight
-    size = model.env.size
-    ego_weight = weight.copy()
-    allo_weight = weight.copy()
-    ego_weight[1:model.allo_dim +
-               1] = np.zeros_like(ego_weight[1:model.allo_dim+1])
-    allo_weight[model.allo_dim +
-                1:] = np.zeros_like(allo_weight[model.allo_dim+1:])
+#     weight = model.weight
+#     size = model.env.size
+#     ego_weight = weight.copy()
+#     allo_weight = weight.copy()
+#     ego_weight[1:model.allo_dim +
+#                1] = np.zeros_like(ego_weight[1:model.allo_dim+1])
+#     allo_weight[model.allo_dim +
+#                 1:] = np.zeros_like(allo_weight[model.allo_dim+1:])
 
-    allo_values = model.q_w(allo_weight, allo_state,
-                            ego_state, direction=0, action="all")
+#     allo_values = model.q_w(allo_weight, allo_state,
+#                             ego_state, direction=0, action="all")
     
-    allo_values_as_ego = model.q_w(allo_weight, allo_state,
-                            ego_state, direction=2, action="all")
+#     allo_values_as_ego = model.q_w(allo_weight, allo_state,
+#                             ego_state, direction=2, action="all")
                                 
-    ego_values = model.q_w(ego_weight, allo_state,
-                           ego_state, direction=2, action="all")
+#     ego_values = model.q_w(ego_weight, allo_state,
+#                            ego_state, direction=2, action="all")
 
-    action_values = model.q_w(
-        weight, allo_state, ego_state, direction=2, action="all")
+#     action_values = model.q_w(
+#         weight, allo_state, ego_state, direction=2, action="all")
 
-    fig_, ax_ = plt.subplots(2, 2, figsize=(10, 5))
-    ax_ = ax_.flatten()
+#     fig_, ax_ = plt.subplots(2, 2, figsize=(10, 5))
+#     ax_ = ax_.flatten()
     
-    y, x = model.env.get_2d_pos(allo_state)
-    
-    
-    
-    const = 0.05
-    
-    relative_sizes_allo = allo_values - np.min(allo_values)
-    relative_sizes_allo = relative_sizes_allo / np.max(relative_sizes_allo) + const
-    
-    relative_sizes_allo_ego = allo_values_as_ego - np.min(allo_values_as_ego)
-    # relative_sizes_allo_ego = relative_sizes_allo_ego / np.max(relative_sizes_allo_ego) + const
-    
-    relative_sizes_ego = ego_values - np.min(ego_values)
-    # relative_sizes_ego = relative_sizes_ego / np.max(relative_sizes_ego) + const
-    
-    # relative_sizes_action = relative_sizes_ego + relative_sizes_allo_ego
-    
-    relative_sizes_action = action_values - np.min(action_values)
-    
-    max_size = np.max(np.concatenate([relative_sizes_allo_ego, relative_sizes_ego, relative_sizes_action]))
+#     y, x = model.env.get_2d_pos(allo_state)
     
     
-    relative_sizes_action = relative_sizes_action / max_size + const
-    relative_sizes_allo_ego = relative_sizes_allo_ego / max_size + const
-    relative_sizes_ego = relative_sizes_ego / max_size + const
     
-    square = np.zeros((5, 5))
-    ax_[0].imshow(square, cmap='Greys')
+#     const = 0.05
     
-    add_allo_arrows(2, 2, ax_[0], relative_sizes_allo)
+#     relative_sizes_allo = allo_values - np.min(allo_values)
+#     relative_sizes_allo = relative_sizes_allo / np.max(relative_sizes_allo) + const
     
-    ax_[0].set_xticks([])
-    ax_[0].set_yticks([])
+#     relative_sizes_allo_ego = allo_values_as_ego - np.min(allo_values_as_ego)
+#     # relative_sizes_allo_ego = relative_sizes_allo_ego / np.max(relative_sizes_allo_ego) + const
     
-    ax_[0].set_ylabel('$a^A$', color='b')
+#     relative_sizes_ego = ego_values - np.min(ego_values)
+#     # relative_sizes_ego = relative_sizes_ego / np.max(relative_sizes_ego) + const
+    
+#     # relative_sizes_action = relative_sizes_ego + relative_sizes_allo_ego
+    
+#     relative_sizes_action = action_values - np.min(action_values)
+    
+#     max_size = np.max(np.concatenate([relative_sizes_allo_ego, relative_sizes_ego, relative_sizes_action]))
+    
+    
+#     relative_sizes_action = relative_sizes_action / max_size + const
+#     relative_sizes_allo_ego = relative_sizes_allo_ego / max_size + const
+#     relative_sizes_ego = relative_sizes_ego / max_size + const
+    
+#     square = np.zeros((5, 5))
+#     ax_[0].imshow(square, cmap='Greys')
+    
+#     add_allo_arrows(2, 2, ax_[0], relative_sizes_allo)
+    
+#     ax_[0].set_xticks([])
+#     ax_[0].set_yticks([])
+    
+#     ax_[0].set_ylabel('$a^A$', color='b')
                                   
-    generate_egocentric_plot(ax_[1], model.env, x, y, d=2, relative_sizes=relative_sizes_allo_ego)
+#     generate_egocentric_plot(ax_[1], model.env, x, y, d=2, relative_sizes=relative_sizes_allo_ego)
     
-    generate_egocentric_plot(ax_[2], model.env, x, y, d=2, relative_sizes=relative_sizes_ego)
+#     generate_egocentric_plot(ax_[2], model.env, x, y, d=2, relative_sizes=relative_sizes_ego)
     
-    generate_egocentric_plot(ax_[3], model.env, x, y, d=2, relative_sizes=relative_sizes_action)
+#     generate_egocentric_plot(ax_[3], model.env, x, y, d=2, relative_sizes=relative_sizes_action)
 
-    ax_[0].set_title("Allo Q-values")
-    ax_[1].set_title("Allo-as-Ego Q-values")
-    ax_[2].set_title("Ego Q-values")
-    ax_[3].set_title("Action Values")
+#     ax_[0].set_title("Allo Q-values")
+#     ax_[1].set_title("Allo-as-Ego Q-values")
+#     ax_[2].set_title("Ego Q-values")
+#     ax_[3].set_title("Action Values")
     
-    plt.savefig(path.joinpath("Q_values.svg"))
-    plt.close(fig_)
+#     plt.savefig(path.joinpath("Q_values.svg"))
+#     plt.close(fig_)
 
-def compare_value_after_switch(structure=None, model=None, env_switch_every=1000, path=None, worlds=None):
-    if path:
-        if not path.exists():
-            path.mkdir(parents=True, exist_ok=True)
-    else:
-        path = pathlib.Path('.')
+# def compare_value_after_switch(structure=None, model=None, env_switch_every=1000, path=None, worlds=None):
+#     if path:
+#         if not path.exists():
+#             path.mkdir(parents=True, exist_ok=True)
+#     else:
+#         path = pathlib.Path('.')
 
-    if path.joinpath(
-            f'compare_value_after_switch_data_{env_switch_every}.pkl').exists() and not structure and not model:
-        with open(path.joinpath(f'compare_value_after_switch_data_{env_switch_every}.pkl'), 'rb') as f:
-            data = pickle.load(f)
-            unlesioned_state_values, vmin, vmax, lesioned_state_values, lmin, lmax = data['unlesioned_state_values'], \
-                data[
-                    'vmin'], data['vmax'], data['lesioned_state_values'], data['lmin'], data['lmax']
-    else:
-        if structure and model:
-            model2 = deepcopy(model)
-            structure = remove_empty_dicts(structure)
+#     if path.joinpath(
+#             f'compare_value_after_switch_data_{env_switch_every}.pkl').exists() and not structure and not model:
+#         with open(path.joinpath(f'compare_value_after_switch_data_{env_switch_every}.pkl'), 'rb') as f:
+#             data = pickle.load(f)
+#             unlesioned_state_values, vmin, vmax, lesioned_state_values, lmin, lmax = data['unlesioned_state_values'], \
+#                 data[
+#                     'vmin'], data['vmax'], data['lesioned_state_values'], data['lmin'], data['lmax']
+#     else:
+#         if structure and model:
+#             model2 = deepcopy(model)
+#             structure = remove_empty_dicts(structure)
             
-            # worlds = structure[list(structure.keys())[
-            #     0]]['unlesioned']['worlds']
+#             # worlds = structure[list(structure.keys())[
+#             #     0]]['unlesioned']['worlds']
             
-            # for world in worlds:
-            #     model.switch_world(world)
-            #     model2.switch_world(world)
+#             # for world in worlds:
+#             #     model.switch_world(world)
+#             #     model2.switch_world(world)
                 
-            world1 = structure[list(structure.keys())[
-                0]]['unlesioned']['worlds'][1]
+#             world1 = structure[list(structure.keys())[
+#                 0]]['unlesioned']['worlds'][1]
            
-            model2.switch_world(world1)
+#             model2.switch_world(world1)
             
-            model_unlesioned = deepcopy(model2)
-            model_lesioned = deepcopy(model2)
+#             model_unlesioned = deepcopy(model2)
+#             model_lesioned = deepcopy(model2)
 
-            les_allo_sr_ss_y, les_allo_sr_ss_x = get_parameter_values('allo_SR.SR_ss', structure,
-                                                                            prefix='lesionLEC')
-            # les_allo_sr_sas_y, les_allo_sr_sas_x = get_parameter_values('allo_SR.SR_sas', structure,
-            #                                                                 prefix='lesionLEC')
+#             les_allo_sr_ss_y, les_allo_sr_ss_x = get_parameter_values('allo_SR.SR_ss', structure,
+#                                                                             prefix='lesionLEC')
+#             # les_allo_sr_sas_y, les_allo_sr_sas_x = get_parameter_values('allo_SR.SR_sas', structure,
+#             #                                                                 prefix='lesionLEC')
             
-            unles_allo_sr_ss_y, unles_allo_sr_ss_x = get_parameter_values('allo_SR.SR_ss', structure,
-                                                                                prefix='unlesioned')
-            # unles_allo_sr_sas_y, unles_allo_sr_sas_x = get_parameter_values('allo_SR.SR_sas', structure,
-            #                                                                     prefix='unlesioned')
+#             unles_allo_sr_ss_y, unles_allo_sr_ss_x = get_parameter_values('allo_SR.SR_ss', structure,
+#                                                                                 prefix='unlesioned')
+#             # unles_allo_sr_sas_y, unles_allo_sr_sas_x = get_parameter_values('allo_SR.SR_sas', structure,
+#             #                                                                     prefix='unlesioned')
             
-            les_ego_sr_ss_y, les_ego_sr_ss_x = get_parameter_values(
-                'ego_SR.SR_ss', structure, prefix='lesionLEC')
-            # les_ego_sr_sas_y, les_ego_sr_sas_x = get_parameter_values(
-            #     'ego_SR.SR_sas', structure, prefix='lesionLEC')
-            unles_ego_sr_ss_y, unles_ego_sr_ss_x = get_parameter_values('ego_SR.SR_ss', structure,
-                                                                              prefix='unlesioned')
-            # unles_ego_sr_sas_y, unles_ego_sr_sas_x = get_parameter_values('ego_SR.SR_sas', structure,
-            #                                                                     prefix='unlesioned')
+#             les_ego_sr_ss_y, les_ego_sr_ss_x = get_parameter_values(
+#                 'ego_SR.SR_ss', structure, prefix='lesionLEC')
+#             # les_ego_sr_sas_y, les_ego_sr_sas_x = get_parameter_values(
+#             #     'ego_SR.SR_sas', structure, prefix='lesionLEC')
+#             unles_ego_sr_ss_y, unles_ego_sr_ss_x = get_parameter_values('ego_SR.SR_ss', structure,
+#                                                                               prefix='unlesioned')
+#             # unles_ego_sr_sas_y, unles_ego_sr_sas_x = get_parameter_values('ego_SR.SR_sas', structure,
+#             #                                                                     prefix='unlesioned')
 
-            lesioned_weights_y, lesioned_weights_x = get_parameter_values(
-                'weight', structure, prefix='lesionLEC')
-            unlesioned_weights_y, unlesioned_weights_x = get_parameter_values(
-                'weight', structure, prefix='unlesioned')
+#             lesioned_weights_y, lesioned_weights_x = get_parameter_values(
+#                 'weight', structure, prefix='lesionLEC')
+#             unlesioned_weights_y, unlesioned_weights_x = get_parameter_values(
+#                 'weight', structure, prefix='unlesioned')
 
-            import bisect
-            index = bisect.bisect_left(
-                unles_allo_sr_ss_x[0], env_switch_every + 10)
+#             import bisect
+#             index = bisect.bisect_left(
+#                 unles_allo_sr_ss_x[0], env_switch_every + 10)
 
-            model_unlesioned.ego_SR.SR_ss = unles_ego_sr_ss_y[0][index]
-            model_unlesioned.allo_SR.SR_ss = unles_allo_sr_ss_y[0][index]
-            model_unlesioned.weight = unlesioned_weights_y[0][index]
+#             model_unlesioned.ego_SR.SR_ss = unles_ego_sr_ss_y[0][index]
+#             model_unlesioned.allo_SR.SR_ss = unles_allo_sr_ss_y[0][index]
+#             model_unlesioned.weight = unlesioned_weights_y[0][index]
             
             
-            # model_unlesioned_allo.SR_sas = unles_allo_sr_sas_y[0][index]
-            
-
-            model_lesioned.ego_SR.SR_ss = les_ego_sr_ss_y[0][index] #idk why this weird size but shouldn't matter
-            # because weights are zero
-            # model_lesioned.ego_SR.SR_ss = np.zeros_like(
-            #     model_unlesioned.ego_SR.SR_ss)
-            model_lesioned.allo_SR.SR_ss = les_allo_sr_ss_y[0][index]
-            model_lesioned.weight = lesioned_weights_y[0][index]
-            
-            # model_lesioned_ego.SR_sas = les_ego_sr_sas_y[0][index]
-            # model_lesioned_allo.SR_sas = les_allo_sr_sas_y[0][index]
+#             # model_unlesioned_allo.SR_sas = unles_allo_sr_sas_y[0][index]
             
 
-            unlesioned_state_values, vmin, vmax = get_value_functions(model_unlesioned,
-                                                                      split=False)
-            lesioned_state_values, lmin, lmax = get_value_functions(
-                model_lesioned, split=False)
+#             model_lesioned.ego_SR.SR_ss = les_ego_sr_ss_y[0][index] #idk why this weird size but shouldn't matter
+#             # because weights are zero
+#             # model_lesioned.ego_SR.SR_ss = np.zeros_like(
+#             #     model_unlesioned.ego_SR.SR_ss)
+#             model_lesioned.allo_SR.SR_ss = les_allo_sr_ss_y[0][index]
+#             model_lesioned.weight = lesioned_weights_y[0][index]
+            
+#             # model_lesioned_ego.SR_sas = les_ego_sr_sas_y[0][index]
+#             # model_lesioned_allo.SR_sas = les_allo_sr_sas_y[0][index]
             
 
-            data = {'unlesioned_state_values': unlesioned_state_values, 'vmin': vmin, 'vmax': vmax,
-                    'lesioned_state_values': lesioned_state_values, 'lmin': lmin, 'lmax': lmax}
-            with open(path.joinpath(f'compare_value_after_switch_data_{env_switch_every}.pkl'), 'wb') as f:
-                pickle.dump(data, f)
-        else:
-            raise NotImplementedError
+#             unlesioned_state_values, vmin, vmax = get_value_functions(model_unlesioned,
+#                                                                       split=False)
+#             lesioned_state_values, lmin, lmax = get_value_functions(
+#                 model_lesioned, split=False)
+            
 
-    fig = plt.figure(figsize=(10, 5))
-    grids = fig.add_gridspec(nrows=2, ncols=4, wspace=0.1)
-    for d in range(4):
-        ax = fig.add_subplot(grids[0, d])
-        generate_value_plot(
-            ax, unlesioned_state_values[:, :, d], vmin, vmax, colorbar=True if d == 3 else False)
-        ax = fig.add_subplot(grids[1, d])
-        generate_value_plot(
-            ax, lesioned_state_values[:, :, d], lmin, lmax, colorbar=True if d == 3 else False)
+#             data = {'unlesioned_state_values': unlesioned_state_values, 'vmin': vmin, 'vmax': vmax,
+#                     'lesioned_state_values': lesioned_state_values, 'lmin': lmin, 'lmax': lmax}
+#             with open(path.joinpath(f'compare_value_after_switch_data_{env_switch_every}.pkl'), 'wb') as f:
+#                 pickle.dump(data, f)
+#         else:
+#             raise NotImplementedError
 
-    plt.savefig(path / 'compare_value_after_switch.png')
+#     fig = plt.figure(figsize=(10, 5))
+#     grids = fig.add_gridspec(nrows=2, ncols=4, wspace=0.1)
+#     for d in range(4):
+#         ax = fig.add_subplot(grids[0, d])
+#         generate_value_plot(
+#             ax, unlesioned_state_values[:, :, d], vmin, vmax, colorbar=True if d == 3 else False)
+#         ax = fig.add_subplot(grids[1, d])
+#         generate_value_plot(
+#             ax, lesioned_state_values[:, :, d], lmin, lmax, colorbar=True if d == 3 else False)
+
+#     plt.savefig(path / 'compare_value_after_switch.png')

@@ -238,46 +238,46 @@ class BasisLearner:
 
         self.path = []
 
-    def truncated_gradient(self, grav):
-        """Method to induce sparsity in the weights - currently not used"""
-        return self._truncated_gradient(
-            self.weight, grav * self.pars.eta,
-            self.pars.theta)
+    # def truncated_gradient(self, grav):
+    #     """Method to induce sparsity in the weights - currently not used"""
+    #     return self._truncated_gradient(
+    #         self.weight, grav * self.pars.eta,
+    #         self.pars.theta)
 
-    @staticmethod
-    def _truncated_gradient(v, alpha, theta):
-        """
-        Applies truncated gradient function T_1 as described in Langford et al.
-        2009 pp.4.
-        Args:
-            v: vector of values to be truncated
-            alpha: non-negative scalar
-            theta: positive scalar scalar
+    # @staticmethod
+    # def _truncated_gradient(v, alpha, theta):
+    #     """
+    #     Applies truncated gradient function T_1 as described in Langford et al.
+    #     2009 pp.4.
+    #     Args:
+    #         v: vector of values to be truncated
+    #         alpha: non-negative scalar
+    #         theta: positive scalar scalar
 
-        Returns: T_1(v,alpha,theta) as defined in the paper.
-        """
-        cond_list = [(np.less_equal(np.zeros(v.shape), v))
-                     & (np.less_equal(v, theta * np.ones(v.shape))),
-                     (np.greater_equal(np.zeros(v.shape), v))
-                     & (np.greater_equal(v, -theta * np.ones(v.shape))),
-                     abs(v) > theta]
+    #     Returns: T_1(v,alpha,theta) as defined in the paper.
+    #     """
+    #     cond_list = [(np.less_equal(np.zeros(v.shape), v))
+    #                  & (np.less_equal(v, theta * np.ones(v.shape))),
+    #                  (np.greater_equal(np.zeros(v.shape), v))
+    #                  & (np.greater_equal(v, -theta * np.ones(v.shape))),
+    #                  abs(v) > theta]
 
-        choice_list = [np.maximum(0, v - alpha), np.minimum(0, alpha - v), v]
-        return np.select(cond_list, choice_list, 0)
+    #     choice_list = [np.maximum(0, v - alpha), np.minimum(0, alpha - v), v]
+    #     return np.select(cond_list, choice_list, 0)
 
-    def save_weights(self, path, episode):
-        np.save(path + '/w_' + str(episode), self.weight)
+    # def save_weights(self, path, episode):
+    #     np.save(path + '/w_' + str(episode), self.weight)
 
-    def save_SR(self, path, episode):
-        np.save(path + '/allo_SR_sas_' + str(episode), self.allo_SR.SR_sas)
-        np.save(path + '/allo_SR_ss_' + str(episode), self.allo_SR.SR_ss)
+    # def save_SR(self, path, episode):
+    #     np.save(path + '/allo_SR_sas_' + str(episode), self.allo_SR.SR_sas)
+    #     np.save(path + '/allo_SR_ss_' + str(episode), self.allo_SR.SR_ss)
 
-        np.save(path + '/ego_SR_sas_' + str(episode), self.ego_SR.SR_sas)
-        np.save(path + '/ego_SR_ss_' + str(episode), self.ego_SR.SR_ss)
+    #     np.save(path + '/ego_SR_sas_' + str(episode), self.ego_SR.SR_sas)
+    #     np.save(path + '/ego_SR_ss_' + str(episode), self.ego_SR.SR_ss)
 
-    def save_path(self, filepath):
-        np.save(filepath, self.path)
-        self.path = []
+    # def save_path(self, filepath):
+    #     np.save(filepath, self.path)
+    #     self.path = []
 
     def switch_world(self, gridworld, tangible=True, switch_SRs=True):
 
