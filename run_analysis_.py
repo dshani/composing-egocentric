@@ -310,47 +310,6 @@ def room_comparisons(model=None, struct_single_seed=None, struct_all_seeds=None,
     lesion_histogram(struct_all_seeds, path=path, ax=ax2)
     register_panel('lesion_histogram', ax2)
     
-    
-    # ax2.set_ylabel('Proportion of time spent inside barrier',
-    #                fontsize='xx-small')
-
-    # x_axis = np.arange(0, len(hole_times_unles))
-
-    # ax2.plot(x_axis, hole_times_les, color='r')
-    # ax2.plot(x_axis, hole_times_unles, color='b')
-
-    # switch_color = '0.7'
-
-    # for i in range(1, 6):
-    #     ax2.axvline(x=i * env_switch_every, color=switch_color, linestyle='--')
-
-    # E path comparison after switch:
-
-    # world = worlds[1]
-
-    # inner_grid = grids[:, 5].subgridspec(2, 1, height_ratios=[1, 1])
-
-    # path_unlesioned, un_ep = get_path(struct_all_seeds, prefix='unlesioned',
-    #                                   episode=env_switch_every + delay, path_start=None)
-    # path_lesioned, les_ep = get_path(struct_all_seeds, prefix='lesionLEC',
-    #                                  episode=env_switch_every + delay, path_start=None)
-    # heatmap_data_unlesioned = get_heatmap_data(path_unlesioned, world=world)
-    # heatmap_data_lesioned = get_heatmap_data(path_lesioned, world=world)
-
-    # vmin = np.min([np.min(heatmap_data_unlesioned),
-    #               np.min(heatmap_data_lesioned)])
-    # vmax = np.max([np.max(heatmap_data_unlesioned),
-    #               np.max(heatmap_data_lesioned)])
-    # lims = [vmin, vmax]
-
-    # ax = fig.add_subplot(inner_grid[0, 0])
-
-    # plot_track(path_unlesioned, ax, world=world, color='r', label=f"Allo+Ego, Episode: {un_ep} ", lims=lims,
-    #            fontsize='xx-small')
-
-    # ax = fig.add_subplot(inner_grid[1, 0])
-    # plot_track(path_lesioned, ax, world=world, color='r', label=f'Allo, Episode: {les_ep}', lims=lims,
-    #            fontsize='xx-small')
 
     if save_combined:
         if seednum is None:

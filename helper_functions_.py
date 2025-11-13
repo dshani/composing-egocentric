@@ -22,25 +22,6 @@ from tqdm import tqdm
 
 import pickle
 
-
-# def _merge_payload(existing, new):
-#     """Merge ``new`` into ``existing`` while preserving nested structure."""
-
-#     if isinstance(existing, dict) and isinstance(new, dict):
-#         merged = dict(existing)
-#         for sub_key, sub_value in new.items():
-#             if sub_key in merged:
-#                 merged[sub_key] = _merge_payload(merged[sub_key], sub_value)
-#             else:
-#                 merged[sub_key] = sub_value
-#         return merged
-
-#     if isinstance(existing, list) and isinstance(new, list):
-#         return [*existing, *new]
-
-#     return new
-
-
 def _clean_save_dict_payload(payload):
     """Remove stray character keys introduced by malformed ``save_params``."""
 
@@ -71,31 +52,6 @@ def _clean_save_dict_payload(payload):
 
     return payload
 
-
-# def get_by_path(root, items):
-#     """Access a nested object in root by item sequence."""
-#     return reduce(operator.getitem, items, root)
-
-
-# def set_by_path(root, items, value):
-#     """Set a value in a nested object in root by item sequence."""
-#     get_by_path(root, items[:-1])[items[-1]] = value
-
-
-# def get_directory_structure_(p, must_contain=None, cant_contain=None):
-#     # p = pathlib.Path(path)
-#     return {x.name: get_directory_structure_(x, must_contain=must_contain, cant_contain=cant_contain) if x.is_dir() else x.name if x.name.endswith(".log") else np.load(x,
-#                                                                                                                                                                         allow_pickle=True)
-#             if (must_contain is None or any([y in x.name for y in must_contain])) and (
-#                 cant_contain is None or not any([y in x.name for y in cant_contain])) else None
-#             for x in p.iterdir()}
-#
-#
-# def get_directory_structure(path, must_contain=None, cant_contain=None):
-#     p = Path(path)
-#     return get_directory_structure_(p, must_contain, cant_contain)
-
-
 def rgetattr(obj, attr, *args):
     def _getattr(obj, attr):
         return getattr(obj, attr, *args) if hasattr(obj, attr) else None
@@ -106,44 +62,6 @@ def rgetattr(obj, attr, *args):
 def rsetattr(obj, attr, val):
     pre, _, post = attr.rpartition('.')
     return setattr(rgetattr(obj, pre) if pre else obj, post, val)
-
-
-# def find_cone(x, y):
-#     if y > 0:
-#         G = [(y + 1 / 2) / (x + 1 / 2), (y - 1 / 2) / (x + 1 / 2),
-#              (y + 1 / 2) / (x - 1 / 2), (y - 1 / 2) / (x - 1 / 2)]
-#         full_cone = []
-#         for g1 in G:
-#             for g2 in G:
-#                 cone_(g1, g2, full_cone)
-#         return full_cone
-#     else:
-#         full_cone = []
-#         if x > 0:
-#             full_cone.append([0, (y + 1 / 2) / (x - 1 / 2)])
-#         elif x < 0:
-#             full_cone.append([(y + 1 / 2) / (x + 1 / 2), 0])
-#         else:
-#             return ValueError("x and y cannot be zero")
-#         return full_cone
-
-
-# def cone_(g1, g2, G):
-#     if g1 == g2:
-#         return [g1]
-#     elif np.sign(g1) == np.sign(g2):
-#         G.append([np.min([g1, g2]), np.max([g1, g2])])
-#     else:
-#         G.append([np.max([g1, g2]), np.inf])
-#         G.append([-np.inf, np.min([g1, g2])])
-
-
-# def check_inside(g_, G):
-#     for g in G:
-#         if g[0] <= g_ <= g[1]:
-#             return True
-#     return False
-
 
 def check_inside_(p_, p):
     """
@@ -171,28 +89,6 @@ def check_inside_(p_, p):
             return True
         else:
             return False
-
-
-# def get_smoothest_eigenfunctions(flattened_transitions, k=None):
-#     """
-#     :param flattened_transitions: NxN transition matrix
-#     :param k: if given gives the k smoothest eigenfunctions
-#     :return eigenfunctions: returns an (kxN) array with each column
-#     corresponding to an eigenvector
-#             eigenvalues: corresponding eigenvalues
-#     """
-#     N = flattened_transitions.shape[0]
-#     W = np.max(flattened_transitions, 1)
-#     L = laplacian(W)
-#     if k:
-#         eigenvalues, eigenfunctions = linalg.eigh(
-#             L, subset_by_index=[N - k,
-#                                 N - 1])
-#     else:
-#         eigenvalues, eigenfunctions = linalg.eigh(L)
-#     return eigenfunctions.T, eigenvalues
-
-
 class DotDict(dict):
     """ DotDict is a dictionary that allows for dot notation access. """
 
@@ -312,20 +208,7 @@ def make_directories(base_path='./Results/', seed=None, pars=None, comparison='l
             
             
     return seed_path
-        
 
-
-# def build_lesioned_unlesioned(structure, param='accuracies'):
-#     # todo: check this works
-
-#     unlesioned = []
-#     lesioned = []
-
-#     for seed in tqdm(structure.keys()):
-#         unlesioned.append(np.copy(np.concatenate(structure[seed]['unlesioned'][param])))
-#         lesioned.append(np.copy(np.concatenate(structure[seed]['lesionLEC'][param])))
-
-#     return unlesioned, lesioned
 
 import os
 import datetime
@@ -668,313 +551,6 @@ def load_structure(
         return save_dict, seed_path
     return save_dict
 
-
-# def load_structure(
-#     run=None, date=None, seed=None, save_dirs=None, compare=None, dict_params=None, 
-#     return_seed=False, seeds_path=None
-# ):
-#     """
-#     Load and aggregate simulation data from specified directories.
-
-#     Parameters:
-#     - run (str or int): Identifier for the run.
-#     - date (str): Date of the simulation in 'YYYY-MM-DD' format.
-#     - seed (int): Specific seed to load.
-#     - save_dirs (list of str or Path): Directories where data is saved.
-#     - compare (str): Comparison parameter ('lesion', 'gamma', etc.).
-#     - dict_params (list of str): Specific parameters to load from save_dict.
-#     - return_seed (bool): Whether to return the seed along with save_dict.
-#     - seeds_path (str or Path): Path to the seeds directory.
-
-#     Returns:
-#     - save_dict (dict): Aggregated simulation data.
-#     - seed (optional): The seed used if return_seed is True.
-#     """
-#     # Helper Functions
-#     def initialize_save_dict():
-#         if param_prefix is None:
-#             return {}
-#         return {prefix: {} for prefix in param_prefix}
-
-#     def get_sorted_dates(directory):
-#         dates = []
-#         for d in os.listdir(directory):
-#             try:
-#                 datetime.datetime.strptime(d, '%Y-%m-%d')
-#                 dates.append(d)
-#             except ValueError:
-#                 continue
-#         return sorted(dates)
-
-#     def handle_unpickling_error(index, message):
-#         print(message)
-#         save_dict.pop(index, None)
-
-#     def load_files_into_save_dict(file_list, index, prefix=""):
-#         try:
-#             for file in tqdm(natsorted(file_list), desc="Processing files", leave=False):
-#                 save_data = np.load(file, allow_pickle=True)
-#                 if isinstance(save_data, np.lib.npyio.NpzFile):
-#                     save_data = dict(save_data)
-#                 else:
-#                     save_data = save_data.item()
-
-#                 keys = save_data.keys() if dict_params is None else dict_params
-#                 for key in keys:
-#                     target = save_dict[index][prefix] if prefix else save_dict[index]
-#                     if key not in target:
-#                         target[key] = []
-#                     target[key].append(deepcopy(save_data[key]))
-#         except (ValueError, IOError, pickle.UnpicklingError) as e:
-#             handle_unpickling_error(index, f"Error loading file: {e}")
-
-#     def load_worlds_into_save_dict(worlds_file, index, prefix=""):
-#         try:
-#             worlds = np.load(worlds_file, allow_pickle=True)
-#             target = save_dict[index][prefix] if prefix else save_dict[index]
-#             target['worlds'] = worlds
-#         except (ValueError, IOError, pickle.UnpicklingError) as e:
-#             handle_unpickling_error(index, f"Error loading worlds file: {e}")
-
-#     def find_most_recent(items, must_contain=None, recent=-1):
-#         filtered_items = [item for item in items if all(s in item for s in must_contain)]
-#         return sorted(filtered_items)[recent] if filtered_items else None
-
-#     # Initialization
-#     param_prefix = None
-#     if compare == 'lesion':
-#         param_prefix = ['unlesioned', 'lesionLEC', 'lesionMEC']
-#     elif compare == 'gamma':
-#         raise NotImplementedError("Gamma comparison is not implemented.")
-
-#     dict_name = 'full_save_dict.npz' if dict_params is None else f"save_dict_{'_'.join(sorted(dict_params))}.npz"
-#     save_dict = {}
-
-#     if save_dirs is None:
-#         raise ValueError("The 'save_dirs' parameter must be provided.")
-
-#     for save_dir in save_dirs:
-#         save_dir = Path(save_dir)
-#         dates = get_sorted_dates(save_dir)
-
-#         if seed is None:
-#             if seeds_path is None:
-#                 date = date or dates[-1]
-#                 compare = compare or 'run'
-#                 date_path = save_dir / date
-#                 run_dirs = [d for d in os.listdir(date_path) if compare in d]
-#                 run = run or find_most_recent(run_dirs, must_contain=[compare])
-#                 seeds_path = date_path / f"{compare}_{run}"
-#             else:
-#                 seeds_path = Path(seeds_path)
-
-#             if (seeds_path / dict_name).exists():
-#                 save_data = np.load(seeds_path / dict_name, allow_pickle=True)
-#                 if isinstance(save_data, np.lib.npyio.NpzFile):
-#                     save_dict = dict(save_data)
-#                 else:
-#                     save_dict = save_data.item()
-
-#                 if return_seed:
-#                     seed_list = sorted(seeds_path.iterdir())
-#                     return save_dict, seed_list[-1]
-#                 return save_dict
-#             else:
-#                 seed_list = sorted(seeds_path.iterdir())
-#         else:
-#             if seeds_path is None:
-#                 date = date or dates[-1]
-#                 compare = compare or 'run'
-#                 date_path = save_dir / date
-#                 run_dirs = [d for d in os.listdir(date_path) if compare in d]
-#                 run = run or find_most_recent(run_dirs, must_contain=[compare])
-#                 seeds_path = date_path / f"{compare}_{run}"
-#             else:
-#                 seeds_path = Path(seeds_path)
-
-#             seed_list = [seeds_path / f"seed_{seed}"]
-#         seed_list = seed_list[:23] # Limit to 6 seeds for debugging
-#         # Processing Seeds
-#         for index, seed_path in tqdm(enumerate(seed_list), desc="Processing seeds", total=len(seed_list)):
-#             if not seed_path.is_dir():
-#                 continue
-
-#             save_dict[index] = initialize_save_dict()
-
-#             for prefix in (param_prefix or ['']):
-#                 current_prefix = prefix if prefix else ''
-#                 dict_path = seed_path / current_prefix / 'save_dict'
-
-#                 if dict_path.exists():
-#                     file_list = list(dict_path.iterdir())
-#                     if file_list:
-#                         load_files_into_save_dict(file_list, index, prefix=current_prefix)
-
-#                         # Check if save_dict[index] still exists
-#                         if index not in save_dict:
-#                             print(f"Skipping further processing for index {index} due to previous error.")
-#                             break
-#                 else:
-#                     print(f"save_dict directory does not exist at {dict_path}")
-
-#                 # Before processing worlds_file, check if save_dict[index] still exists
-#                 if index in save_dict:
-#                     worlds_file = seed_path / current_prefix / 'worlds' / 'worlds.sav'
-#                     if worlds_file.exists():
-#                         load_worlds_into_save_dict(worlds_file, index, prefix=current_prefix)
-#                     else:
-#                         print(f"worlds.sav file does not exist at {worlds_file}")
-#                 else:
-#                     break  # Exit the prefix loop and proceed to the next seed
-
-#     if return_seed:
-#         return save_dict, seed
-#     return save_dict
-
-
-
-
-# def load_structure(run, date, seed, save_dirs, compare=None, dict_params=None, return_seed=False, seeds_path=None):
-#     save = False  # haven't got this to work yet
-#     save_at_end = False
-#     param_prefix = None
-#     if compare == 'lesion':
-#         param_prefix = ['unlesioned', 'lesionLEC', 'lesionMEC']
-#     elif compare == 'gamma':
-#         return NotImplementedError
-
-#     dict_name = 'full_save_dict.npz' if dict_params is None else f"save_dict_{'_'.join(sorted(dict_params))}.npz"
-#     for save_dir in save_dirs:
-
-#         dates = []
-#         for d in os.listdir(save_dir):
-#             try:
-#                 datetime.datetime.strptime(d, '%Y-%m-%d')
-#                 dates.append(d)
-#             except ValueError:
-#                 pass
-
-
-
-#         # print(f"save dir: {save_dir}")
-        
-
-#         if seed is None:
-#             if seeds_path is not None:
-#                 seeds_path = seeds_path
-#             else:
-#                 date = date if date is not None else max(dates)
-#                 compare = compare if compare is not None else 'run'
-#                 run = run if run is not None else \
-#                     find_most_recent(os.listdir(save_dir.joinpath(date)), must_contain=[compare],
-#                                      recent=-1)[0]
-#                 date_path = save_dir.joinpath(date)
-#                 seeds_path = date_path.joinpath(compare + '_' + str(run))
-#             if seeds_path.joinpath(dict_name).exists():
-#                 save_dict = np.load(seeds_path.joinpath(dict_name), allow_pickle=True).item()
-#                 if return_seed:
-#                     seed_list = list(seeds_path.iterdir())
-#                     seed_list.sort()
-#                     return save_dict, seed_list[-1]
-#                 else:
-#                     return save_dict
-#             else:
-#                 if save:
-#                     save_at_end = True
-#                     print("Save at End")
-
-#                 seeds = seeds_path.iterdir()
-#                 if param_prefix is None:
-#                     save_dict = {0: {}}
-#                 else:
-#                     save_dict = {0: {prefix: {} for prefix in param_prefix}}
-
-#                 seed_list = list(seeds)
-#                 seed_list.sort()
-#         else:
-#             if seeds_path is not None:
-#                 seeds_path = seeds_path
-#                 seed_list = [seeds_path.joinpath('seed_' + str(seed))]
-#             else:
-#                 date = date if date is not None else max(dates)
-#                 compare = compare if compare is not None else 'run'
-#                 run = run if run is not None else \
-#                     find_most_recent(os.listdir(save_dir.joinpath(date)), must_contain=[compare],
-#                                      recent=-1)[0]
-#                 date_path = save_dir.joinpath(date)
-#                 seeds_path = date_path.joinpath(compare + '_' + str(run))
-#                 seed_list = [Path(save_dir).joinpath(date, compare + '_' + str(run), 'seed_' + str(seed))]
-
-#             if param_prefix is None:
-#                 save_dict = {0: {}}
-#             else:
-#                 save_dict = {0: {prefix: {} for prefix in param_prefix}}
-
-#         for index, seed in tqdm(enumerate(seed_list)):
-#             if not seed.is_dir():
-#                 continue
-#             else:
-#                 if save_dict.get(index) is None:
-#                     if param_prefix is None:
-#                         save_dict[index] = {}
-#                     else:
-#                         save_dict[index] = {prefix: {} for prefix in param_prefix}
-
-#                 for prefix in (param_prefix if param_prefix is not None else ['']):
-#                     dict_path = seed / prefix / 'save_dict'
-#                     if dict_path.exists():
-#                         list_of_files = dict_path.iterdir()
-#                         for file in tqdm(natsorted(list_of_files)):
-#                             save_dict_ = np.load(file, allow_pickle=True).item()     
-
-#                             for key in (save_dict_.keys() if dict_params is None else dict_params):
-#                                 if prefix:
-#                                     if save_dict[index][prefix].get(key) is None:
-#                                         save_dict[index][prefix][key] = []
-#                                         save_dict[index][prefix][key].append(deepcopy(save_dict_[key]))
-#                                     else:
-#                                         save_dict[index][prefix][key].append(deepcopy(save_dict_[key]))
-#                                 else:
-#                                     if save_dict[index].get(key) is None:
-#                                         save_dict[index][key] = []
-#                                         save_dict[index][key].append(deepcopy(save_dict_[key]))
-#                                     else:
-#                                         save_dict[index][key].append(deepcopy(save_dict_[key]))
-
-#                     worlds_file = seed / prefix / 'worlds' / 'worlds.sav'
-#                     if worlds_file.exists():
-#                         worlds = np.load(worlds_file, allow_pickle=True)
-#                         if prefix:
-#                             save_dict[index][prefix]['worlds'] = worlds
-#                         else:
-#                             save_dict[index]['worlds'] = worlds
-
-#     if save_at_end and save:
-#         print("Saving")
-#         make_keys_strings(save_dict)
-#         np.savez(str(seeds_path.joinpath(dict_name)), **save_dict)
-
-#     if return_seed:
-#         return save_dict, seed
-#     else:
-#         return save_dict
-
-
-# def make_keys_strings(dictionary):
-#     for key in dictionary.keys():
-#         if isinstance(key, int):
-#             dictionary[str(key)] = dictionary.pop(key)
-#         if isinstance(dictionary[key], dict):
-#             make_keys_strings(dictionary[key])
-#     return dictionary
-
-
-# def load_parameter(param, run, date, seed, save_dirs, compare=None, max_workers=8):
-#     save_dict = load_structure(run, date, seed, save_dirs, compare,
-#                                dict_params=[param], max_workers=max_workers)
-#     return save_dict
-
-
 def load_model(seed, recent=-1, compare=None, load_params=None, worlds_index=0):
     
 
@@ -1022,59 +598,6 @@ def load_model(seed, recent=-1, compare=None, load_params=None, worlds_index=0):
 
     return model
 
-# def load_models(seed, recent=-1, compare=None, load_params=None, worlds_index=0):
-    
-#     # same as load_model but will return model for each param_prefix
-    
-
-#     param_prefix = None
-#     if compare == 'lesion':
-#         param_prefix = ['unlesioned', 'lesionLEC']
-#     elif compare == 'gamma':
-#         return NotImplementedError
-    
-#     models = []
-
-#     for prefix in (param_prefix if param_prefix is not None else ['']):
-#         while not (seed / prefix / 'model' / 'model.sav').exists():
-#             seed_num = int(seed.name.split('_')[-1])
-#             seed_num += 1
-#             seed = seed.parent / ('seed_' + str(seed_num))
-#             if seed_num > 100:
-#                 print("No model found")
-#                 model = None
-#                 break
-#         model = np.load(seed / prefix / 'model' / 'model.sav', allow_pickle=True)
-        
-
-#         dicts = seed / prefix / 'save_dict'
-
-#         if dicts.exists():
-#             list_of_dicts_ = list(dicts.iterdir())
-#             dict_names = [x.name for x in list_of_dicts_]
-
-#             list_of_dicts = [x for _, x in natsorted(zip(dict_names, list_of_dicts_))]
-#             recent_dict = np.load(list_of_dicts[recent], allow_pickle=True).item()
-#             recent_dict = _clean_save_dict_payload(recent_dict)
-#             print(recent_dict.keys())
-#             for param in load_params if load_params is not None else recent_dict.keys():
-#                 print("dict param: ", param)
-#                 if rgetattr(model, param) is not None:
-#                     rsetattr(model, param, recent_dict[param][-1][1])
-
-#             worlds_file = seed / prefix / 'worlds' / 'worlds.sav'
-#             if worlds_file.exists():
-#                 worlds = np.load(worlds_file, allow_pickle=True)
-#                 model.switch_world(worlds[worlds_index])
-
-#         else:
-#             print("No save dict found")
-#             model = None
-        
-#         models.append(model)
-
-#     return models
-
 def load_recent_model(run, date, seed, save_dirs, recent=-1, compare=None,
                       dict_params=None, load_params=None, seeds_path=None, max_workers=8):
     """
@@ -1102,15 +625,6 @@ def load_recent_model(run, date, seed, save_dirs, recent=-1, compare=None,
     model = load_model(seed, recent, compare, load_params)
 
     return save_dict, model
-
-
-# def get_param_value(structure, param, seed, recent=-1):
-#     if seed is not None:
-#         recent_iter, _ = find_most_recent(list(structure["weight"][seed].keys()))
-#         return get_by_path(structure, param.split('.'))[seed][param.split('.')[-1] + '_' + str(recent_iter) + '.npy']
-#     else:
-#         recent_iter, _ = find_most_recent(list(structure["weight"].keys()))
-#         return get_by_path(structure, param.split('.'))[param.split('.')[-1] + '_' + str(recent_iter) + '.npy']
 
 
 def find_most_recent(
