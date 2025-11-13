@@ -489,24 +489,24 @@ class Environment:
 
     #     return optimal_values
 
-    def get_full_theta(self):
-        """
-        Get the full feature vector. Used for regression.
-        """
-        theta = np.zeros(
-            (self.allo_dim + self.ego_dim, 4,
-             self.size, self.size, 4))
-        for d in range(4):
-            for x in range(self.size):
-                for y in range(self.size):
-                    if self.world[x, y] == 0:
-                        state = self.get_1d_pos([x, y])
-                        ego = self.get_egocentric_view(self.world, [x, y], d)[0]
-                        theta_allo = self.allo_basis[state]
-                        theta_ego = self.ego_basis[ego]
-                        theta[:, d, x, y, :] = \
-                            np.concatenate((theta_allo, theta_ego), axis=1)
-        return theta
+    # def get_full_theta(self):
+    #     """
+    #     Get the full feature vector. Used for regression.
+    #     """
+    #     theta = np.zeros(
+    #         (self.allo_dim + self.ego_dim, 4,
+    #          self.size, self.size, 4))
+    #     for d in range(4):
+    #         for x in range(self.size):
+    #             for y in range(self.size):
+    #                 if self.world[x, y] == 0:
+    #                     state = self.get_1d_pos([x, y])
+    #                     ego = self.get_egocentric_view(self.world, [x, y], d)[0]
+    #                     theta_allo = self.allo_basis[state]
+    #                     theta_ego = self.ego_basis[ego]
+    #                     theta[:, d, x, y, :] = \
+    #                         np.concatenate((theta_allo, theta_ego), axis=1)
+    #     return theta
 
     def create_transitions_ego(self, world=None):
         """

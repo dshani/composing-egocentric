@@ -23,22 +23,22 @@ from tqdm import tqdm
 import pickle
 
 
-def _merge_payload(existing, new):
-    """Merge ``new`` into ``existing`` while preserving nested structure."""
+# def _merge_payload(existing, new):
+#     """Merge ``new`` into ``existing`` while preserving nested structure."""
 
-    if isinstance(existing, dict) and isinstance(new, dict):
-        merged = dict(existing)
-        for sub_key, sub_value in new.items():
-            if sub_key in merged:
-                merged[sub_key] = _merge_payload(merged[sub_key], sub_value)
-            else:
-                merged[sub_key] = sub_value
-        return merged
+#     if isinstance(existing, dict) and isinstance(new, dict):
+#         merged = dict(existing)
+#         for sub_key, sub_value in new.items():
+#             if sub_key in merged:
+#                 merged[sub_key] = _merge_payload(merged[sub_key], sub_value)
+#             else:
+#                 merged[sub_key] = sub_value
+#         return merged
 
-    if isinstance(existing, list) and isinstance(new, list):
-        return [*existing, *new]
+#     if isinstance(existing, list) and isinstance(new, list):
+#         return [*existing, *new]
 
-    return new
+#     return new
 
 
 def _clean_save_dict_payload(payload):
@@ -72,14 +72,14 @@ def _clean_save_dict_payload(payload):
     return payload
 
 
-def get_by_path(root, items):
-    """Access a nested object in root by item sequence."""
-    return reduce(operator.getitem, items, root)
+# def get_by_path(root, items):
+#     """Access a nested object in root by item sequence."""
+#     return reduce(operator.getitem, items, root)
 
 
-def set_by_path(root, items, value):
-    """Set a value in a nested object in root by item sequence."""
-    get_by_path(root, items[:-1])[items[-1]] = value
+# def set_by_path(root, items, value):
+#     """Set a value in a nested object in root by item sequence."""
+#     get_by_path(root, items[:-1])[items[-1]] = value
 
 
 # def get_directory_structure_(p, must_contain=None, cant_contain=None):
@@ -108,41 +108,41 @@ def rsetattr(obj, attr, val):
     return setattr(rgetattr(obj, pre) if pre else obj, post, val)
 
 
-def find_cone(x, y):
-    if y > 0:
-        G = [(y + 1 / 2) / (x + 1 / 2), (y - 1 / 2) / (x + 1 / 2),
-             (y + 1 / 2) / (x - 1 / 2), (y - 1 / 2) / (x - 1 / 2)]
-        full_cone = []
-        for g1 in G:
-            for g2 in G:
-                cone_(g1, g2, full_cone)
-        return full_cone
-    else:
-        full_cone = []
-        if x > 0:
-            full_cone.append([0, (y + 1 / 2) / (x - 1 / 2)])
-        elif x < 0:
-            full_cone.append([(y + 1 / 2) / (x + 1 / 2), 0])
-        else:
-            return ValueError("x and y cannot be zero")
-        return full_cone
+# def find_cone(x, y):
+#     if y > 0:
+#         G = [(y + 1 / 2) / (x + 1 / 2), (y - 1 / 2) / (x + 1 / 2),
+#              (y + 1 / 2) / (x - 1 / 2), (y - 1 / 2) / (x - 1 / 2)]
+#         full_cone = []
+#         for g1 in G:
+#             for g2 in G:
+#                 cone_(g1, g2, full_cone)
+#         return full_cone
+#     else:
+#         full_cone = []
+#         if x > 0:
+#             full_cone.append([0, (y + 1 / 2) / (x - 1 / 2)])
+#         elif x < 0:
+#             full_cone.append([(y + 1 / 2) / (x + 1 / 2), 0])
+#         else:
+#             return ValueError("x and y cannot be zero")
+#         return full_cone
 
 
-def cone_(g1, g2, G):
-    if g1 == g2:
-        return [g1]
-    elif np.sign(g1) == np.sign(g2):
-        G.append([np.min([g1, g2]), np.max([g1, g2])])
-    else:
-        G.append([np.max([g1, g2]), np.inf])
-        G.append([-np.inf, np.min([g1, g2])])
+# def cone_(g1, g2, G):
+#     if g1 == g2:
+#         return [g1]
+#     elif np.sign(g1) == np.sign(g2):
+#         G.append([np.min([g1, g2]), np.max([g1, g2])])
+#     else:
+#         G.append([np.max([g1, g2]), np.inf])
+#         G.append([-np.inf, np.min([g1, g2])])
 
 
-def check_inside(g_, G):
-    for g in G:
-        if g[0] <= g_ <= g[1]:
-            return True
-    return False
+# def check_inside(g_, G):
+#     for g in G:
+#         if g[0] <= g_ <= g[1]:
+#             return True
+#     return False
 
 
 def check_inside_(p_, p):
@@ -173,24 +173,24 @@ def check_inside_(p_, p):
             return False
 
 
-def get_smoothest_eigenfunctions(flattened_transitions, k=None):
-    """
-    :param flattened_transitions: NxN transition matrix
-    :param k: if given gives the k smoothest eigenfunctions
-    :return eigenfunctions: returns an (kxN) array with each column
-    corresponding to an eigenvector
-            eigenvalues: corresponding eigenvalues
-    """
-    N = flattened_transitions.shape[0]
-    W = np.max(flattened_transitions, 1)
-    L = laplacian(W)
-    if k:
-        eigenvalues, eigenfunctions = linalg.eigh(
-            L, subset_by_index=[N - k,
-                                N - 1])
-    else:
-        eigenvalues, eigenfunctions = linalg.eigh(L)
-    return eigenfunctions.T, eigenvalues
+# def get_smoothest_eigenfunctions(flattened_transitions, k=None):
+#     """
+#     :param flattened_transitions: NxN transition matrix
+#     :param k: if given gives the k smoothest eigenfunctions
+#     :return eigenfunctions: returns an (kxN) array with each column
+#     corresponding to an eigenvector
+#             eigenvalues: corresponding eigenvalues
+#     """
+#     N = flattened_transitions.shape[0]
+#     W = np.max(flattened_transitions, 1)
+#     L = laplacian(W)
+#     if k:
+#         eigenvalues, eigenfunctions = linalg.eigh(
+#             L, subset_by_index=[N - k,
+#                                 N - 1])
+#     else:
+#         eigenvalues, eigenfunctions = linalg.eigh(L)
+#     return eigenfunctions.T, eigenvalues
 
 
 class DotDict(dict):
@@ -315,17 +315,17 @@ def make_directories(base_path='./Results/', seed=None, pars=None, comparison='l
         
 
 
-def build_lesioned_unlesioned(structure, param='accuracies'):
-    # todo: check this works
+# def build_lesioned_unlesioned(structure, param='accuracies'):
+#     # todo: check this works
 
-    unlesioned = []
-    lesioned = []
+#     unlesioned = []
+#     lesioned = []
 
-    for seed in tqdm(structure.keys()):
-        unlesioned.append(np.copy(np.concatenate(structure[seed]['unlesioned'][param])))
-        lesioned.append(np.copy(np.concatenate(structure[seed]['lesionLEC'][param])))
+#     for seed in tqdm(structure.keys()):
+#         unlesioned.append(np.copy(np.concatenate(structure[seed]['unlesioned'][param])))
+#         lesioned.append(np.copy(np.concatenate(structure[seed]['lesionLEC'][param])))
 
-    return unlesioned, lesioned
+#     return unlesioned, lesioned
 
 import os
 import datetime
@@ -960,19 +960,19 @@ def load_structure(
 #         return save_dict
 
 
-def make_keys_strings(dictionary):
-    for key in dictionary.keys():
-        if isinstance(key, int):
-            dictionary[str(key)] = dictionary.pop(key)
-        if isinstance(dictionary[key], dict):
-            make_keys_strings(dictionary[key])
-    return dictionary
+# def make_keys_strings(dictionary):
+#     for key in dictionary.keys():
+#         if isinstance(key, int):
+#             dictionary[str(key)] = dictionary.pop(key)
+#         if isinstance(dictionary[key], dict):
+#             make_keys_strings(dictionary[key])
+#     return dictionary
 
 
-def load_parameter(param, run, date, seed, save_dirs, compare=None, max_workers=8):
-    save_dict = load_structure(run, date, seed, save_dirs, compare,
-                               dict_params=[param], max_workers=max_workers)
-    return save_dict
+# def load_parameter(param, run, date, seed, save_dirs, compare=None, max_workers=8):
+#     save_dict = load_structure(run, date, seed, save_dirs, compare,
+#                                dict_params=[param], max_workers=max_workers)
+#     return save_dict
 
 
 def load_model(seed, recent=-1, compare=None, load_params=None, worlds_index=0):
@@ -1022,58 +1022,58 @@ def load_model(seed, recent=-1, compare=None, load_params=None, worlds_index=0):
 
     return model
 
-def load_models(seed, recent=-1, compare=None, load_params=None, worlds_index=0):
+# def load_models(seed, recent=-1, compare=None, load_params=None, worlds_index=0):
     
-    # same as load_model but will return model for each param_prefix
+#     # same as load_model but will return model for each param_prefix
     
 
-    param_prefix = None
-    if compare == 'lesion':
-        param_prefix = ['unlesioned', 'lesionLEC']
-    elif compare == 'gamma':
-        return NotImplementedError
+#     param_prefix = None
+#     if compare == 'lesion':
+#         param_prefix = ['unlesioned', 'lesionLEC']
+#     elif compare == 'gamma':
+#         return NotImplementedError
     
-    models = []
+#     models = []
 
-    for prefix in (param_prefix if param_prefix is not None else ['']):
-        while not (seed / prefix / 'model' / 'model.sav').exists():
-            seed_num = int(seed.name.split('_')[-1])
-            seed_num += 1
-            seed = seed.parent / ('seed_' + str(seed_num))
-            if seed_num > 100:
-                print("No model found")
-                model = None
-                break
-        model = np.load(seed / prefix / 'model' / 'model.sav', allow_pickle=True)
+#     for prefix in (param_prefix if param_prefix is not None else ['']):
+#         while not (seed / prefix / 'model' / 'model.sav').exists():
+#             seed_num = int(seed.name.split('_')[-1])
+#             seed_num += 1
+#             seed = seed.parent / ('seed_' + str(seed_num))
+#             if seed_num > 100:
+#                 print("No model found")
+#                 model = None
+#                 break
+#         model = np.load(seed / prefix / 'model' / 'model.sav', allow_pickle=True)
         
 
-        dicts = seed / prefix / 'save_dict'
+#         dicts = seed / prefix / 'save_dict'
 
-        if dicts.exists():
-            list_of_dicts_ = list(dicts.iterdir())
-            dict_names = [x.name for x in list_of_dicts_]
+#         if dicts.exists():
+#             list_of_dicts_ = list(dicts.iterdir())
+#             dict_names = [x.name for x in list_of_dicts_]
 
-            list_of_dicts = [x for _, x in natsorted(zip(dict_names, list_of_dicts_))]
-            recent_dict = np.load(list_of_dicts[recent], allow_pickle=True).item()
-            recent_dict = _clean_save_dict_payload(recent_dict)
-            print(recent_dict.keys())
-            for param in load_params if load_params is not None else recent_dict.keys():
-                print("dict param: ", param)
-                if rgetattr(model, param) is not None:
-                    rsetattr(model, param, recent_dict[param][-1][1])
+#             list_of_dicts = [x for _, x in natsorted(zip(dict_names, list_of_dicts_))]
+#             recent_dict = np.load(list_of_dicts[recent], allow_pickle=True).item()
+#             recent_dict = _clean_save_dict_payload(recent_dict)
+#             print(recent_dict.keys())
+#             for param in load_params if load_params is not None else recent_dict.keys():
+#                 print("dict param: ", param)
+#                 if rgetattr(model, param) is not None:
+#                     rsetattr(model, param, recent_dict[param][-1][1])
 
-            worlds_file = seed / prefix / 'worlds' / 'worlds.sav'
-            if worlds_file.exists():
-                worlds = np.load(worlds_file, allow_pickle=True)
-                model.switch_world(worlds[worlds_index])
+#             worlds_file = seed / prefix / 'worlds' / 'worlds.sav'
+#             if worlds_file.exists():
+#                 worlds = np.load(worlds_file, allow_pickle=True)
+#                 model.switch_world(worlds[worlds_index])
 
-        else:
-            print("No save dict found")
-            model = None
+#         else:
+#             print("No save dict found")
+#             model = None
         
-        models.append(model)
+#         models.append(model)
 
-    return models
+#     return models
 
 def load_recent_model(run, date, seed, save_dirs, recent=-1, compare=None,
                       dict_params=None, load_params=None, seeds_path=None, max_workers=8):
@@ -1104,13 +1104,13 @@ def load_recent_model(run, date, seed, save_dirs, recent=-1, compare=None,
     return save_dict, model
 
 
-def get_param_value(structure, param, seed, recent=-1):
-    if seed is not None:
-        recent_iter, _ = find_most_recent(list(structure["weight"][seed].keys()))
-        return get_by_path(structure, param.split('.'))[seed][param.split('.')[-1] + '_' + str(recent_iter) + '.npy']
-    else:
-        recent_iter, _ = find_most_recent(list(structure["weight"].keys()))
-        return get_by_path(structure, param.split('.'))[param.split('.')[-1] + '_' + str(recent_iter) + '.npy']
+# def get_param_value(structure, param, seed, recent=-1):
+#     if seed is not None:
+#         recent_iter, _ = find_most_recent(list(structure["weight"][seed].keys()))
+#         return get_by_path(structure, param.split('.'))[seed][param.split('.')[-1] + '_' + str(recent_iter) + '.npy']
+#     else:
+#         recent_iter, _ = find_most_recent(list(structure["weight"].keys()))
+#         return get_by_path(structure, param.split('.'))[param.split('.')[-1] + '_' + str(recent_iter) + '.npy']
 
 
 def find_most_recent(

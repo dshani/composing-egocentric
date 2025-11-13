@@ -10,9 +10,6 @@ from typing import Dict, Iterable, List, Optional, Sequence, Tuple, cast
 
 import numpy as np
 
-from helper_functions_ import load_structure
-from plotting_functions import get_occupancy_plot
-from structure_functions_ import get_parameter_values, sort_paths
 
 
 class _SquareEnvAdapter:

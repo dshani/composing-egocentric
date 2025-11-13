@@ -175,57 +175,57 @@ def get_hole_locations(world):
     return combined
 
 
-def get_vector_field(verts, world):
-    # get vector field
-    X, Y = verts[:, 0], verts[:, 1]
-    dY = Y[1:] - Y[:-1]
-    dX = X[1:] - X[:-1]
-    im = plt.quiver(X[:-1], Y[:-1], dX, dY, scale=1,
-                    scale_units='xy', angles='xy')
-    im = plt.imshow(world, cmap='Greys')
-    return im
+# def get_vector_field(verts, world):
+#     # get vector field
+#     X, Y = verts[:, 0], verts[:, 1]
+#     dY = Y[1:] - Y[:-1]
+#     dX = X[1:] - X[:-1]
+#     im = plt.quiver(X[:-1], Y[:-1], dX, dY, scale=1,
+#                     scale_units='xy', angles='xy')
+#     im = plt.imshow(world, cmap='Greys')
+#     return im
 
 
-def add_SR_grid(fig, model, ego_state, directions, **kwargs):
-    grids = fig.add_gridspec(nrows=2, ncols=1, **kwargs)
-    add_allocentric_SR_grid(grids[0, 0], fig, model, ego_state)
-    add_egocentric_SR_grid(grids[1, 0], fig, model, ego_state)
+# def add_SR_grid(fig, model, ego_state, directions, **kwargs):
+#     grids = fig.add_gridspec(nrows=2, ncols=1, **kwargs)
+#     add_allocentric_SR_grid(grids[0, 0], fig, model, ego_state)
+#     add_egocentric_SR_grid(grids[1, 0], fig, model, ego_state)
 
 
 # grids = fig.add_gridspec(nrows=2, ncols=1, **kwargs)
 # add_allocentric_SR_grid(fig, grids[0, 0], model, ego_state, directions, height_ratios=[0.01, 1])
 # add_egocentric_SR_grid(fig, grids[0, 1], model, ego_state)
 
-def add_allocentric_SR_sas_grid(grid, fig, model, state, ego=False, colorbar=True, title=None):
-    directions = ["\u2191", "\u2192", "\u2193", "\u2190"]
+# def add_allocentric_SR_sas_grid(grid, fig, model, state, ego=False, colorbar=True, title=None):
+#     directions = ["\u2191", "\u2192", "\u2193", "\u2190"]
 
-    inner_grid = grid.subgridspec(4, 2, width_ratios=(0.0000001, 1))
-    for action in range(4):
+#     inner_grid = grid.subgridspec(4, 2, width_ratios=(0.0000001, 1))
+#     for action in range(4):
 
-        ax0 = fig.add_subplot(inner_grid[action, 0])
-        ax0.axis("off")
-        ax0.text(0.5, 0.5, directions[action], fontsize=12,
-                 ha='center', va='center', color='b')
+#         ax0 = fig.add_subplot(inner_grid[action, 0])
+#         ax0.axis("off")
+#         ax0.text(0.5, 0.5, directions[action], fontsize=12,
+#                  ha='center', va='center', color='b')
 
-        ax = fig.add_subplot(inner_grid[action, 1])
-        array = np.zeros((model.env.size, model.env.size))
-        for x in range(model.env.size):
-            for y in range(model.env.size):
-                if model.env.world[x, y] <= 0:
-                    allo_state = model.env.get_1d_pos([x, y])
-                    array[x, y] += model.allo_SR.SR_sas[state][action][allo_state]
+#         ax = fig.add_subplot(inner_grid[action, 1])
+#         array = np.zeros((model.env.size, model.env.size))
+#         for x in range(model.env.size):
+#             for y in range(model.env.size):
+#                 if model.env.world[x, y] <= 0:
+#                     allo_state = model.env.get_1d_pos([x, y])
+#                     array[x, y] += model.allo_SR.SR_sas[state][action][allo_state]
 
-        arrmin = np.min(array)
-        arrmax = np.max(array)
+#         arrmin = np.min(array)
+#         arrmax = np.max(array)
 
-        im = ax.imshow(
-            array[:, :], vmin=arrmin, vmax=arrmax, cmap='plasma')
-        if title:
-            ax.title.set_text(title)
-        ax.set_xticks([])
-        ax.set_yticks([])
-        if colorbar:
-            plt.colorbar(im, ax=ax)
+#         im = ax.imshow(
+#             array[:, :], vmin=arrmin, vmax=arrmax, cmap='plasma')
+#         if title:
+#             ax.title.set_text(title)
+#         ax.set_xticks([])
+#         ax.set_yticks([])
+#         if colorbar:
+#             plt.colorbar(im, ax=ax)
 
 
 def add_allocentric_SR_grid(grid, fig, model, state, ego=True, colorbar=True, title=None):
@@ -533,14 +533,14 @@ def add_egocentric_SR_grid(grid, fig, model, state, coords=[-1, 0], ego=True, pr
             show_histogram_ego(hist, bin_edges, state, model, fig,
                                outer_grid[d, 0], coords=coords, ego=False, direction=d, **kwargs)
 
-def add_sr_grid_from_sr(fig, ego_sr, allo_sr, model, ego_state, allo_state):
-    model1 = deepcopy(model)
-    model1.ego_SR.SR_ss = ego_sr
-    model1.allo_SR.SR_ss = allo_sr
+# def add_sr_grid_from_sr(fig, ego_sr, allo_sr, model, ego_state, allo_state):
+#     model1 = deepcopy(model)
+#     model1.ego_SR.SR_ss = ego_sr
+#     model1.allo_SR.SR_ss = allo_sr
 
-    grids = fig.add_gridspec(nrows=1, ncols=2, wspace=0.1)
-    add_allocentric_SR_grid(grids[0, 0], fig, model1, allo_state, ego=False)
-    add_egocentric_SR_grid(grids[0, 1], fig, model1, ego_state)
+#     grids = fig.add_gridspec(nrows=1, ncols=2, wspace=0.1)
+#     add_allocentric_SR_grid(grids[0, 0], fig, model1, allo_state, ego=False)
+#     add_egocentric_SR_grid(grids[0, 1], fig, model1, ego_state)
 
 def plot_track(verts, ax, world=None, label=None, heatmap=True, lims=None, fontsize=12, **kw_args):
     if world is not None:
@@ -648,73 +648,73 @@ def get_value_functions(model, env=None, split=True, action=None):
     else:
         return state_values, vmin, vmax
 
-def get_locations(paths_y, paths_start):
-    """
-    This function takes two lists: paths_y and paths_start.
-    paths_y: A list of paths, where each path is a list of coordinates.
-    paths_start: A list of starting locations.
+# def get_locations(paths_y, paths_start):
+#     """
+#     This function takes two lists: paths_y and paths_start.
+#     paths_y: A list of paths, where each path is a list of coordinates.
+#     paths_start: A list of starting locations.
 
-    Returns:
-      A flat list of all locations from paths that started from a location in paths_start.
-    """
-    locations = []
-    # Iterate through each path in paths_y
-    for group in paths_y:
-        # Check if the starting location of the path is in paths_start
-        for path in group:
-            if len(path) != 0:
-                if np.any(tuple(path[0]) in [tuple(start) for start in paths_start]):
-                    # Add all locations in the path to the all_locations list
-                    locations.extend(path)
-    # Return the flat list of all locations
-    return locations
+#     Returns:
+#       A flat list of all locations from paths that started from a location in paths_start.
+#     """
+#     locations = []
+#     # Iterate through each path in paths_y
+#     for group in paths_y:
+#         # Check if the starting location of the path is in paths_start
+#         for path in group:
+#             if len(path) != 0:
+#                 if np.any(tuple(path[0]) in [tuple(start) for start in paths_start]):
+#                     # Add all locations in the path to the all_locations list
+#                     locations.extend(path)
+#     # Return the flat list of all locations
+#     return locations
 
-def get_certain_SR_model(ego_srs_y=None, ego_srs_x=None, allo_srs_y=None, allo_srs_x=None, model=None, time0=0):
-    if model:
-        import bisect
-        if ego_srs_y and ego_srs_x:
-            first_index = bisect.bisect_left(ego_srs_x[0], time0)
-        elif allo_srs_y and allo_srs_x:
-            first_index = bisect.bisect_left(allo_srs_x[0], time0)
-        else:
-            raise NotImplementedError
-        model1 = deepcopy(model)
-        if ego_srs_y:
-            first_ego_sr = ego_srs_y[0][first_index]
-            model1.ego_SR.SR_ss = first_ego_sr
-        if allo_srs_y:
-            first_allo_sr = allo_srs_y[0][first_index]
-            model1.allo_SR.SR_ss = first_allo_sr
-        return model1
-    else:
-        raise NotImplementedError
+# def get_certain_SR_model(ego_srs_y=None, ego_srs_x=None, allo_srs_y=None, allo_srs_x=None, model=None, time0=0):
+#     if model:
+#         import bisect
+#         if ego_srs_y and ego_srs_x:
+#             first_index = bisect.bisect_left(ego_srs_x[0], time0)
+#         elif allo_srs_y and allo_srs_x:
+#             first_index = bisect.bisect_left(allo_srs_x[0], time0)
+#         else:
+#             raise NotImplementedError
+#         model1 = deepcopy(model)
+#         if ego_srs_y:
+#             first_ego_sr = ego_srs_y[0][first_index]
+#             model1.ego_SR.SR_ss = first_ego_sr
+#         if allo_srs_y:
+#             first_allo_sr = allo_srs_y[0][first_index]
+#             model1.allo_SR.SR_ss = first_allo_sr
+#         return model1
+#     else:
+#         raise NotImplementedError
 
-def get_hole_times_(paths_y, paths_x, worlds, switch_every):
-    hole_times = []
-    world_index = 0
-    world = worlds[world_index]
-    hole_locations = set(get_hole_locations(world))
+# def get_hole_times_(paths_y, paths_x, worlds, switch_every):
+#     hole_times = []
+#     world_index = 0
+#     world = worlds[world_index]
+#     hole_locations = set(get_hole_locations(world))
     
-    x_ = []
-    for p, x in zip(paths_y, paths_x):
-        world_index_ = x // switch_every
-        if world_index_ != world_index:
-            world_index = world_index_
-            world = worlds[world_index % len(worlds)]
-            hole_locations = set(get_hole_locations(world))
-        average_hole_time = 0
-        if len(p[0]) == 2:
-            p = [p]
-        for path in p:
-            hole_time = 0
-            for location in path:
-                if tuple(location) in hole_locations:
-                    hole_time += 1
-            average_hole_time += hole_time / len(path)
-        average_hole_time /= len(p)
-        hole_times.append(average_hole_time)
-        x_.append(x)
-    return hole_times, x_
+#     x_ = []
+#     for p, x in zip(paths_y, paths_x):
+#         world_index_ = x // switch_every
+#         if world_index_ != world_index:
+#             world_index = world_index_
+#             world = worlds[world_index % len(worlds)]
+#             hole_locations = set(get_hole_locations(world))
+#         average_hole_time = 0
+#         if len(p[0]) == 2:
+#             p = [p]
+#         for path in p:
+#             hole_time = 0
+#             for location in path:
+#                 if tuple(location) in hole_locations:
+#                     hole_time += 1
+#             average_hole_time += hole_time / len(path)
+#         average_hole_time /= len(p)
+#         hole_times.append(average_hole_time)
+#         x_.append(x)
+#     return hole_times, x_
 
 
 
@@ -935,22 +935,22 @@ def get_parameter_values(param, structure=None, prefix=None, timesteps=None, ign
     
 
 
-def clean_structure(structure, param='accuracies', prefix='lesionLEC'):
-    lengths = []
-    for i in structure.keys():
-        # if exists
-        if structure[i][prefix].get(param) is not None:
-            lengths.append(len(structure[i][prefix][param]))
-    max_len = np.max(lengths)
+# def clean_structure(structure, param='accuracies', prefix='lesionLEC'):
+#     lengths = []
+#     for i in structure.keys():
+#         # if exists
+#         if structure[i][prefix].get(param) is not None:
+#             lengths.append(len(structure[i][prefix][param]))
+#     max_len = np.max(lengths)
 
-    indices = []
-    for i in range(len(structure)):
-        if structure[i][prefix].get(param) is not None:
-            if len(structure[i][prefix].get(param)) == max_len:
-                indices.append(i)
+#     indices = []
+#     for i in range(len(structure)):
+#         if structure[i][prefix].get(param) is not None:
+#             if len(structure[i][prefix].get(param)) == max_len:
+#                 indices.append(i)
 
-    structure_fin = {i: structure[i] for i in indices}
-    return structure_fin
+#     structure_fin = {i: structure[i] for i in indices}
+#     return structure_fin
 
 
 import numpy as np
@@ -1081,198 +1081,198 @@ def get_lesion_values_(structure, sigma, lesionMEC=False):
 #         return (y_les_mean, y_les_sem, x_les), (y_un_mean, y_un_sem, x_un), (y_mec_mean, y_mec_sem, x_mec)
 
 
-def get_lesion_values(structure, sigma):
-    unlesioned_y, unlesioned_x = get_parameter_values(
-        'accuracies', structure, prefix='unlesioned')
-    lesioned_y, lesioned_x = get_parameter_values(
-        'accuracies', structure, prefix='lesionLEC')
+# def get_lesion_values(structure, sigma):
+#     unlesioned_y, unlesioned_x = get_parameter_values(
+#         'accuracies', structure, prefix='unlesioned')
+#     lesioned_y, lesioned_x = get_parameter_values(
+#         'accuracies', structure, prefix='lesionLEC')
     
     
 
-    lesioned_x = np.mean(lesioned_x, 0)
-    lesioned_y = np.mean(lesioned_y, 0)
+#     lesioned_x = np.mean(lesioned_x, 0)
+#     lesioned_y = np.mean(lesioned_y, 0)
 
-    unlesioned_x = np.mean(unlesioned_x, 0)
-    unlesioned_y = np.mean(unlesioned_y, 0)
+#     unlesioned_x = np.mean(unlesioned_x, 0)
+#     unlesioned_y = np.mean(unlesioned_y, 0)
 
-    unlesioned_y_ = [x for _, x in sorted(zip(unlesioned_x, unlesioned_y))]
-    x_un = sorted(unlesioned_x)
+#     unlesioned_y_ = [x for _, x in sorted(zip(unlesioned_x, unlesioned_y))]
+#     x_un = sorted(unlesioned_x)
 
-    lesioned_y_ = [x for _, x in sorted(zip(lesioned_x, lesioned_y))]
-    x_les = sorted(lesioned_x)
+#     lesioned_y_ = [x for _, x in sorted(zip(lesioned_x, lesioned_y))]
+#     x_les = sorted(lesioned_x)
 
-    y_les = gaussian_filter1d(lesioned_y_, sigma=sigma)
-    y_un = gaussian_filter1d(unlesioned_y_, sigma=sigma)
+#     y_les = gaussian_filter1d(lesioned_y_, sigma=sigma)
+#     y_un = gaussian_filter1d(unlesioned_y_, sigma=sigma)
 
-    return y_les, y_un, x_les, x_un
-
-
-def get_single_environment_learning(structure=None, sigma=0.1, env_switch_every=1000, path=None):
-    if path:
-        if not path.exists():
-            path.mkdir(parents=True, exist_ok=True)
-    else:
-        path = pathlib.Path('.')
-
-    if path.joinpath(f'single_learning_data_{sigma}_{env_switch_every}.pkl').exists() and not structure:
-        with open(path.joinpath(f'single_learning_data_{sigma}_{env_switch_every}.pkl'), 'rb') as f:
-            data = pickle.load(f)
-            x, y, first_path, last_path, first_ep, last_ep, world = data['x'], data['y'], data['first_path'], data[
-                'last_path'], data['first_ep'], data['last_ep'], data['world']
-    else:
-        if structure:
-            structure = remove_empty_dicts(structure)
-            world = structure[list(structure.keys())[0]
-                              ]['unlesioned']['worlds'][0]
-            y, x = get_parameter_values(
-                'accuracies', structure, prefix='unlesioned')
-            first_path, first_ep = get_path(
-                structure, prefix='unlesioned', episode=0)
-            last_path, last_ep = get_path(structure, prefix='unlesioned',
-                                          episode=env_switch_every - 1)
-            data = {'x': x, 'y': y, 'first_path': first_path, 'last_path': last_path, 'first_ep': first_ep,
-                    'last_ep': last_ep, 'world': world}
-            with open(path.joinpath(f'single_learning_data_{sigma}_{env_switch_every}.pkl'), 'wb') as f:
-                pickle.dump(data, f)
-        else:
-            raise NotImplementedError
+#     return y_les, y_un, x_les, x_un
 
 
-def compare_paths_after_switch(structure=None, env_switch_every=1000, path=None, path_start=None, heatmap_path_num=100):
-    if path:
-        if not path.exists():
-            path.mkdir(parents=True, exist_ok=True)
-    else:
-        path = pathlib.Path('.')
+# def get_single_environment_learning(structure=None, sigma=0.1, env_switch_every=1000, path=None):
+#     if path:
+#         if not path.exists():
+#             path.mkdir(parents=True, exist_ok=True)
+#     else:
+#         path = pathlib.Path('.')
 
-    if path.joinpath(
-            f'compare_paths_after_switch_data_{env_switch_every}_{heatmap_path_num}.pkl').exists() and not structure:
-        with open(path.joinpath(
-                f'compare_paths_after_switch_data_{env_switch_every}_{heatmap_path_num}.pkl'),
-                'rb') as f:
-            data = pickle.load(f)
-            path_unlesioned, un_ep, path_lesioned, les_ep, heatmap_data_unlesioned, heatmap_data_lesioned, larger_verts_unles, larger_verts_les, world = \
-                data['path_unlesioned'], data['un_ep'], data['path_lesioned'], data['les_ep'], data[
-                    'heatmap_data_unlesioned'], data['heatmap_data_lesioned'], data['larger_verts_unles'], \
-                data['larger_verts_unles'], data['world']
-    else:
-        if structure:
-            structure = remove_empty_dicts(structure)
-            world = structure[list(structure.keys())[0]
-                              ]['unlesioned']['worlds'][1]
-            path_unlesioned, un_ep = get_path(structure, prefix='unlesioned',
-                                              episode=env_switch_every + 1, path_start=path_start)
-            path_lesioned, les_ep = get_path(structure, prefix='lesionLEC',
-                                             episode=env_switch_every + 1, path_start=path_start)
-            heatmap_data_unlesioned = get_heatmap_data(
-                path_unlesioned, world=world)
-            heatmap_data_lesioned = get_heatmap_data(
-                path_lesioned, world=world)
-            larger_verts_unles = get_path_verts_multiple(structure, prefix='unlesioned',
-                                                         ep_start=env_switch_every + 1,
-                                                         ep_end=env_switch_every + heatmap_path_num,
-                                                         world=world,
-                                                         path_start=path_start)
+#     if path.joinpath(f'single_learning_data_{sigma}_{env_switch_every}.pkl').exists() and not structure:
+#         with open(path.joinpath(f'single_learning_data_{sigma}_{env_switch_every}.pkl'), 'rb') as f:
+#             data = pickle.load(f)
+#             x, y, first_path, last_path, first_ep, last_ep, world = data['x'], data['y'], data['first_path'], data[
+#                 'last_path'], data['first_ep'], data['last_ep'], data['world']
+#     else:
+#         if structure:
+#             structure = remove_empty_dicts(structure)
+#             world = structure[list(structure.keys())[0]
+#                               ]['unlesioned']['worlds'][0]
+#             y, x = get_parameter_values(
+#                 'accuracies', structure, prefix='unlesioned')
+#             first_path, first_ep = get_path(
+#                 structure, prefix='unlesioned', episode=0)
+#             last_path, last_ep = get_path(structure, prefix='unlesioned',
+#                                           episode=env_switch_every - 1)
+#             data = {'x': x, 'y': y, 'first_path': first_path, 'last_path': last_path, 'first_ep': first_ep,
+#                     'last_ep': last_ep, 'world': world}
+#             with open(path.joinpath(f'single_learning_data_{sigma}_{env_switch_every}.pkl'), 'wb') as f:
+#                 pickle.dump(data, f)
+#         else:
+#             raise NotImplementedError
 
-            larger_verts_les = get_path_verts_multiple(structure, prefix='lesionLEC',
-                                                       ep_start=env_switch_every + 1,
-                                                       ep_end=env_switch_every + heatmap_path_num, world=world,
-                                                       path_start=path_start)
 
-            data = {'path_unlesioned': path_unlesioned, 'un_ep': un_ep, 'path_lesioned': path_lesioned,
-                    'les_ep': les_ep,
-                    'heatmap_data_unlesioned': heatmap_data_unlesioned, 'heatmap_data_lesioned': heatmap_data_lesioned,
-                    'larger_verts_unles': larger_verts_unles,
-                    'larger_verts_les': larger_verts_les, 'world': world}
-            with open(path.joinpath(
-                    f'compare_paths_after_switch_data_{env_switch_every}_{heatmap_path_num}.pkl'),
-                    'wb') as f:
-                pickle.dump(data, f)
-        else:
-            raise NotImplementedError
+# def compare_paths_after_switch(structure=None, env_switch_every=1000, path=None, path_start=None, heatmap_path_num=100):
+#     if path:
+#         if not path.exists():
+#             path.mkdir(parents=True, exist_ok=True)
+#     else:
+#         path = pathlib.Path('.')
 
-    larger_heatmap_les_data = get_heatmap_data(larger_verts_les, world)
-    larger_heatmap_unlesioned_data = get_heatmap_data(
-        larger_verts_unles, world)
+#     if path.joinpath(
+#             f'compare_paths_after_switch_data_{env_switch_every}_{heatmap_path_num}.pkl').exists() and not structure:
+#         with open(path.joinpath(
+#                 f'compare_paths_after_switch_data_{env_switch_every}_{heatmap_path_num}.pkl'),
+#                 'rb') as f:
+#             data = pickle.load(f)
+#             path_unlesioned, un_ep, path_lesioned, les_ep, heatmap_data_unlesioned, heatmap_data_lesioned, larger_verts_unles, larger_verts_les, world = \
+#                 data['path_unlesioned'], data['un_ep'], data['path_lesioned'], data['les_ep'], data[
+#                     'heatmap_data_unlesioned'], data['heatmap_data_lesioned'], data['larger_verts_unles'], \
+#                 data['larger_verts_unles'], data['world']
+#     else:
+#         if structure:
+#             structure = remove_empty_dicts(structure)
+#             world = structure[list(structure.keys())[0]
+#                               ]['unlesioned']['worlds'][1]
+#             path_unlesioned, un_ep = get_path(structure, prefix='unlesioned',
+#                                               episode=env_switch_every + 1, path_start=path_start)
+#             path_lesioned, les_ep = get_path(structure, prefix='lesionLEC',
+#                                              episode=env_switch_every + 1, path_start=path_start)
+#             heatmap_data_unlesioned = get_heatmap_data(
+#                 path_unlesioned, world=world)
+#             heatmap_data_lesioned = get_heatmap_data(
+#                 path_lesioned, world=world)
+#             larger_verts_unles = get_path_verts_multiple(structure, prefix='unlesioned',
+#                                                          ep_start=env_switch_every + 1,
+#                                                          ep_end=env_switch_every + heatmap_path_num,
+#                                                          world=world,
+#                                                          path_start=path_start)
 
-    vmin = np.min([np.min(heatmap_data_unlesioned),
-                  np.min(heatmap_data_lesioned)])
-    vmax = np.max([np.max(heatmap_data_unlesioned),
-                  np.max(heatmap_data_lesioned)])
-    lims = [vmin, vmax]
-    fig = plt.figure(figsize=(10, 5))
-    ax = fig.add_subplot(1, 2, 1)
-    plot_track(path_unlesioned, ax, world=world, color='r',
-               label=f"Allo+Ego, Episode: {un_ep} ", lims=lims)
-    ax = fig.add_subplot(1, 2, 2)
-    plot_track(path_lesioned, ax, world=world, color='r',
-               label=f'Allo, Episode: {les_ep}', lims=lims)
-    plt.savefig(path / 'compare_paths_after_switch.png')
+#             larger_verts_les = get_path_verts_multiple(structure, prefix='lesionLEC',
+#                                                        ep_start=env_switch_every + 1,
+#                                                        ep_end=env_switch_every + heatmap_path_num, world=world,
+#                                                        path_start=path_start)
 
-    vmin = np.min([np.min(larger_heatmap_unlesioned_data),
-                  np.min(larger_heatmap_les_data)])
-    vmax = np.max([np.max(larger_heatmap_unlesioned_data),
-                  np.max(larger_heatmap_les_data)])
-    lims = [vmin, vmax]
-    fig = plt.figure(figsize=(10, 5))
-    ax = fig.add_subplot(1, 2, 1)
-    plot_track(larger_verts_unles, ax, world=world, color='r',
-               label=f"Allo+Ego, Episode: {un_ep} ", lims=lims)
-    ax.set_title('Allo+Ego')
-    ax = fig.add_subplot(1, 2, 2)
-    plot_track(larger_verts_les, ax, world=world, color='r',
-               label=f'Allo, Episode: {les_ep}', lims=lims)
-    ax.set_title('Allo')
-    plt.savefig(path / 'compare_heatmaps_after_switch.png')
+#             data = {'path_unlesioned': path_unlesioned, 'un_ep': un_ep, 'path_lesioned': path_lesioned,
+#                     'les_ep': les_ep,
+#                     'heatmap_data_unlesioned': heatmap_data_unlesioned, 'heatmap_data_lesioned': heatmap_data_lesioned,
+#                     'larger_verts_unles': larger_verts_unles,
+#                     'larger_verts_les': larger_verts_les, 'world': world}
+#             with open(path.joinpath(
+#                     f'compare_paths_after_switch_data_{env_switch_every}_{heatmap_path_num}.pkl'),
+#                     'wb') as f:
+#                 pickle.dump(data, f)
+#         else:
+#             raise NotImplementedError
+
+#     larger_heatmap_les_data = get_heatmap_data(larger_verts_les, world)
+#     larger_heatmap_unlesioned_data = get_heatmap_data(
+#         larger_verts_unles, world)
+
+#     vmin = np.min([np.min(heatmap_data_unlesioned),
+#                   np.min(heatmap_data_lesioned)])
+#     vmax = np.max([np.max(heatmap_data_unlesioned),
+#                   np.max(heatmap_data_lesioned)])
+#     lims = [vmin, vmax]
+#     fig = plt.figure(figsize=(10, 5))
+#     ax = fig.add_subplot(1, 2, 1)
+#     plot_track(path_unlesioned, ax, world=world, color='r',
+#                label=f"Allo+Ego, Episode: {un_ep} ", lims=lims)
+#     ax = fig.add_subplot(1, 2, 2)
+#     plot_track(path_lesioned, ax, world=world, color='r',
+#                label=f'Allo, Episode: {les_ep}', lims=lims)
+#     plt.savefig(path / 'compare_paths_after_switch.png')
+
+#     vmin = np.min([np.min(larger_heatmap_unlesioned_data),
+#                   np.min(larger_heatmap_les_data)])
+#     vmax = np.max([np.max(larger_heatmap_unlesioned_data),
+#                   np.max(larger_heatmap_les_data)])
+#     lims = [vmin, vmax]
+#     fig = plt.figure(figsize=(10, 5))
+#     ax = fig.add_subplot(1, 2, 1)
+#     plot_track(larger_verts_unles, ax, world=world, color='r',
+#                label=f"Allo+Ego, Episode: {un_ep} ", lims=lims)
+#     ax.set_title('Allo+Ego')
+#     ax = fig.add_subplot(1, 2, 2)
+#     plot_track(larger_verts_les, ax, world=world, color='r',
+#                label=f'Allo, Episode: {les_ep}', lims=lims)
+#     ax.set_title('Allo')
+#     plt.savefig(path / 'compare_heatmaps_after_switch.png')
     
 
     
-def get_sr_change(structure=None, ego_state=0, allo_state=0, model=None, time0=0, time1=1000, path=None,
-                  prefix='unlesioned',
-                  figtitle=None):
-    if path:
-        if not path.exists():
-            path.mkdir(parents=True, exist_ok=True)
-    else:
-        path = pathlib.Path('.')
+# def get_sr_change(structure=None, ego_state=0, allo_state=0, model=None, time0=0, time1=1000, path=None,
+#                   prefix='unlesioned',
+#                   figtitle=None):
+#     if path:
+#         if not path.exists():
+#             path.mkdir(parents=True, exist_ok=True)
+#     else:
+#         path = pathlib.Path('.')
 
-    if path.joinpath(f'SR_change_data_{prefix}_{time0}_{time1}.pkl').exists() and not structure and not model:
+#     if path.joinpath(f'SR_change_data_{prefix}_{time0}_{time1}.pkl').exists() and not structure and not model:
 
-        with open(path.joinpath(f'SR_change_data_{prefix}_{time0}_{time1}.pkl'), 'rb') as f:
-            data = pickle.load(f)
-        model1, model2 = data['model1'], data['model2']
-    else:
-        if structure and model:
-            ego_srs_y, ego_srs_x = get_parameter_values(
-                'ego_SR.SR_ss', structure, prefix=prefix)
-            allo_srs_y, allo_srs_x = get_parameter_values(
-                'allo_SR.SR_ss', structure, prefix=prefix)
-            model1 = get_certain_SR_model(
-                ego_srs_y, ego_srs_x, allo_srs_y, allo_srs_x, model, time0)
-            model2 = get_certain_SR_model(
-                ego_srs_y, ego_srs_x, allo_srs_y, allo_srs_x, model, time1 - 1)
-            data = {'model1': model1, 'model2': model2}
-            with open(path.joinpath(f'SR_change_data_{prefix}_{time0}_{time1}.pkl'), 'wb') as f:
-                pickle.dump(data, f)
-        else:
-            raise NotImplementedError
+#         with open(path.joinpath(f'SR_change_data_{prefix}_{time0}_{time1}.pkl'), 'rb') as f:
+#             data = pickle.load(f)
+#         model1, model2 = data['model1'], data['model2']
+#     else:
+#         if structure and model:
+#             ego_srs_y, ego_srs_x = get_parameter_values(
+#                 'ego_SR.SR_ss', structure, prefix=prefix)
+#             allo_srs_y, allo_srs_x = get_parameter_values(
+#                 'allo_SR.SR_ss', structure, prefix=prefix)
+#             model1 = get_certain_SR_model(
+#                 ego_srs_y, ego_srs_x, allo_srs_y, allo_srs_x, model, time0)
+#             model2 = get_certain_SR_model(
+#                 ego_srs_y, ego_srs_x, allo_srs_y, allo_srs_x, model, time1 - 1)
+#             data = {'model1': model1, 'model2': model2}
+#             with open(path.joinpath(f'SR_change_data_{prefix}_{time0}_{time1}.pkl'), 'wb') as f:
+#                 pickle.dump(data, f)
+#         else:
+#             raise NotImplementedError
 
-    fig = plt.figure(figsize=(10, 10))
+#     fig = plt.figure(figsize=(10, 10))
 
-    grids = fig.add_gridspec(nrows=2, ncols=2, wspace=0.1)
-    add_allocentric_SR_grid(grids[0, 0], fig, model1, allo_state, ego=False)
-    add_egocentric_SR_grid(grids[0, 1], fig, model1, ego_state)
-    add_allocentric_SR_grid(grids[1, 0], fig, model2, allo_state, ego=False)
-    add_egocentric_SR_grid(grids[1, 1], fig, model2, ego_state)
-    if figtitle:
-        fig.suptitle(figtitle)
-        plt.savefig(path / f'{figtitle}_SR_change_{prefix}.png')
-    else:
-        plt.savefig(path / f'SR_change_{prefix}.png')
+#     grids = fig.add_gridspec(nrows=2, ncols=2, wspace=0.1)
+#     add_allocentric_SR_grid(grids[0, 0], fig, model1, allo_state, ego=False)
+#     add_egocentric_SR_grid(grids[0, 1], fig, model1, ego_state)
+#     add_allocentric_SR_grid(grids[1, 0], fig, model2, allo_state, ego=False)
+#     add_egocentric_SR_grid(grids[1, 1], fig, model2, ego_state)
+#     if figtitle:
+#         fig.suptitle(figtitle)
+#         plt.savefig(path / f'{figtitle}_SR_change_{prefix}.png')
+#     else:
+#         plt.savefig(path / f'SR_change_{prefix}.png')
         
 
-def get_all_paths(structure, prefix='unlesioned', episode=0, path_start=None):
-    raise NotImplementedError
+# def get_all_paths(structure, prefix='unlesioned', episode=0, path_start=None):
+#     raise NotImplementedError
 
 
 def get_path(structure, prefix='unlesioned', episode=0, path_start=None, struct_all_seeds=False, seednum=None,
@@ -1347,69 +1347,69 @@ def get_path(structure, prefix='unlesioned', episode=0, path_start=None, struct_
     return np.flip(path_y, 1), episode
 
 
-def get_hole_times(structure, prefix='unlesioned', worlds=None, all_worlds=None, switch_every=1000):
-    if not all_worlds:
-        paths_y_, paths_x_ = get_parameter_values(
-            'paths', structure, prefix=prefix)
-        paths_y, paths_x = sort_paths(paths_y_, paths_x_)
-        if worlds is None:
-            worlds = structure[list(structure.keys())[0]]['unlesioned']['worlds']
-        hole_times, x_ = get_hole_times_(paths_y, paths_x, worlds, switch_every=switch_every)
-        hole_times_mean = hole_times
-        hole_times_sem = np.zeros_like(hole_times)
-    else:
-        paths_y_, paths_x_, ignore = get_parameter_values(
-            'paths', structure, prefix=prefix, ignore=True)
-        paths_y, paths_x = sort_paths(paths_y_, paths_x_)
-        hole_times = []
-        x_ = []
-        index_ = 0
-        for index, worlds_ in enumerate(all_worlds):
+# def get_hole_times(structure, prefix='unlesioned', worlds=None, all_worlds=None, switch_every=1000):
+#     if not all_worlds:
+#         paths_y_, paths_x_ = get_parameter_values(
+#             'paths', structure, prefix=prefix)
+#         paths_y, paths_x = sort_paths(paths_y_, paths_x_)
+#         if worlds is None:
+#             worlds = structure[list(structure.keys())[0]]['unlesioned']['worlds']
+#         hole_times, x_ = get_hole_times_(paths_y, paths_x, worlds, switch_every=switch_every)
+#         hole_times_mean = hole_times
+#         hole_times_sem = np.zeros_like(hole_times)
+#     else:
+#         paths_y_, paths_x_, ignore = get_parameter_values(
+#             'paths', structure, prefix=prefix, ignore=True)
+#         paths_y, paths_x = sort_paths(paths_y_, paths_x_)
+#         hole_times = []
+#         x_ = []
+#         index_ = 0
+#         for index, worlds_ in enumerate(all_worlds):
             
-            if index not in ignore:
-                paths_y_i = []
-                paths_x_i = []
-                for path in paths_y:
-                    paths_y_i.append(path[index_])
+#             if index not in ignore:
+#                 paths_y_i = []
+#                 paths_x_i = []
+#                 for path in paths_y:
+#                     paths_y_i.append(path[index_])
                         
-                paths_x_i = paths_x
-                hole_times_, x = get_hole_times_(paths_y_i, paths_x_i, worlds_, switch_every=switch_every)
-                x = np.array(x)
-                hole_times.append(hole_times_)
-                x_.append(x)
-                index_ += 1
+#                 paths_x_i = paths_x
+#                 hole_times_, x = get_hole_times_(paths_y_i, paths_x_i, worlds_, switch_every=switch_every)
+#                 x = np.array(x)
+#                 hole_times.append(hole_times_)
+#                 x_.append(x)
+#                 index_ += 1
             
         
-        x_ = np.array(x_)
-        hole_times = np.array(hole_times)
-        hole_times_mean = np.mean(hole_times, axis=0)
-        hole_times_sem = np.std(hole_times, axis=0, ddof=1) / np.sqrt(hole_times.shape[0])
+#         x_ = np.array(x_)
+#         hole_times = np.array(hole_times)
+#         hole_times_mean = np.mean(hole_times, axis=0)
+#         hole_times_sem = np.std(hole_times, axis=0, ddof=1) / np.sqrt(hole_times.shape[0])
             
         
-    return hole_times_mean, hole_times_sem, x_
+#     return hole_times_mean, hole_times_sem, x_
 
-def get_path_verts_multiple(structure, prefix, ep_start, ep_end, world=None, path=None, path_start=None):
-    if path:
-        if not path.exists():
-            path.mkdir(parents=True, exist_ok=True)
-    paths_y, paths_x = get_parameter_values('paths', structure, prefix=prefix)
-    paths_y = paths_y[0]
-    paths_x = paths_x[0]
-    paths_y = [y for _, y in sorted(
-        zip(paths_x, paths_y), key=lambda pair: pair[0])]
-    paths_x = sorted(paths_x)
-    import bisect
-    index_start = bisect.bisect_left(paths_x, ep_start)
-    index_end = bisect.bisect_left(paths_x, ep_end)
-    if path_start:
-        flat_list = get_locations(paths_y[index_start:index_end], path_start)
-    else:
-        flat_list = [x for xss in paths_y[index_start:index_end]
-                     for xs in xss for x in xs]
-    flat_list = np.stack(flat_list)
-    verts = np.flip(flat_list, 1)
+# def get_path_verts_multiple(structure, prefix, ep_start, ep_end, world=None, path=None, path_start=None):
+#     if path:
+#         if not path.exists():
+#             path.mkdir(parents=True, exist_ok=True)
+#     paths_y, paths_x = get_parameter_values('paths', structure, prefix=prefix)
+#     paths_y = paths_y[0]
+#     paths_x = paths_x[0]
+#     paths_y = [y for _, y in sorted(
+#         zip(paths_x, paths_y), key=lambda pair: pair[0])]
+#     paths_x = sorted(paths_x)
+#     import bisect
+#     index_start = bisect.bisect_left(paths_x, ep_start)
+#     index_end = bisect.bisect_left(paths_x, ep_end)
+#     if path_start:
+#         flat_list = get_locations(paths_y[index_start:index_end], path_start)
+#     else:
+#         flat_list = [x for xss in paths_y[index_start:index_end]
+#                      for xs in xss for x in xs]
+#     flat_list = np.stack(flat_list)
+#     verts = np.flip(flat_list, 1)
 
-    return verts
+#     return verts
 
         
     

@@ -13,7 +13,6 @@ import numpy as np
 from sklearn.linear_model import PoissonRegressor
 from sklearn.metrics import mean_poisson_deviance
 
-from helper_functions_ import load_structure
 from structure_functions_ import get_parameter_values, sort_paths
 
 

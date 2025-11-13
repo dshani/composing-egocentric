@@ -17,10 +17,6 @@ import matplotlib.cm as mcm
 import matplotlib.patches as patches
 from scipy.ndimage import gaussian_filter1d
 
-from helper_functions_ import find_most_recent, load_structure, load_recent_model
-from parameters import DotDict
-from parameters import parameters
-
 from scipy.special import softmax
 
 from figure_functions_ import (

@@ -550,21 +550,21 @@ def train_agent(pars, save=False, plot=False, seed_path=None):
     return total_steps
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
 
-    parser = get_parameter_parser()
-    args, _ = parser.parse_known_args()
-    for arg in vars(args):
-        if getattr(args, arg) is not None:
-            parameters[arg] = getattr(args, arg)
+#     parser = get_parameter_parser()
+#     args, _ = parser.parse_known_args()
+#     for arg in vars(args):
+#         if getattr(args, arg) is not None:
+#             parameters[arg] = getattr(args, arg)
 
-    if parameters.ego_q_learning:
-        parameters.egamma = 0
-        parameters.SR_lr_e = 0
+#     if parameters.ego_q_learning:
+#         parameters.egamma = 0
+#         parameters.SR_lr_e = 0
 
-    parameters.compare = None
+#     parameters.compare = None
 
-    seed_path = make_directories(seed=parameters.seed, pars=parameters,
-                                 comparison=parameters.compare)
-    # print(parameters)
-    train_agent(parameters, save=True, plot=True, seed_path=seed_path)
+#     seed_path = make_directories(seed=parameters.seed, pars=parameters,
+#                                  comparison=parameters.compare)
+#     # print(parameters)
+#     train_agent(parameters, save=True, plot=True, seed_path=seed_path)

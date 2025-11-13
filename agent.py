@@ -347,45 +347,6 @@ class BasisLearner:
             self.allo_dim = allo_dim
             self.ego_dim = ego_dim
 
-            # adaptive lr
-            # self.v = np.zeros((self.allo_dim + self.ego_dim))
-            # self.t = 1
-
-        # if self.allo_dim > self.allo_SR.num_states or self.ego_dim > \
-        #         self.ego_SR.num_states:
-        #     # M_allo = np.pad(
-        #     #     self.allo_SR.M_new, ((0, self.allo_dim -
-        #     #                           self.allo_SR.num_states),
-        #     #                          (0,
-        #     #                           self.allo_dim - self.allo_SR.num_states)),
-        #     #     'constant', constant_values=0)
-        #     Q_allo = np.pad(
-        #         self.allo_SR.SR_sas_new, ((0, self.allo_dim -
-        #                               self.allo_SR.num_states),
-        #                              (0, 0),
-        #                              (0,
-        #                               self.allo_dim - self.allo_SR.num_states)),
-        #         'constant', constant_values=0.)
-        #
-        #     M_allo = np.eye(self.allo_dim)
-        #     # Q_allo = np.zeros((self.allo_dim, 4, self.allo_dim))
-        #
-        #     self.allo_SR.re_init_SR(SR_ss=M_allo, SR_sas=Q_allo)
-        #
-        #     # M_ego = np.pad(
-        #     #     self.ego_SR.SR_ss_new, ((0, self.ego_dim -
-        #     #                          self.ego_SR.num_states),
-        #     #                         (0, self.ego_dim - self.ego_SR.num_states)),
-        #     #     'constant', constant_values=0.)
-        #     # Q_ego = np.pad(
-        #     #     self.ego_SR.SR_sas_new, ((0, self.ego_dim -
-        #     #                          self.ego_SR.num_states),
-        #     #                         (0, 0),
-        #     #                         (0, self.ego_dim - self.ego_SR.num_states)),
-        #     #     'constant', constant_values=0.)
-        #     #
-        #     # self.ego_SR.re_init_SR(M_ego, Q_ego)
-
 
 class SR:
     """
@@ -535,11 +496,7 @@ class SR:
                 self.SR_sas_new[s0, a0, :] += self.lr * (self.identity[s0]
                                                          - self.SR_sas_new[s0,
                                                            a0, :])
-        # for s, a in itertools.product(
-        #         range(self.num_states), range(self.num_actions)):
-        #     if s0 == np.argmax(self.transitions[s, a, :]):
-        #         self.Q_new[s, a, :] = np.eye(self.num_states)[s0] \
-        #                          + self.gamma * self.M_new[s0, :]
+
 
     def update_SR(self):
         self.SR_ss = self.SR_ss_new
@@ -550,19 +507,3 @@ class SR:
     def reset_SR(self):
         self.SR_ss_new = np.copy(self.SR_ss)
         self.SR_sas_new = np.copy(self.SR_sas)
-
-    # def new_world(self, env):
-    #
-    #     new_size = transitions.shape[0]
-    #     if new_size > self.num_states:
-    #         M = np.pad(
-    #             self.M_new, ((0, new_size - self.num_states),
-    #                          (0, new_size - self.num_states)),
-    #             'constant', constant_values=0)
-    #         Q = np.pad(
-    #             self.Q_new, ((0, new_size - self.num_states),
-    #                          (0, 0),
-    #                          (0, new_size - self.num_states)),
-    #             'constant', constant_values=0)
-    #
-    #         self.__init__(self.lr, self.gamma, M, Q)
