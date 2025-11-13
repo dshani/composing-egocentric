@@ -1,4 +1,0 @@
-"""
-@author: Daniel Shani
-"""
-

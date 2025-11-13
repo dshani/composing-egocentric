@@ -12,13 +12,12 @@ import os
 import pathlib
 import pickle
 import sys
-import joblib
 
 import matplotlib.cm as mcm
 import matplotlib.patches as patches
 from scipy.ndimage import gaussian_filter1d
 
-from helper_functions_ import find_most_recent, load_structure, load_recent_model
+from helper_functions_ import find_most_recent, load_structure
 from parameters import DotDict
 from parameters import parameters
 

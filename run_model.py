@@ -11,18 +11,16 @@ from copy import deepcopy
 
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn import linear_model
 
 
 import gridworlds
 import gridworlds as gd
 from agent import BasisLearner
-from environment_functions import Environment, show_predictions
+from environment_functions import Environment
 from helper_functions_ import make_directories, make_logger, rgetattr
 from parameters import get_parameter_parser
 from parameters import parameters
 
-from plotting_functions import knierim_plot
 from structure_functions_ import get_value_functions
 
 
@@ -550,23 +548,3 @@ def train_agent(pars, save=False, plot=False, seed_path=None):
     if save:
         logger_sums.info(msg)
     return total_steps
-
-
-if __name__ == '__main__':
-
-    parser = get_parameter_parser()
-    args, _ = parser.parse_known_args()
-    for arg in vars(args):
-        if getattr(args, arg) is not None:
-            parameters[arg] = getattr(args, arg)
-
-    if parameters.ego_q_learning:
-        parameters.egamma = 0
-        parameters.SR_lr_e = 0
-
-    parameters.compare = None
-
-    seed_path = make_directories(seed=parameters.seed, pars=parameters,
-                                 comparison=parameters.compare)
-    # print(parameters)
-    train_agent(parameters, save=True, plot=True, seed_path=seed_path)

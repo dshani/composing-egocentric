@@ -9,7 +9,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from helper_functions_ import plain_world_like, check_inside_
-from plotting_functions import show_4x4
 
 
 class Environment:
@@ -490,24 +489,24 @@ class Environment:
 
     #     return optimal_values
 
-    def get_full_theta(self):
-        """
-        Get the full feature vector. Used for regression.
-        """
-        theta = np.zeros(
-            (self.allo_dim + self.ego_dim, 4,
-             self.size, self.size, 4))
-        for d in range(4):
-            for x in range(self.size):
-                for y in range(self.size):
-                    if self.world[x, y] == 0:
-                        state = self.get_1d_pos([x, y])
-                        ego = self.get_egocentric_view(self.world, [x, y], d)[0]
-                        theta_allo = self.allo_basis[state]
-                        theta_ego = self.ego_basis[ego]
-                        theta[:, d, x, y, :] = \
-                            np.concatenate((theta_allo, theta_ego), axis=1)
-        return theta
+    # def get_full_theta(self):
+    #     """
+    #     Get the full feature vector. Used for regression.
+    #     """
+    #     theta = np.zeros(
+    #         (self.allo_dim + self.ego_dim, 4,
+    #          self.size, self.size, 4))
+    #     for d in range(4):
+    #         for x in range(self.size):
+    #             for y in range(self.size):
+    #                 if self.world[x, y] == 0:
+    #                     state = self.get_1d_pos([x, y])
+    #                     ego = self.get_egocentric_view(self.world, [x, y], d)[0]
+    #                     theta_allo = self.allo_basis[state]
+    #                     theta_ego = self.ego_basis[ego]
+    #                     theta[:, d, x, y, :] = \
+    #                         np.concatenate((theta_allo, theta_ego), axis=1)
+    #     return theta
 
     def create_transitions_ego(self, world=None):
         """
@@ -714,139 +713,8 @@ class Environment:
                     if np.sum(to_mask[i][j] == 1) > 4 - self.opacity:
                         mask[i][j] = 0
 
-                # for i, j in itertools.product(
-                #         range(current_view.shape[0]), range(
-                #             current_view.shape[1])):
-                #     if current_view[i, j] > 0:
-                #         print(i, j)
-                #
-                #         x = j - self.pars.horizon
-                #         y = current_view.shape[0] - (i + 1)
-                #
-                #         cone = find_cone(
-                #             [(y + 1 / 2) / (x - 1 / 2),
-                #              (y - 1 / 2) / (x + 1 / 2),
-                #              (y - 1 / 2) / (x - 1 / 2),
-                #              (y + 1 / 2) / (x + 1 / 2)])
-                #
-                #         for i_ in range(i + 1):
-                #             if j > self.pars.horizon:
-                #                 for j_ in range(j, current_view.shape[1], 1):
-                #                     if (i, j) != (i_, j_):
-                #                         y_ = current_view.shape[0] - (i_ + 1)
-                #                         x_ = j_ - self.pars.horizon
-                #                         points = [(y_ + 1 / 2) / (x_ - 1 / 2),
-                #                                   (y_ - 1 / 2) / (x_ + 1 / 2),
-                #                                   (y_ - 1 / 2) / (x_ - 1 / 2),
-                #                                   (y_ + 1 / 2) / (x_ + 1 / 2)]
-                #                         # points = [y_/x_ if x_ != 0 else np.inf]
-                #                         if np.all(
-                #                                 [check_inside(p, cone) for p in
-                #                                  points]) and current_view[i_,
-                #                         j_] != np.inf:
-                #                             current_view[i_, j_] = -np.inf
-                #             else:
-                #                 for j_ in range(j + 1):
-                #                     if (i, j) != (i_, j_):
-                #                         y_ = current_view.shape[0] - (i_ + 1)
-                #                         x_ = j_ - self.pars.horizon
-                #                         points = [(y_ + 1 / 2) / (x_ - 1 / 2),
-                #                                   (y_ - 1 / 2) / (x_ + 1 / 2),
-                #                                   (y_ - 1 / 2) / (x_ - 1 / 2),
-                #                                   (y_ + 1 / 2) / (x_ + 1 / 2)]
-                #                         # points = [y_/x_ if x_ != 0 else np.inf]
-                #                         if np.all(
-                #                                 [check_inside(p, cone) for p in
-                #                                  points]) and current_view[i_,
-                #                         j_] != np.inf:
-                #                             current_view[i_, j_] = -np.inf
-
-                # # left:
-                # k = 0
-                # print(k)
-                # while (current_view[-1, self.pars.horizon - k] <= 0 <
-                #        self.pars.horizon - k):
-                #     k += 1
-                # current_view[-1, :self.pars.horizon - k] = np.inf
-                # # right
-                # k = 0
-                # print(k)
-                # while (k < self.pars.horizon + 1 and current_view[
-                #     -1][self.pars.horizon + k] <= 0):
-                #     k += 1
-                # current_view[-1, self.pars.horizon + k + 1:] = np.inf
-                #
-                # # forward
-                # k = 0
-                # print(k)
-                # while (current_view[-1 - k][self.pars.horizon] <= 0 and
-                #        k < self.pars.horizon):
-                #     k += 1
-                # current_view[:-1 - k, self.pars.horizon] = np.inf
-                #
-                # # right diag
-                # k = 0
-                # while (current_view[-1 - k, self.pars.horizon + k] <= 0 and
-                #        k < self.pars.horizon):
-                #     k += 1
-                # for j in range(self.pars.horizon, k, -1):
-                #     current_view[-1 - j, self.pars.horizon + j] = np.inf
-                # # current_view[:-1-k,self.pars.horizon+k:] = np.inf
-                #
-                # # left diag
-                # k = 0
-                # while current_view[
-                #     -1 - k, self.pars.horizon - k] <= 0 < self.pars.horizon - k:
-                #     k += 1
-                # for j in range(self.pars.horizon, k, -1):
-                #     current_view[-1 - j, self.pars.horizon - j] = np.inf
-                #
-                #
-                # for i in range(current_view.shape[0]):
-                #     for j in range(current_view.shape[1]):
-                #         if current_view[i,j]>0:
-                #             line_x = j-self.pars.horizon
-                #             line_y = current_view.shape[0]-(i+1)
-                #             m = line_y/line_x
-                #             for y in range(i):
-                #                 for x in range(current_view.shape[0]):
-                #                     y_ = current_view.shape[0]-(y+1)
-                #                     x_ = x-self.pars.horizon
-                #                     if (y_ == m*x_ and \
-                #                             current_view[-y,x]!= np.inf):
-                #                         current_view[-y,x] = np.inf
-                #
-                #
-                #
-                # changed = True
-                # while changed:
-                #     changed = False
-                #     j = 1  # row from bottom
-                #     k = 0  # column
-                #     while j < self.pars.horizon:
-                #         while k < 2 * self.pars.horizon:
-                #             if np.all(current_view[-1 - j, k:k + 2] > 0):
-                #                 if (k < self.pars.horizon and
-                #                         current_view[
-                #                             -1 - j - 1, k] != np.inf):
-                #                     current_view[-1 - j - 1, k] = np.inf
-                #                     changed = True
-                #                 elif (k >= self.pars.horizon and
-                #                       current_view[
-                #                           -1 - j - 1, k + 1] != np.inf):
-                #                     current_view[-1 - j - 1, k + 1] = np.inf
-                #                     changed = True
-                #
-                #             k += 1
-                #         j += 1
-                #         k = 0
-                #
-                # # loop
-                # # two - to - one - fills
                 current_view[mask == 0] = -np.inf
-            # plt.imshow(current_view)
-            # plt.show()
-            # print(current_view)
+
             if display:
                 if ax:
                     ax.imshow(
@@ -911,18 +779,6 @@ class Environment:
         num = int(num)
         """Convert a positive integer num into an m-bit bit vector"""
         return np.array(self.ego_bins[num])
-
-def show_predictions(clf, theta, q):
-    """Used for value function regression."""
-    q_ = np.reshape(q, (-1,))
-    theta_ = np.reshape(theta, (-1, q_.shape[0]))
-
-    clf.fit(theta_.T, q_)
-    weight = clf.coef_
-    q_fit = clf.predict(theta_.T).reshape(q.shape)
-
-    show_4x4(q_fit)
-    return weight
 
 
 def get_successor_representation(transitions, gamma, normalize=False):

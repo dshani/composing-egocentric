@@ -238,47 +238,6 @@ class BasisLearner:
 
         self.path = []
 
-    def truncated_gradient(self, grav):
-        """Method to induce sparsity in the weights - currently not used"""
-        return self._truncated_gradient(
-            self.weight, grav * self.pars.eta,
-            self.pars.theta)
-
-    @staticmethod
-    def _truncated_gradient(v, alpha, theta):
-        """
-        Applies truncated gradient function T_1 as described in Langford et al.
-        2009 pp.4.
-        Args:
-            v: vector of values to be truncated
-            alpha: non-negative scalar
-            theta: positive scalar scalar
-
-        Returns: T_1(v,alpha,theta) as defined in the paper.
-        """
-        cond_list = [(np.less_equal(np.zeros(v.shape), v))
-                     & (np.less_equal(v, theta * np.ones(v.shape))),
-                     (np.greater_equal(np.zeros(v.shape), v))
-                     & (np.greater_equal(v, -theta * np.ones(v.shape))),
-                     abs(v) > theta]
-
-        choice_list = [np.maximum(0, v - alpha), np.minimum(0, alpha - v), v]
-        return np.select(cond_list, choice_list, 0)
-
-    def save_weights(self, path, episode):
-        np.save(path + '/w_' + str(episode), self.weight)
-
-    def save_SR(self, path, episode):
-        np.save(path + '/allo_SR_sas_' + str(episode), self.allo_SR.SR_sas)
-        np.save(path + '/allo_SR_ss_' + str(episode), self.allo_SR.SR_ss)
-
-        np.save(path + '/ego_SR_sas_' + str(episode), self.ego_SR.SR_sas)
-        np.save(path + '/ego_SR_ss_' + str(episode), self.ego_SR.SR_ss)
-
-    def save_path(self, filepath):
-        np.save(filepath, self.path)
-        self.path = []
-
     def switch_world(self, gridworld, tangible=True, switch_SRs=True):
 
 
@@ -324,9 +283,6 @@ class BasisLearner:
                 m_ego, (0, ego_dim - self.ego_dim),
                 'constant', constant_values=(0, 0))
 
-            # print(m_ego.shape)
-            # print(m_allo.shape)
-            # print(m_0.shape)
             self.m = np.concatenate((m_0[np.newaxis], m_allo, m_ego))
 
             v_allo = np.pad(
@@ -346,45 +302,6 @@ class BasisLearner:
             self.weight = np.concatenate((w_0[np.newaxis], w_allo, w_ego))
             self.allo_dim = allo_dim
             self.ego_dim = ego_dim
-
-            # adaptive lr
-            # self.v = np.zeros((self.allo_dim + self.ego_dim))
-            # self.t = 1
-
-        # if self.allo_dim > self.allo_SR.num_states or self.ego_dim > \
-        #         self.ego_SR.num_states:
-        #     # M_allo = np.pad(
-        #     #     self.allo_SR.M_new, ((0, self.allo_dim -
-        #     #                           self.allo_SR.num_states),
-        #     #                          (0,
-        #     #                           self.allo_dim - self.allo_SR.num_states)),
-        #     #     'constant', constant_values=0)
-        #     Q_allo = np.pad(
-        #         self.allo_SR.SR_sas_new, ((0, self.allo_dim -
-        #                               self.allo_SR.num_states),
-        #                              (0, 0),
-        #                              (0,
-        #                               self.allo_dim - self.allo_SR.num_states)),
-        #         'constant', constant_values=0.)
-        #
-        #     M_allo = np.eye(self.allo_dim)
-        #     # Q_allo = np.zeros((self.allo_dim, 4, self.allo_dim))
-        #
-        #     self.allo_SR.re_init_SR(SR_ss=M_allo, SR_sas=Q_allo)
-        #
-        #     # M_ego = np.pad(
-        #     #     self.ego_SR.SR_ss_new, ((0, self.ego_dim -
-        #     #                          self.ego_SR.num_states),
-        #     #                         (0, self.ego_dim - self.ego_SR.num_states)),
-        #     #     'constant', constant_values=0.)
-        #     # Q_ego = np.pad(
-        #     #     self.ego_SR.SR_sas_new, ((0, self.ego_dim -
-        #     #                          self.ego_SR.num_states),
-        #     #                         (0, 0),
-        #     #                         (0, self.ego_dim - self.ego_SR.num_states)),
-        #     #     'constant', constant_values=0.)
-        #     #
-        #     # self.ego_SR.re_init_SR(M_ego, Q_ego)
 
 
 class SR:
@@ -406,8 +323,6 @@ class SR:
         self.gamma = gamma
         self.lesion = lesion
 
-        # just testing out normalisation - i know this might not be a good
-        # correspondence between the two
         SR_ss = SR_ss / np.mean(SR_ss, axis=1, keepdims=True)
         SR_sas = SR_sas / np.mean(SR_sas, axis=(1, 2), keepdims=True)
 
@@ -436,10 +351,6 @@ class SR:
         """
 
         if SR_sas is not None:
-
-            # # just testing out normalisation - i know this might not be a good
-            # # correspondence between the two
-            # SR_sas = SR_sas / np.mean(SR_sas, axis=(1, 2), keepdims=True)
 
             if SR_sas.shape[0] > self.SR_sas.shape[0]:
                 if self.lesion:
@@ -476,24 +387,6 @@ class SR:
                 else:
                     self.SR_sas[:SR_sas.shape[0], :SR_sas.shape[1],
                     :SR_sas.shape[2]] = SR_sas
-
-
-        # if SR_ss is not None:
-        #
-        #     # # just testing out normalisation - i know this might not be a good
-        #     # # corresoondence between the two
-        #     # SR_ss = SR_ss / np.mean(SR_ss, axis=1, keepdims=True)
-        #
-        #     if SR_ss.shape[0] > self.SR_ss.shape[0]:
-        #         if self.lesion:
-        #             self.SR_ss = np.zeros_like(SR_ss)
-        #         else:
-        #             self.SR_ss = SR_ss
-        #     else:
-        #         if self.lesion:
-        #             self.SR_ss = np.zeros_like(SR_ss)
-        #         else:
-        #             self.SR_ss[:SR_ss.shape[0], :SR_ss.shape[1]] = SR_ss
 
         self.SR_ss = np.mean(self.SR_sas, axis=1)
 
@@ -535,11 +428,7 @@ class SR:
                 self.SR_sas_new[s0, a0, :] += self.lr * (self.identity[s0]
                                                          - self.SR_sas_new[s0,
                                                            a0, :])
-        # for s, a in itertools.product(
-        #         range(self.num_states), range(self.num_actions)):
-        #     if s0 == np.argmax(self.transitions[s, a, :]):
-        #         self.Q_new[s, a, :] = np.eye(self.num_states)[s0] \
-        #                          + self.gamma * self.M_new[s0, :]
+
 
     def update_SR(self):
         self.SR_ss = self.SR_ss_new
@@ -550,19 +439,3 @@ class SR:
     def reset_SR(self):
         self.SR_ss_new = np.copy(self.SR_ss)
         self.SR_sas_new = np.copy(self.SR_sas)
-
-    # def new_world(self, env):
-    #
-    #     new_size = transitions.shape[0]
-    #     if new_size > self.num_states:
-    #         M = np.pad(
-    #             self.M_new, ((0, new_size - self.num_states),
-    #                          (0, new_size - self.num_states)),
-    #             'constant', constant_values=0)
-    #         Q = np.pad(
-    #             self.Q_new, ((0, new_size - self.num_states),
-    #                          (0, 0),
-    #                          (0, new_size - self.num_states)),
-    #             'constant', constant_values=0)
-    #
-    #         self.__init__(self.lr, self.gamma, M, Q)
