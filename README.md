@@ -26,4 +26,3 @@ To generate all figures used in the paper, run:
 bash bash_scripts/paper_figs.sh
 ```
 
-This will write the figures to the output directories expected by the manuscript.
