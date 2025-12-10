@@ -43,7 +43,7 @@ Results/<date>/<run>/lesion/seed_<N>/
 ├── unlesioned/       # Full model (ego+allo)
 └── lesionLEC/        # Allocentric-only model
     ├── save_dict/    # Weight snapshots
-    ├── worlds/       # Environment configs
+    ├── worlds/       # World configs
     └── model/        # Trained model
 ```
 
@@ -51,8 +51,6 @@ Results/<date>/<run>/lesion/seed_<N>/
 
 ## Interpreting Results
 
-- **Average Steps**: Steps per episode to reach goal (lower = better)
+- **Average Steps**: Steps per episode to reach goal
 - **unlesioned/**: Full model with egocentric + allocentric SRs
-- **lesionLEC/**: Egocentric representations disabled
-
-The unlesioned model should adapt faster after environment switches.
+- **lesionLEC/**: Egocentric SR disabled
