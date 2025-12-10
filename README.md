@@ -6,9 +6,7 @@ All other dependencies are specified in `environment.yml` and `requirements.pip.
 
 ---
 
-## Environment setup
-
-Create and activate the environment:
+## Environment Setup
 
 ```bash
 micromamba env create -f environment.yml
@@ -20,21 +18,41 @@ pip install -r requirements.pip.txt
 
 ## Quick Start
 
-Train a single agent with paper-identical parameters:
-
-```python
+```bash
 python run_experiments.py --seed=1 --worlds_type="'random_rooms7'"
 ```
 
-
-This runs the full model (ego+allo) and lesioned model (allo-only) comparison for 5000 episodes with environment switches every 1000 episodes. Results are saved to `./Results/<date>/<run>/lesion/`.
+This trains the full model and lesioned model for comparison. Results are saved to `./Results/<date>/<run>/lesion/`.
 
 ---
 
-## Reproducing paper figures
-
-To generate all figures used in the paper, run:
+## Reproducing Paper Figures
 
 ```bash
 bash bash_scripts/paper_figs.sh
 ```
+
+Figures are saved to `./figures/`.
+
+---
+
+## Output Structure
+
+```
+Results/<date>/<run>/lesion/seed_<N>/
+├── unlesioned/       # Full model (ego+allo)
+└── lesionLEC/        # Allocentric-only model
+    ├── save_dict/    # Weight snapshots
+    ├── worlds/       # Environment configs
+    └── model/        # Trained model
+```
+
+---
+
+## Interpreting Results
+
+- **Average Steps**: Steps per episode to reach goal (lower = better)
+- **unlesioned/**: Full model with egocentric + allocentric SRs
+- **lesionLEC/**: Egocentric representations disabled
+
+The unlesioned model should adapt faster after environment switches.

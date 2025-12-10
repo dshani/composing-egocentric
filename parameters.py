@@ -19,12 +19,13 @@ parameters = {
     "rounding_param": 100,
     "SR_init": "empty",  # "empty", "full"
     # RL Parameters
-    "agamma": 0.94,  # allocentric SR gamma
+
+    "agamma": 0.94,  ## allocentric SR gamma
     "egamma": 0.98,
-    "gamma": 0.99,  # value function gamma
+    "gamma": 0.98,  ## value function gamma
     "lr": 0.5,
-    "SR_lr_a": 0.001,  # 0.1
-    "SR_lr_e": 0.001,  # 0.1
+    "SR_lr_a": 0.0078125,  # 0.1
+    "SR_lr_e": 0.035,  # 0.1
     "temperature": 100,  # softmax temperature
     "explore_param": 0.01,
     "forgetting_param": 1.,  # 0.9999
@@ -36,7 +37,7 @@ parameters = {
     # Train Parameters
     "save_every": 500,
     "log_every": 5,
-    "num_episodes": 10000,
+    "num_episodes": 5000,
     "max_steps": 50000,
     "env_switch": True,
     "env_switch_every": 1000,  # 1000
