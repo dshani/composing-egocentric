@@ -22,7 +22,8 @@ pip install -r requirements.pip.txt
 
 Train a single agent with paper-identical parameters:
 
-```python run_experiments.py --seed=1 --worlds_type="'random_rooms7'"
+```python
+python run_experiments.py --seed=1 --worlds_type="'random_rooms7'"
 ```
 
 
