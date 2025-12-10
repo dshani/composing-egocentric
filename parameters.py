@@ -14,15 +14,14 @@ parameters = {
     # Experiments:
     "normalize": False,
     "worlds_type": "full_resample" ,  # "rotation", "resampled_barriers", "full_resample"
-    # Sparsity Parameters (see Langford et al. 2009)
     "grav": 0.,  # 1.0e-5
     "theta": 0.,  # 3e-4
     "rounding_param": 100,
     "SR_init": "empty",  # "empty", "full"
     # RL Parameters
-    "agamma": 0.94,  ## allocentric SR gamma
-    "egamma": 0.98,  # too high leads to less smooth value function ## egocentric SR gamma
-    "gamma": 0.99,  ## value function gamma
+    "agamma": 0.94,  # allocentric SR gamma
+    "egamma": 0.98,
+    "gamma": 0.99,  # value function gamma
     "lr": 0.5,
     "SR_lr_a": 0.001,  # 0.1
     "SR_lr_e": 0.001,  # 0.1
@@ -75,12 +74,7 @@ parameters = {
     "new_allo": True,
     "transparent": False,
     "opacity": 1,  # integer between 0 and 3
-
-    # "save_params": ["weight", "allo_SR.SR_sas", "ego_SR.SR_sas", "allo_SR.SR_ss", "ego_SR.SR_ss", "grad", "heatmaps",
-    #                 "paths"],
-    # ``value_snapshots`` stores compact directional-mean value grids for the
-    # requested episodes and can be combined with ``param_time_slices`` to limit
-    # storage to a handful of checkpoints required for the correlation plots.
+    
     "save_params": ["weight"],
     "save_paths": True,
     "save_param_schedule": None,
