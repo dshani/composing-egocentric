@@ -22,7 +22,9 @@ pip install -r requirements.pip.txt
 
 Train a single agent with paper-identical parameters:
 
-python run_experiments.py --seed=1 --worlds_type="'random_rooms7'"
+```python run_experiments.py --seed=1 --worlds_type="'random_rooms7'"
+```
+
 
 This runs the full model (ego+allo) and lesioned model (allo-only) comparison for 5000 episodes with environment switches every 1000 episodes. Results are saved to `./Results/<date>/<run>/lesion/`.
 
