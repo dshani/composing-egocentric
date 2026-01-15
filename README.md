@@ -47,10 +47,4 @@ Results/<date>/<run>/lesion/seed_<N>/
     └── model/        # Trained model
 ```
 
----
 
-## Interpreting Results
-
-- **Average Steps**: Steps per episode to reach goal
-- **unlesioned/**: Full model with egocentric + allocentric SRs
-- **lesionLEC/**: Egocentric SR disabled
