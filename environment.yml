@@ -3,6 +3,9 @@ channels:
 - anaconda
 - conda-forge
 dependencies:
+- h5py=3.12.1
+- hdf5
+- pip
 - matplotlib
 - networkx
 - notebook
@@ -11,4 +14,3 @@ dependencies:
 - scikit-learn
 - scipy
 - tqdm
-

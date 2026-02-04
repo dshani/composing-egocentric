@@ -11,7 +11,7 @@ All other dependencies are specified in `environment.yml` and `requirements.pip.
 ```bash
 micromamba env create -f environment.yml
 micromamba activate new_ego
-pip install -r requirements.pip.txt
+pip install --no-deps -r requirements.pip.txt
 ```
 
 ---
